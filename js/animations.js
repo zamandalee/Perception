@@ -8,6 +8,7 @@ import Rectangle from './rectangle';
 
 const Animations = (canvas, ctx) => {
   const animations = [];
+  window.animationRunning = false;
 
   // below method from https://github.com/iamsammak/soundspace
   const infiniteAnimation = anime({
@@ -19,6 +20,11 @@ const Animations = (canvas, ctx) => {
           animatable.target.draw(ctx);
         });
       });
+      // if ( animations.length > 0 ) {
+      //   animations[0].animatables.forEach( (animatable) => {
+      //       animatable.target.draw(ctx);
+      //     });
+      // }
     },
   });
 
@@ -26,6 +32,11 @@ const Animations = (canvas, ctx) => {
     if( animations.includes(anim) ) {
       const idx = animations.indexOf(anim);
       animations.splice(idx, 1);
+
+      // if there are no animations in the array, set to false
+      // if( animations.length === 0 ) {
+      //   window.animationRunning = false;
+      // }
     }
   };
 
@@ -65,6 +76,63 @@ const Animations = (canvas, ctx) => {
 
     return rectangles;
   };
+
+// –––––– square line up ––––––
+  const squareLineUp = (animeVals) => {
+  // resizeCanvas();
+
+    const x = canvas.width * (9 / 10);
+    const yArr = [ canvas.height / 7,
+                  canvas.height * (2 / 7),
+                  canvas.height * (3 / 7),
+                  canvas.height * (4 / 7),
+                  canvas.height * (5 / 7) ];
+      const squares = createRectangles(x, yArr, animeVals);
+
+      const animeSquareLineUp = anime({
+        targets: squares,
+        x: () => { return canvas.width * (1/10); },
+        width: animeVals.endWidth,
+        height: animeVals.endHeight,
+        duration: animeVals.duration,
+        delay: (el, idx) => { return idx * 80; },
+        easing: 'easeOutExpo',
+        complete: clearAnimation,
+      });
+
+      animations.push(animeSquareLineUp);
+};
+
+// –––––– square line right ––––––
+  const squareLineRight = (animeVals) => {
+  // resizeCanvas();
+
+  const x = canvas.width / 10;
+  const yVals = [ canvas.height / 11 - (animeVals.width / 2),
+                canvas.height * (2 / 11) - (animeVals.width / 2),
+                canvas.height * (3 / 11) - (animeVals.width / 2),
+                canvas.height * (4 / 11) - (animeVals.width / 2),
+                canvas.height * (5 / 11) - (animeVals.width / 2),
+                canvas.height * (6 / 11) - (animeVals.width / 2),
+                canvas.height * (7 / 11) - (animeVals.width / 2),
+                canvas.height * (8 / 11) - (animeVals.width / 2),
+                canvas.height * (9 / 11) - (animeVals.width / 2),
+                canvas.height * (10 / 11) - (animeVals.width / 2) ];
+  const squares = createRectangles(x, yVals, animeVals);
+
+  const animeSquareLine = anime({
+    targets: squares,
+    x: () => { return canvas.width * (9/10); },
+    width: animeVals.endWidth,
+    height: animeVals.endHeight,
+    duration: animeVals.duration,
+    delay: (el, idx) => { return idx * 80; },
+    easing: animeVals.easing,
+    complete: clearAnimation,
+  });
+
+  animations.push(animeSquareLine);
+};
 
 // –––––– purple slide up ––––––
   const purpleSlideUp = (animeVals) => {
@@ -152,6 +220,7 @@ const Animations = (canvas, ctx) => {
 // –––––– square slide ––––––
   const squareSlide = (animeVals) => {
     // resizeCanvas();
+    console.log("squareslide");
 
     const x = 0;
     const yVals = [ (canvas.height / 6),
@@ -165,7 +234,6 @@ const Animations = (canvas, ctx) => {
     const animeSqSlide = anime({
       targets: rectangles,
       x: (sq, idx) => { return canvas.width; },
-      // width: canvas.width + 200,
       duration: animeVals.duration,
       easing: animeVals.easing,
       complete: clearAnimation
@@ -218,24 +286,60 @@ const Animations = (canvas, ctx) => {
     const key = (event.key).toLowerCase();
     console.log(key);
 
-    if ( key === 'a' || key === 'z' ) {
-      bananaPeel( animeValues['a'] );
-    }
-    else if ( key === 'b' || key === 'y' ) {
-      squareSlide( animeValues['b'] );
-    }
-    else if (key === 'c' || key === 'x' ) {
-      squarePanels( animeValues['c'] );
-    }
-    else if (key === 'd' || key === 'w' ) {
-      greenFlash( animeValues['d'] );
-    }
-    else if (key === 'e' || key === 'v' ) {
-      redSlideLeft( animeValues['e'] );
-    }
-    else if (key === 'f' || key === 'u' ) {
-      purpleSlideUp( animeValues['f'] );
-    }
+    // if( !window.animationRunning ) {
+      if ( key === 'a' || key === 'z' ) {
+        window.animationRunning = true;
+        bananaPeel( animeValues['a'] );
+      }
+      else if ( key === 'b' || key === 'y' ) {
+        window.animationRunning = true;
+        squareSlide( animeValues['b'] );
+      }
+      else if (key === 'c' || key === 'x' ) {
+        window.animationRunning = true;
+        squarePanels( animeValues['c'] );
+      }
+      else if (key === 'd' || key === 'w' ) {
+        window.animationRunning = true;
+        greenFlash( animeValues['d'] );
+      }
+      else if (key === 'e' || key === 'v' ) {
+        window.animationRunning = true;
+        redSlideLeft( animeValues['e'] );
+      }
+      else if (key === 'f' || key === 'u' ) {
+        window.animationRunning = true;
+        purpleSlideUp( animeValues['f'] );
+      }
+      else if (key === 'g' || key === 't' ) {
+        window.animationRunning = true;
+        squareLineRight( animeValues['g'] );
+      }
+      else if (key === 'h' || key === 's' ) {
+        window.animationRunning = true;
+        squareLineUp( animeValues['h'] );
+      }
+      // else if (key === 'i' || key === 'r' ) {
+      //   window.animationRunning = true;
+      //   purpleSlideUp( animeValues['i'] );
+      // }
+      // else if (key === 'j' || key === 'q' ) {
+      //   window.animationRunning = true;
+      //   purpleSlideUp( animeValues['j'] );
+      // }
+      // else if (key === 'k' || key === 'p' ) {
+      //   window.animationRunning = true;
+      //   purpleSlideUp( animeValues['k'] );
+      // }
+      // else if (key === 'l' || key === 'o' ) {
+      //   window.animationRunning = true;
+      //   purpleSlideUp( animeValues['l'] );
+      // }
+      // else if (key === 'm' || key === 'n' ) {
+      //   window.animationRunning = true;
+      //   purpleSlideUp( animeValues['m'] );
+      // }
+    // }
   }, false);
 
   window.addEventListener('resize', resizeCanvas, false);

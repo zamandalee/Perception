@@ -89,6 +89,7 @@
 	
 	var Animations = function Animations(canvas, ctx) {
 	  var animations = [];
+	  window.animationRunning = false;
 	
 	  // below method from https://github.com/iamsammak/soundspace
 	  var infiniteAnimation = (0, _animejs2.default)({
@@ -100,6 +101,11 @@
 	          animatable.target.draw(ctx);
 	        });
 	      });
+	      // if ( animations.length > 0 ) {
+	      //   animations[0].animatables.forEach( (animatable) => {
+	      //       animatable.target.draw(ctx);
+	      //     });
+	      // }
 	    }
 	  });
 	
@@ -107,6 +113,11 @@
 	    if (animations.includes(anim)) {
 	      var idx = animations.indexOf(anim);
 	      animations.splice(idx, 1);
+	
+	      // if there are no animations in the array, set to false
+	      // if( animations.length === 0 ) {
+	      //   window.animationRunning = false;
+	      // }
 	    }
 	  };
 	
@@ -144,6 +155,58 @@
 	    }
 	
 	    return rectangles;
+	  };
+	
+	  // –––––– square line up ––––––
+	  var squareLineUp = function squareLineUp(animeVals) {
+	    // resizeCanvas();
+	
+	    var x = canvas.width * (9 / 10);
+	    var yArr = [canvas.height / 7, canvas.height * (2 / 7), canvas.height * (3 / 7), canvas.height * (4 / 7), canvas.height * (5 / 7)];
+	    var squares = createRectangles(x, yArr, animeVals);
+	
+	    var animeSquareLineUp = (0, _animejs2.default)({
+	      targets: squares,
+	      x: function x() {
+	        return canvas.width * (1 / 10);
+	      },
+	      width: animeVals.endWidth,
+	      height: animeVals.endHeight,
+	      duration: animeVals.duration,
+	      delay: function delay(el, idx) {
+	        return idx * 80;
+	      },
+	      easing: 'easeOutExpo',
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeSquareLineUp);
+	  };
+	
+	  // –––––– square line right ––––––
+	  var squareLineRight = function squareLineRight(animeVals) {
+	    // resizeCanvas();
+	
+	    var x = canvas.width / 10;
+	    var yVals = [canvas.height / 11 - animeVals.width / 2, canvas.height * (2 / 11) - animeVals.width / 2, canvas.height * (3 / 11) - animeVals.width / 2, canvas.height * (4 / 11) - animeVals.width / 2, canvas.height * (5 / 11) - animeVals.width / 2, canvas.height * (6 / 11) - animeVals.width / 2, canvas.height * (7 / 11) - animeVals.width / 2, canvas.height * (8 / 11) - animeVals.width / 2, canvas.height * (9 / 11) - animeVals.width / 2, canvas.height * (10 / 11) - animeVals.width / 2];
+	    var squares = createRectangles(x, yVals, animeVals);
+	
+	    var animeSquareLine = (0, _animejs2.default)({
+	      targets: squares,
+	      x: function x() {
+	        return canvas.width * (9 / 10);
+	      },
+	      width: animeVals.endWidth,
+	      height: animeVals.endHeight,
+	      duration: animeVals.duration,
+	      delay: function delay(el, idx) {
+	        return idx * 80;
+	      },
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeSquareLine);
 	  };
 	
 	  // –––––– purple slide up ––––––
@@ -231,6 +294,7 @@
 	  // –––––– square slide ––––––
 	  var squareSlide = function squareSlide(animeVals) {
 	    // resizeCanvas();
+	    console.log("squareslide");
 	
 	    var x = 0;
 	    var yVals = [canvas.height / 6, canvas.height * (2 / 6), canvas.height * (3 / 6), canvas.height * (4 / 6), canvas.height * (5 / 6)];
@@ -242,7 +306,6 @@
 	      x: function x(sq, idx) {
 	        return canvas.width;
 	      },
-	      // width: canvas.width + 200,
 	      duration: animeVals.duration,
 	      easing: animeVals.easing,
 	      complete: clearAnimation
@@ -285,19 +348,53 @@
 	    var key = event.key.toLowerCase();
 	    console.log(key);
 	
+	    // if( !window.animationRunning ) {
 	    if (key === 'a' || key === 'z') {
+	      window.animationRunning = true;
 	      bananaPeel(_animeValues.animeValues['a']);
 	    } else if (key === 'b' || key === 'y') {
+	      window.animationRunning = true;
 	      squareSlide(_animeValues.animeValues['b']);
 	    } else if (key === 'c' || key === 'x') {
+	      window.animationRunning = true;
 	      squarePanels(_animeValues.animeValues['c']);
 	    } else if (key === 'd' || key === 'w') {
+	      window.animationRunning = true;
 	      greenFlash(_animeValues.animeValues['d']);
 	    } else if (key === 'e' || key === 'v') {
+	      window.animationRunning = true;
 	      redSlideLeft(_animeValues.animeValues['e']);
 	    } else if (key === 'f' || key === 'u') {
+	      window.animationRunning = true;
 	      purpleSlideUp(_animeValues.animeValues['f']);
+	    } else if (key === 'g' || key === 't') {
+	      window.animationRunning = true;
+	      squareLineRight(_animeValues.animeValues['g']);
+	    } else if (key === 'h' || key === 's') {
+	      window.animationRunning = true;
+	      squareLineUp(_animeValues.animeValues['h']);
 	    }
+	    // else if (key === 'i' || key === 'r' ) {
+	    //   window.animationRunning = true;
+	    //   purpleSlideUp( animeValues['i'] );
+	    // }
+	    // else if (key === 'j' || key === 'q' ) {
+	    //   window.animationRunning = true;
+	    //   purpleSlideUp( animeValues['j'] );
+	    // }
+	    // else if (key === 'k' || key === 'p' ) {
+	    //   window.animationRunning = true;
+	    //   purpleSlideUp( animeValues['k'] );
+	    // }
+	    // else if (key === 'l' || key === 'o' ) {
+	    //   window.animationRunning = true;
+	    //   purpleSlideUp( animeValues['l'] );
+	    // }
+	    // else if (key === 'm' || key === 'n' ) {
+	    //   window.animationRunning = true;
+	    //   purpleSlideUp( animeValues['m'] );
+	    // }
+	    // }
 	  }, false);
 	
 	  window.addEventListener('resize', resizeCanvas, false);
@@ -996,7 +1093,7 @@
 	    colors: ['#76aa75'],
 	    width: 800,
 	    height: 800,
-	    duration: 400,
+	    duration: 300,
 	    easing: 'easeInOutSine'
 	  },
 	
@@ -1014,6 +1111,27 @@
 	    endHeight: 0,
 	    duration: 400,
 	    easing: 'easeInOutSine'
+	  },
+	
+	  g: {
+	    numEls: 10,
+	    colors: ['#e8defc', '#e5d8ff', '#ccbee8', '#b3a5d1', '#9f91bf', '#8779a8', '#706291', '#584b77', '#4a3d68', '#3b2e59'],
+	    width: 10,
+	    height: 10,
+	    endWidth: 20,
+	    endHeight: 15,
+	    duration: 500,
+	    easing: 'easeInOutSine'
+	  },
+	
+	  h: {
+	    numEls: 5,
+	    colors: ['#5f995e', '#76aa75', '#90c18f', '#a4d1a3', '#c8edc7'],
+	    width: 5,
+	    height: 5,
+	    endWidth: 22,
+	    endHeight: 15,
+	    duration: 500
 	  }
 	};
 
