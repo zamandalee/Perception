@@ -1,0 +1,229 @@
+//App Academy AATimes reset file
+
+ html, body, header, nav, h1, a,
+ ul, li, strong, main, button, i,
+ section, img, div, h2, p, form,
+ fieldset, label, input, textarea,
+ span, article, footer, time, small {
+   margin: 0;
+   padding: 0;
+   border: 0;
+   outline: 0;
+   font: inherit;
+   color: inherit;
+   text-align: inherit;
+   text-decoration: inherit;
+   vertical-align: inherit;
+   box-sizing: inherit;
+   background: transparent;
+ }
+
+ ul {
+   list-style: none;
+ }
+
+ img {
+   display: block;
+   width: 100%;
+   height: auto;
+ }
+
+ input[type="password"],
+ input[type="email"],
+ input[type="text"],
+ input[type="submit"],
+ textarea,
+ button {
+   /*
+   Get rid of native styling. Read more here:
+   http://css-tricks.com/almanac/properties/a/appearance/
+   */
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+ }
+
+ button,
+ input[type="submit"] {
+   cursor: pointer;
+ }
+
+ /* Clearfix */
+
+ .group:after {
+   content: "";
+   display: block;
+   clear: both;
+ }
+
+ // Core
+
+ // Style
+
+ body {
+   font-family: 'Roboto Condensed', sans-serif;
+   height: 100vh;
+   max-height: 700px;
+   width: 80%;
+   margin: auto;
+   text-align: center;
+ }
+
+ h1 {
+   font-size: 35px;
+   font-weight: 300;
+ }
+
+ .instructions-bttn {
+   font-size: 15px;
+   font-family: 'Roboto Condensed', sans-serif;
+
+   border: 1px solid gray;
+   border-radius: 3px;
+   padding: 5px 10px;
+ }
+
+ #canvas {
+   width: 100%;
+   height: 100%;
+   border: 1px solid gray;
+ }
+
+ /* SHAPES */
+
+ /* 1 and 2 */
+
+ /* #square, #circle {
+   display: inline-block;
+   position: relative;
+   width: 100px;
+   height: 100px;
+   margin: 12px;
+ } */
+
+ /* 2 and 4 */
+
+ /* #circle, #small-circle {
+   border-radius: 100%;
+ } */
+
+ /* 3 and 4 */
+
+ /* #small-square, #small-circle {
+   display: inline-block;
+   position: relative;
+   width: 40px;
+   height: 40px;
+   margin: 3px 0;
+ }
+
+ .sq-horiz-cross {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+ }
+
+ .sq-horiz-lines-left, .sq-horiz-lines-right {
+   display: flex;
+   flex-direction: column;
+ } */
+
+ /* 5: motion squares */
+ /* .motion-square {
+   width: 60px;
+   height: 60px;
+ } */
+
+ /* 6 morph */
+ /* .morphing-div {
+   display: flex;
+   flex-direction: row;
+ } */
+
+ /* 7 stretch */
+ /* .squares-stretch-div {
+   display: flex;
+   flex-direction: column;
+   height: 250px;
+ } */
+
+ /* 8 and 9 tri alt */
+ /* .triangle-alternate-div {
+   display: flex;
+   flex-direction: row;
+ }
+
+ .tri-alt {
+   margin: 5px;
+ }
+
+ #triangle-up, #triangle-down, #triangle-right, #triangle-left {
+   width: 0;
+   height: 0;
+ } */
+
+ /* 8 triangles */
+
+ /* #triangle-up, #triangle-down {
+   border-left: 50px solid transparent;
+   border-right: 50px solid transparent;
+ }
+
+ #triangle-up {
+   border-bottom: 100px solid white;
+ }
+
+ #triangle-down {
+   border-top: 100px solid white;
+ } */
+
+ /* 9 triangles */
+ /* #triangle-right {
+   border-right: 100px solid white;
+   border-bottom: 50px solid transparent;
+   border-top: 50px solid transparent;
+ }
+
+ #triangle-left {
+   border-left: 100px solid white;
+   border-bottom: 50px solid transparent;
+   border-top: 50px solid transparent;
+ } */
+
+ /* COLORS */
+
+ /* .lighter-red { background: #eaafaf; }
+ .light-red { background: #d88c8c; }
+ .mid-red { background: #d87070; }
+ .dark-red { background: #d65e5e; }
+ .darker-red { background: #c14343; }
+ .darkest-red { background: #aa2f2f; }
+
+ .light-mauve { background: #d5a6bdff; }
+
+ .light-orange { background: #f9cb9cff; }
+
+ .light-yellow { background: #eeed9eff; }
+
+ .lightest-green { background: #c8edc7; }
+ .lighter-green { background: #a4d1a3; }
+ .light-green { background: #90c18f; }
+ .mid-green { background: #76aa75; }
+ .dark-green { background: #5f995e; }
+ .darker-green { background: #4b894a; }
+
+ .light-teal { background: #b7e5d8; }
+
+ .light-blue { background: #bcd6ff; }
+ .mid-blue { background: #a2c0ef; }
+ .dark-blue { background: #83a8e2; }
+ .darker-blue { background: #6d96d6; }
+ .darkest-blue { background: #5382cc; }
+
+ .lightest-purple { background: #e5d8ff; }
+ .lighter-purple { background: #ccbee8; }
+ .light-purple { background: #b3a5d1; }
+ .mid-purple { background: #9f91bf; }
+ .dark-purple { background: #8779a8; }
+ .darker-purple { background: #706291; }
+ .darkest-purple { background: #584b77; } */
