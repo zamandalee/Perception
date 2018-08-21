@@ -1,3 +1,5 @@
+// structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+
 import anime from 'animejs';
 
 import { animeValues } from './animeValues.js';
@@ -7,7 +9,7 @@ import Rectangle from './rectangle';
 const Animations = (canvas, ctx) => {
   const animations = [];
 
-  // is this ok??? took from soundspace
+  // below method from https://github.com/iamsammak/soundspace
   const infiniteAnimation = anime({
     duration: Infinity,
     update: () => {
@@ -19,11 +21,6 @@ const Animations = (canvas, ctx) => {
       });
     },
   });
-
-  // const clearAnimation = (anim) => {
-  //   const index = animations.indexOf(anim);
-  //   if (index > -1) { animations.splice(index, 1); }
-  // };
 
   const clearAnimation = (anim) => {
     if( animations.includes(anim) ) {
@@ -53,15 +50,13 @@ const Animations = (canvas, ctx) => {
         let y = yVals[i];
         rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals ));
       } else {
-        console.log("in yvals.length false");
-
         if ( xVals.length ) {
           console.log("in xvals.length true");
 
           let x = xVals[i];
           rectangles.push(new Rectangle( x, yVals, animeVals.colors[i], animeVals ));
         } else {
-          console.log("in yvals.length false");
+          console.log("in xvals.length false");
 
           rectangles.push(new Rectangle( xVals, yVals, animeVals.colors[i], animeVals, width, height ));
         }
@@ -71,7 +66,49 @@ const Animations = (canvas, ctx) => {
     return rectangles;
   };
 
-  // –––––– green flash ––––––
+// –––––– purple slide up ––––––
+  const purpleSlideUp = (animeVals) => {
+  // resizeCanvas();
+
+  const x = 0;
+  const y = 0;
+  let width = canvas.width;
+  let height = canvas.height;
+  const rectangle = createRectangles(x, y, animeVals, width, height);
+
+  const animePurpleSlide = anime({
+    targets: rectangle,
+    height: animeVals.endHeight,
+    duration: animeVals.duration,
+    easing: animeVals.easing,
+    complete: clearAnimation,
+  });
+
+  animations.push(animePurpleSlide);
+};
+
+// –––––– red slide left ––––––
+    const redSlideLeft = (animeVals) => {
+      // resizeCanvas();
+
+      const x = 0;
+      const y = 0;
+      let width = canvas.width;
+      let height = canvas.height;
+      const rectangle = createRectangles(x, y, animeVals, width, height);
+
+      const animeRedSlide = anime({
+        targets: rectangle,
+        width: animeVals.endWidth,
+        duration: animeVals.duration,
+        easing: animeVals.easing,
+        complete: clearAnimation,
+      });
+
+      animations.push(animeRedSlide);
+    };
+
+// –––––– green flash ––––––
   const greenFlash = (animeVals) => {
     // resizeCanvas();
     const x = 0;
@@ -80,14 +117,14 @@ const Animations = (canvas, ctx) => {
     let height = animeVals.height;
     const rectangle = createRectangles(x, y, animeVals, width, height);
 
-    const animeRedFlash = anime({
+    const animeGreenFlash = anime({
       targets: rectangle,
       duration: animeVals.duration,
       easing: animeVals.easing,
       complete: clearAnimation
     });
 
-    animations.push(animeRedFlash);
+    animations.push(animeGreenFlash);
   };
 
 // –––––– square panels ––––––
@@ -192,6 +229,12 @@ const Animations = (canvas, ctx) => {
     }
     else if (key === 'd' || key === 'w' ) {
       greenFlash( animeValues['d'] );
+    }
+    else if (key === 'e' || key === 'v' ) {
+      redSlideLeft( animeValues['e'] );
+    }
+    else if (key === 'f' || key === 'u' ) {
+      purpleSlideUp( animeValues['f'] );
     }
   }, false);
 

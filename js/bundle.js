@@ -85,10 +85,12 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	// structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+	
 	var Animations = function Animations(canvas, ctx) {
 	  var animations = [];
 	
-	  // is this ok??? took from soundspace
+	  // below method from https://github.com/iamsammak/soundspace
 	  var infiniteAnimation = (0, _animejs2.default)({
 	    duration: Infinity,
 	    update: function update() {
@@ -100,11 +102,6 @@
 	      });
 	    }
 	  });
-	
-	  // const clearAnimation = (anim) => {
-	  //   const index = animations.indexOf(anim);
-	  //   if (index > -1) { animations.splice(index, 1); }
-	  // };
 	
 	  var clearAnimation = function clearAnimation(anim) {
 	    if (animations.includes(anim)) {
@@ -133,15 +130,13 @@
 	        var y = yVals[i];
 	        rectangles.push(new _rectangle2.default(xVals, y, animeVals.colors[i], animeVals));
 	      } else {
-	        console.log("in yvals.length false");
-	
 	        if (xVals.length) {
 	          console.log("in xvals.length true");
 	
 	          var x = xVals[i];
 	          rectangles.push(new _rectangle2.default(x, yVals, animeVals.colors[i], animeVals));
 	        } else {
-	          console.log("in yvals.length false");
+	          console.log("in xvals.length false");
 	
 	          rectangles.push(new _rectangle2.default(xVals, yVals, animeVals.colors[i], animeVals, width, height));
 	        }
@@ -149,6 +144,48 @@
 	    }
 	
 	    return rectangles;
+	  };
+	
+	  // –––––– purple slide up ––––––
+	  var purpleSlideUp = function purpleSlideUp(animeVals) {
+	    // resizeCanvas();
+	
+	    var x = 0;
+	    var y = 0;
+	    var width = canvas.width;
+	    var height = canvas.height;
+	    var rectangle = createRectangles(x, y, animeVals, width, height);
+	
+	    var animePurpleSlide = (0, _animejs2.default)({
+	      targets: rectangle,
+	      height: animeVals.endHeight,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animePurpleSlide);
+	  };
+	
+	  // –––––– red slide left ––––––
+	  var redSlideLeft = function redSlideLeft(animeVals) {
+	    // resizeCanvas();
+	
+	    var x = 0;
+	    var y = 0;
+	    var width = canvas.width;
+	    var height = canvas.height;
+	    var rectangle = createRectangles(x, y, animeVals, width, height);
+	
+	    var animeRedSlide = (0, _animejs2.default)({
+	      targets: rectangle,
+	      width: animeVals.endWidth,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeRedSlide);
 	  };
 	
 	  // –––––– green flash ––––––
@@ -160,14 +197,14 @@
 	    var height = animeVals.height;
 	    var rectangle = createRectangles(x, y, animeVals, width, height);
 	
-	    var animeRedFlash = (0, _animejs2.default)({
+	    var animeGreenFlash = (0, _animejs2.default)({
 	      targets: rectangle,
 	      duration: animeVals.duration,
 	      easing: animeVals.easing,
 	      complete: clearAnimation
 	    });
 	
-	    animations.push(animeRedFlash);
+	    animations.push(animeGreenFlash);
 	  };
 	
 	  // –––––– square panels ––––––
@@ -256,6 +293,10 @@
 	      squarePanels(_animeValues.animeValues['c']);
 	    } else if (key === 'd' || key === 'w') {
 	      greenFlash(_animeValues.animeValues['d']);
+	    } else if (key === 'e' || key === 'v') {
+	      redSlideLeft(_animeValues.animeValues['e']);
+	    } else if (key === 'f' || key === 'u') {
+	      purpleSlideUp(_animeValues.animeValues['f']);
 	    }
 	  }, false);
 	
@@ -955,6 +996,22 @@
 	    colors: ['#76aa75'],
 	    width: 800,
 	    height: 800,
+	    duration: 400,
+	    easing: 'easeInOutSine'
+	  },
+	
+	  e: {
+	    numEls: 1,
+	    colors: ['#eaafaf'],
+	    endWidth: 0,
+	    duration: 400,
+	    easing: 'easeInOutSine'
+	  },
+	
+	  f: {
+	    numEls: 1,
+	    colors: ['#b3a5d1'],
+	    endHeight: 0,
 	    duration: 400,
 	    easing: 'easeInOutSine'
 	  }

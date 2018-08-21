@@ -37,5 +37,21 @@ export const animeValues = {
     height: 800,
     duration: 400,
     easing: 'easeInOutSine'
+  },
+
+  e: {
+    numEls: 1,
+    colors: [ '#eaafaf' ],
+    endWidth: 0,
+    duration: 400,
+    easing: 'easeInOutSine'
+  },
+
+  f: {
+    numEls: 1,
+    colors: [ '#b3a5d1' ],
+    endHeight: 0,
+    duration: 400,
+    easing: 'easeInOutSine'
   }
 };
