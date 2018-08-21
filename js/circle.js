@@ -1,9 +1,9 @@
 class Circle {
-  constructor(x, y, color, options) {
+  constructor(x, y, color, animeVals) {
     this.x = x;
     this.y = y;
     this.color = color;
-    this.radius = options.radius;
+    this.radius = animeVals.radius;
   }
 
   draw(ctx) {
