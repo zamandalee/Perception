@@ -120,31 +120,64 @@
 	  };
 	
 	  // –––––––––––– RECTANGLES ––––––––––––
-	  var createRectangles = function createRectangles(isYArr, xVals, yVals, animeVals) {
+	  var createRectangles = function createRectangles(xVals, yVals, animeVals, width, height) {
 	    var rectangles = [];
+	    console.log("xvals.length", xVals.length);
+	    console.log("yvals.length", yVals.length);
 	
 	    for (var i = 0; i < animeVals.numEls; i++) {
 	
-	      if (isYArr) {
+	      // one of xVals or yVals could be an array, or neither could be
+	      if (yVals.length) {
+	        console.log("in yvals.length true");
 	        var y = yVals[i];
 	        rectangles.push(new _rectangle2.default(xVals, y, animeVals.colors[i], animeVals));
 	      } else {
-	        var x = xVals[i];
-	        rectangles.push(new _rectangle2.default(x, yVals, animeVals.colors[i], animeVals));
+	        console.log("in yvals.length false");
+	
+	        if (xVals.length) {
+	          console.log("in xvals.length true");
+	
+	          var x = xVals[i];
+	          rectangles.push(new _rectangle2.default(x, yVals, animeVals.colors[i], animeVals));
+	        } else {
+	          console.log("in yvals.length false");
+	
+	          rectangles.push(new _rectangle2.default(xVals, yVals, animeVals.colors[i], animeVals, width, height));
+	        }
 	      }
 	    }
 	
 	    return rectangles;
 	  };
 	
-	  // –––––– square balloon ––––––
+	  // –––––– green flash ––––––
+	  var greenFlash = function greenFlash(animeVals) {
+	    // resizeCanvas();
+	    var x = 0;
+	    var y = 0;
+	    var width = animeVals.width;
+	    var height = animeVals.height;
+	    var rectangle = createRectangles(x, y, animeVals, width, height);
+	
+	    var animeRedFlash = (0, _animejs2.default)({
+	      targets: rectangle,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeRedFlash);
+	  };
+	
+	  // –––––– square panels ––––––
 	  var squarePanels = function squarePanels(animeVals) {
 	    // resizeCanvas();
 	
 	    var xVals = [0, canvas.width / 5, canvas.width * (2 / 5), canvas.width * (3 / 5), canvas.width * (4 / 5)];
 	    var y = canvas.height / 4;
 	
-	    var squares = createRectangles(false, xVals, y, animeVals);
+	    var squares = createRectangles(xVals, y, animeVals);
 	
 	    var animeSqPanels = (0, _animejs2.default)({
 	      targets: squares,
@@ -165,7 +198,7 @@
 	    var x = 0;
 	    var yVals = [canvas.height / 6, canvas.height * (2 / 6), canvas.height * (3 / 6), canvas.height * (4 / 6), canvas.height * (5 / 6)];
 	
-	    var rectangles = createRectangles(true, x, yVals, animeVals);
+	    var rectangles = createRectangles(x, yVals, animeVals);
 	
 	    var animeSqSlide = (0, _animejs2.default)({
 	      targets: rectangles,
@@ -188,7 +221,7 @@
 	    var x = canvas.width * (3 / 4) - animeVals.width / 2;
 	    var yVals = [canvas.height / 8 - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (1 / 8) - animeVals.height / 2];
 	
-	    var rectangles = createRectangles(true, x, yVals, animeVals);
+	    var rectangles = createRectangles(x, yVals, animeVals);
 	
 	    var animeBanana = (0, _animejs2.default)({
 	      targets: rectangles,
@@ -221,6 +254,8 @@
 	      squareSlide(_animeValues.animeValues['b']);
 	    } else if (key === 'c' || key === 'x') {
 	      squarePanels(_animeValues.animeValues['c']);
+	    } else if (key === 'd' || key === 'w') {
+	      greenFlash(_animeValues.animeValues['d']);
 	    }
 	  }, false);
 	
@@ -913,6 +948,15 @@
 	    endWidth: 0,
 	    duration: 700,
 	    easing: 'easeInOutSine'
+	  },
+	
+	  d: {
+	    numEls: 1,
+	    colors: ['#76aa75'],
+	    width: 800,
+	    height: 800,
+	    duration: 400,
+	    easing: 'easeInOutSine'
 	  }
 	};
 
@@ -971,13 +1015,13 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Rectangle = function () {
-	  function Rectangle(x, y, color, animeVals) {
+	  function Rectangle(x, y, color, animeVals, width, height) {
 	    _classCallCheck(this, Rectangle);
 	
 	    this.x = x;
 	    this.y = y;
-	    this.width = animeVals.width;
-	    this.height = animeVals.height;
+	    this.width = animeVals.width || width;
+	    this.height = animeVals.height || height;
 	    this.color = color;
 	  }
 	

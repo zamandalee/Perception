@@ -40,24 +40,57 @@ const Animations = (canvas, ctx) => {
 
 
   // –––––––––––– RECTANGLES ––––––––––––
-    const createRectangles = (isYArr, xVals, yVals, animeVals) => {
-      const rectangles = [];
+  const createRectangles = (xVals, yVals, animeVals, width, height) => {
+    const rectangles = [];
+    console.log("xvals.length", xVals.length);
+    console.log("yvals.length", yVals.length);
 
-      for ( let i = 0; i < animeVals.numEls; i++ ) {
+    for ( let i = 0; i < animeVals.numEls; i++ ) {
 
-        if ( isYArr ) {
-          let y = yVals[i];
-          rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals ));
-        } else {
+      // one of xVals or yVals could be an array, or neither could be
+      if ( yVals.length ) {
+        console.log("in yvals.length true");
+        let y = yVals[i];
+        rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals ));
+      } else {
+        console.log("in yvals.length false");
+
+        if ( xVals.length ) {
+          console.log("in xvals.length true");
+
           let x = xVals[i];
           rectangles.push(new Rectangle( x, yVals, animeVals.colors[i], animeVals ));
+        } else {
+          console.log("in yvals.length false");
+
+          rectangles.push(new Rectangle( xVals, yVals, animeVals.colors[i], animeVals, width, height ));
         }
       }
+    }
 
-      return rectangles;
-    };
+    return rectangles;
+  };
 
-// –––––– square balloon ––––––
+  // –––––– green flash ––––––
+  const greenFlash = (animeVals) => {
+    // resizeCanvas();
+    const x = 0;
+    const y = 0;
+    let width = animeVals.width;
+    let height = animeVals.height;
+    const rectangle = createRectangles(x, y, animeVals, width, height);
+
+    const animeRedFlash = anime({
+      targets: rectangle,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation
+    });
+
+    animations.push(animeRedFlash);
+  };
+
+// –––––– square panels ––––––
   const squarePanels = (animeVals) => {
     // resizeCanvas();
 
@@ -65,7 +98,7 @@ const Animations = (canvas, ctx) => {
                     canvas.width * (3 / 5), canvas.width * (4 / 5) ];
     const y = canvas.height / 4;
 
-    const squares = createRectangles(false, xVals, y, animeVals);
+    const squares = createRectangles(xVals, y, animeVals);
 
     const animeSqPanels = anime({
       targets: squares,
@@ -90,7 +123,7 @@ const Animations = (canvas, ctx) => {
                     canvas.height * (4 / 6),
                     canvas.height * (5 / 6) ];
 
-    const rectangles = createRectangles(true, x, yVals, animeVals);
+    const rectangles = createRectangles(x, yVals, animeVals);
 
     const animeSqSlide = anime({
       targets: rectangles,
@@ -124,7 +157,7 @@ const Animations = (canvas, ctx) => {
                     canvas.height * (2 / 8) - (animeVals.height / 2),
                     canvas.height * (1 / 8) - (animeVals.height / 2) ];
 
-    const rectangles = createRectangles(true, x, yVals, animeVals);
+    const rectangles = createRectangles(x, yVals, animeVals);
 
     const animeBanana = anime({
       targets: rectangles,
@@ -156,6 +189,9 @@ const Animations = (canvas, ctx) => {
     }
     else if (key === 'c' || key === 'x' ) {
       squarePanels( animeValues['c'] );
+    }
+    else if (key === 'd' || key === 'w' ) {
+      greenFlash( animeValues['d'] );
     }
   }, false);
 
