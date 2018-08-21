@@ -47,6 +47,39 @@ const Animations = (canvas, ctx) => {
   };
 
 
+  // –––––––––––– WORDS ––––––––––––
+  const createYes = function(options) {
+    const words = [];
+    for (let i = 0; i < options.numWords; i++) {
+      let x = anime.random(canvas.width * (1/4), canvas.width * (3/4));
+      let y = anime.random(canvas.height * (1/4), canvas.height * (3/4));
+      const word = new Word(x, y, options);
+      words.push(word);
+    }
+    return words;
+  };
+
+// –––––– perceive ––––––
+  const animateYes = function(options) {
+    // resizeCanvas();
+    const words = createYes(options);
+    const wordAnimation = anime({
+      targets: words,
+      font: function() {
+        let endFontIdx = Math.floor((Math.random()*options.endFont.length));
+        return options.endFont[endFontIdx];
+      },
+      x: function() { return anime.random(canvas.width * (1/7), canvas.width * (6/7)); },
+      y: function() { return anime.random(canvas.height * (1/7), canvas.height * (6/7)); },
+      delay: function (el, index) { return index * 100; },
+      duration: options.duration,
+      easing: 'easeOutExpo',
+      complete: removeAnimation
+    });
+    animations.push(wordAnimation);
+  };
+
+
   // –––––––––––– RECTANGLES ––––––––––––
   const createRectangles = (xVals, yVals, animeVals, width, height) => {
     const rectangles = [];

@@ -127,6 +127,44 @@
 	    canvas.height = window.innerHeight;
 	  };
 	
+	  // –––––––––––– WORDS ––––––––––––
+	  var createYes = function createYes(options) {
+	    var words = [];
+	    for (var i = 0; i < options.numWords; i++) {
+	      var x = _animejs2.default.random(canvas.width * (1 / 4), canvas.width * (3 / 4));
+	      var y = _animejs2.default.random(canvas.height * (1 / 4), canvas.height * (3 / 4));
+	      var word = new Word(x, y, options);
+	      words.push(word);
+	    }
+	    return words;
+	  };
+	
+	  // –––––– perceive ––––––
+	  var animateYes = function animateYes(options) {
+	    // resizeCanvas();
+	    var words = createYes(options);
+	    var wordAnimation = (0, _animejs2.default)({
+	      targets: words,
+	      font: function font() {
+	        var endFontIdx = Math.floor(Math.random() * options.endFont.length);
+	        return options.endFont[endFontIdx];
+	      },
+	      x: function x() {
+	        return _animejs2.default.random(canvas.width * (1 / 7), canvas.width * (6 / 7));
+	      },
+	      y: function y() {
+	        return _animejs2.default.random(canvas.height * (1 / 7), canvas.height * (6 / 7));
+	      },
+	      delay: function delay(el, index) {
+	        return index * 100;
+	      },
+	      duration: options.duration,
+	      easing: 'easeOutExpo',
+	      complete: removeAnimation
+	    });
+	    animations.push(wordAnimation);
+	  };
+	
 	  // –––––––––––– RECTANGLES ––––––––––––
 	  var createRectangles = function createRectangles(xVals, yVals, animeVals, width, height) {
 	    var rectangles = [];
