@@ -11,12 +11,22 @@ export const animeValues = {
   },
 
   b: {
-    numEls: 5,
-    colors: ['#bcd6ff', '#a2c0ef', '#83a8e2', '#6d96d6', '#5382cc' ],
-    width: 70,
-    height: 70,
-    duration: 500,
+    numEls: 22,
+    colors: [ '#bcd6ff', '#a2c0ef', '#83a8e2', '#6d96d6', '#5382cc' ],
+    width: 100,
+    height: 10,
+    duration: 700,
     delay: 100,
+    easing: 'easeInOutSine'
+  },
+
+  c: {
+    numEls: 5,
+    colors: [ '#b3a5d1', '#b7e5d8', '#f9cb9cff', '#eeed9eff', '#d5a6bdff' ],
+    width: 70,
+    height: 50,
+    endWidth: 0,
+    duration: 700,
     easing: 'easeInOutSine'
   },
 };

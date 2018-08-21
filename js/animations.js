@@ -39,53 +39,69 @@ const Animations = (canvas, ctx) => {
   };
 
 
-// –––––––––––– RECTANGLES ––––––––––––
-  const createRectangles = (isYArr, xVals, yVals, animeVals) => {
-    const rectangles = [];
+  // –––––––––––– RECTANGLES ––––––––––––
+    const createRectangles = (isYArr, xVals, yVals, animeVals) => {
+      const rectangles = [];
 
-    for ( let i = 0; i < animeVals.numEls; i++ ) {
+      for ( let i = 0; i < animeVals.numEls; i++ ) {
 
-      if ( isYArr ) {
-        let y = yVals[i];
-        rectangles.push( new Rectangle( xVals, y, animeVals.colors[i], animeVals ) );
-      } else {
-        let x = xVals[i];
-        rectangles.push( new Rectangle( x, yVals, animeVals.colors[i], animeVals ) );
+        if ( isYArr ) {
+          let y = yVals[i];
+          rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals ));
+        } else {
+          let x = xVals[i];
+          rectangles.push(new Rectangle( x, yVals, animeVals.colors[i], animeVals ));
+        }
       }
-    }
 
-    return rectangles;
-  };
+      return rectangles;
+    };
 
-// –––––– square spin ––––––
-  const squareSpin = (animeVals) => {
+// –––––– square balloon ––––––
+  const squarePanels = (animeVals) => {
     // resizeCanvas();
 
-    const xVals = [ (canvas.width / 6),
-                    canvas.width * (2 * 6),
-                    canvas.width * (3 * 6),
-                    canvas.width * (4 * 6),
-                    canvas.width * (5 * 6)];
-    const y = canvas.height / 2;
+    const xVals = [ 0, canvas.width / 5, canvas.width * (2 / 5),
+                    canvas.width * (3 / 5), canvas.width * (4 / 5) ];
+    const y = canvas.height / 4;
+
     const squares = createRectangles(false, xVals, y, animeVals);
 
-    squares.forEach( (sq) => {
-      sq.draw(ctx);
-    });
-
-    const animeSqSpin = anime({
+    const animeSqPanels = anime({
       targets: squares,
-      translateX: [
-        { value: 100, duration: 300, easing: 'easeInOutQuart' },
-        { value: -100, duration: 300, easing: 'easeInOutQuart' },
-        { value: 0, duration: 400, easing: 'easeInOutQuart' },
-      ],
-      rotate: { value: '1turn', duration: 500,
-                easing: 'easeInOutSine', delay: 600 },
+      width: animeVals.endWidth,
+      duration: animeVals.duration,
+      delay: 0,
+      easing: animeVals.easing,
       complete: clearAnimation
     });
 
-    animations.push(squareSpin);
+    animations.push(animeSqPanels);
+  };
+
+// –––––– square slide ––––––
+  const squareSlide = (animeVals) => {
+    // resizeCanvas();
+
+    const x = 0;
+    const yVals = [ (canvas.height / 6),
+                    canvas.height * (2 / 6),
+                    canvas.height * (3 / 6),
+                    canvas.height * (4 / 6),
+                    canvas.height * (5 / 6) ];
+
+    const rectangles = createRectangles(true, x, yVals, animeVals);
+
+    const animeSqSlide = anime({
+      targets: rectangles,
+      x: (sq, idx) => { return canvas.width; },
+      // width: canvas.width + 200,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation
+    });
+
+    animations.push(animeSqSlide);
   };
 
 // –––––– banana peel ––––––
@@ -108,7 +124,7 @@ const Animations = (canvas, ctx) => {
                     canvas.height * (2 / 8) - (animeVals.height / 2),
                     canvas.height * (1 / 8) - (animeVals.height / 2) ];
 
-    const rectangles = createRectangles(x, yVals, animeVals);
+    const rectangles = createRectangles(true, x, yVals, animeVals);
 
     const animeBanana = anime({
       targets: rectangles,
@@ -124,6 +140,7 @@ const Animations = (canvas, ctx) => {
   };
 
 
+  // assign animations to keyboard keys
   document.addEventListener( 'keydown', (event) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -131,10 +148,14 @@ const Animations = (canvas, ctx) => {
     const key = (event.key).toLowerCase();
     console.log(key);
 
-    if( key === 'a' || key === 'z' ) {
+    if ( key === 'a' || key === 'z' ) {
       bananaPeel( animeValues['a'] );
-    } else if ( key === 'b' || key === 'y' ) {
-      squareSpin( animeValues['b'] );
+    }
+    else if ( key === 'b' || key === 'y' ) {
+      squareSlide( animeValues['b'] );
+    }
+    else if (key === 'c' || key === 'x' ) {
+      squarePanels( animeValues['c'] );
     }
   }, false);
 

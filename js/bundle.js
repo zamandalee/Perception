@@ -137,27 +137,48 @@
 	    return rectangles;
 	  };
 	
-	  // –––––– square spin ––––––
-	  var squareSpin = function squareSpin(animeVals) {
+	  // –––––– square balloon ––––––
+	  var squarePanels = function squarePanels(animeVals) {
 	    // resizeCanvas();
 	
-	    var xVals = [canvas.width / 6, canvas.width * (2 * 6), canvas.width * (3 * 6), canvas.width * (4 * 6), canvas.width * (5 * 6)];
-	    var y = canvas.height / 2;
+	    var xVals = [0, canvas.width / 5, canvas.width * (2 / 5), canvas.width * (3 / 5), canvas.width * (4 / 5)];
+	    var y = canvas.height / 4;
+	
 	    var squares = createRectangles(false, xVals, y, animeVals);
 	
-	    squares.forEach(function (sq) {
-	      sq.draw(ctx);
-	    });
-	
-	    var animeSqSpin = (0, _animejs2.default)({
+	    var animeSqPanels = (0, _animejs2.default)({
 	      targets: squares,
-	      translateX: [{ value: 100, duration: 300, easing: 'easeInOutQuart' }, { value: -100, duration: 300, easing: 'easeInOutQuart' }, { value: 0, duration: 400, easing: 'easeInOutQuart' }],
-	      rotate: { value: '1turn', duration: 500,
-	        easing: 'easeInOutSine', delay: 600 },
+	      width: animeVals.endWidth,
+	      duration: animeVals.duration,
+	      delay: 0,
+	      easing: animeVals.easing,
 	      complete: clearAnimation
 	    });
 	
-	    animations.push(squareSpin);
+	    animations.push(animeSqPanels);
+	  };
+	
+	  // –––––– square slide ––––––
+	  var squareSlide = function squareSlide(animeVals) {
+	    // resizeCanvas();
+	
+	    var x = 0;
+	    var yVals = [canvas.height / 6, canvas.height * (2 / 6), canvas.height * (3 / 6), canvas.height * (4 / 6), canvas.height * (5 / 6)];
+	
+	    var rectangles = createRectangles(true, x, yVals, animeVals);
+	
+	    var animeSqSlide = (0, _animejs2.default)({
+	      targets: rectangles,
+	      x: function x(sq, idx) {
+	        return canvas.width;
+	      },
+	      // width: canvas.width + 200,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeSqSlide);
 	  };
 	
 	  // –––––– banana peel ––––––
@@ -167,7 +188,7 @@
 	    var x = canvas.width * (3 / 4) - animeVals.width / 2;
 	    var yVals = [canvas.height / 8 - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (1 / 8) - animeVals.height / 2];
 	
-	    var rectangles = createRectangles(x, yVals, animeVals);
+	    var rectangles = createRectangles(true, x, yVals, animeVals);
 	
 	    var animeBanana = (0, _animejs2.default)({
 	      targets: rectangles,
@@ -186,6 +207,7 @@
 	    animations.push(animeBanana);
 	  };
 	
+	  // assign animations to keyboard keys
 	  document.addEventListener('keydown', function (event) {
 	    ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
@@ -196,7 +218,9 @@
 	    if (key === 'a' || key === 'z') {
 	      bananaPeel(_animeValues.animeValues['a']);
 	    } else if (key === 'b' || key === 'y') {
-	      squareSpin(_animeValues.animeValues['b']);
+	      squareSlide(_animeValues.animeValues['b']);
+	    } else if (key === 'c' || key === 'x') {
+	      squarePanels(_animeValues.animeValues['c']);
 	    }
 	  }, false);
 	
@@ -872,12 +896,22 @@
 	  },
 	
 	  b: {
-	    numEls: 5,
+	    numEls: 22,
 	    colors: ['#bcd6ff', '#a2c0ef', '#83a8e2', '#6d96d6', '#5382cc'],
-	    width: 70,
-	    height: 70,
-	    duration: 500,
+	    width: 100,
+	    height: 10,
+	    duration: 700,
 	    delay: 100,
+	    easing: 'easeInOutSine'
+	  },
+	
+	  c: {
+	    numEls: 5,
+	    colors: ['#b3a5d1', '#b7e5d8', '#f9cb9cff', '#eeed9eff', '#d5a6bdff'],
+	    width: 70,
+	    height: 50,
+	    endWidth: 0,
+	    duration: 700,
 	    easing: 'easeInOutSine'
 	  }
 	};
