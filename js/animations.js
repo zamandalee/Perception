@@ -8,12 +8,19 @@ import Circle from './circle';
 import Rectangle from './rectangle';
 import Word from './word';
 
-const Animations = (canvas, ctx) => {
-  const animations = [];
-  window.animationRunning = false;
+import { handleState, ZERO_KEYPRESSES, ONE_KEYPRESS } from './game.js';
+
+class Animations {
+
+  constructor(canvas, ctx) {
+    this.canvas = canvas;
+    this.ctx = ctx;
+    this.animations = [];
+    this.state = { key: null, currentState: ZERO_KEYPRESSES, animationRunning: false };
+  }
 
   // below method from https://github.com/iamsammak/soundspace
-  const infiniteAnimation = anime({
+  infiniteAnimation = anime({
     duration: Infinity,
     update: () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -42,8 +49,8 @@ const Animations = (canvas, ctx) => {
     }
   };
 
+  // stackoverflow.com/questions/1664785/resize-html5-canvas-to-fit-window
   const resizeCanvas = () => {
-    // stackoverflow.com/questions/1664785/resize-html5-canvas-to-fit-window
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   };
@@ -62,7 +69,7 @@ const Animations = (canvas, ctx) => {
 
 
 // –––––– balloon ––––––
-  const balloon = (animeVals) => {
+  static const balloon = (animeVals) => {
     resizeCanvas();
 
     const x = canvas.width / 2;
@@ -423,63 +430,9 @@ const Animations = (canvas, ctx) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     //e is object!! https://developer.mozilla.org/en-US/docs/Web/Events/keydown
-    const key = (event.key).toLowerCase();
-    console.log(key);
+    state.key = (event.key).toLowerCase();
+    handleState(state); //finite state machine handles
 
-    // if( !window.animationRunning ) {
-      if ( key === 'a' || key === 'z' ) {
-        window.animationRunning = true;
-        bananaPeel( animeValues['a'] );
-      }
-      else if ( key === 'b' || key === 'y' ) {
-        window.animationRunning = true;
-        squareSlide( animeValues['b'] );
-      }
-      else if (key === 'c' || key === 'x' ) {
-        window.animationRunning = true;
-        squarePanels( animeValues['c'] );
-      }
-      else if (key === 'd' || key === 'w' ) {
-        window.animationRunning = true;
-        purpleFireworks( animeValues['d'] );
-      }
-      else if (key === 'e' || key === 'v' ) {
-        window.animationRunning = true;
-        redSlideLeft( animeValues['e'] );
-      }
-      else if (key === 'f' || key === 'u' ) {
-        window.animationRunning = true;
-        purpleSlideUp( animeValues['f'] );
-      }
-      else if (key === 'g' || key === 't' ) {
-        window.animationRunning = true;
-        squareLineRight( animeValues['g'] );
-      }
-      else if (key === 'h' || key === 's' ) {
-        window.animationRunning = true;
-        squareLineUp( animeValues['h'] );
-      }
-      else if (key === 'i' || key === 'r' ) {
-        window.animationRunning = true;
-        perceive( animeValues['i'] );
-      }
-      else if (key === 'j' || key === 'q' ) {
-        window.animationRunning = true;
-        go( animeValues['j'] );
-      }
-      else if (key === 'k' || key === 'p' ) {
-        window.animationRunning = true;
-        blobs( animeValues['k'] );
-      }
-      else if (key === 'l' || key === 'o' ) {
-        window.animationRunning = true;
-        tealFireworks( animeValues['l'] );
-      }
-      else if (key === 'm' || key === 'n' ) {
-        window.animationRunning = true;
-        balloon( animeValues['m'] );
-      }
-    // }
   }, false);
 
   window.addEventListener('resize', resizeCanvas, false);
