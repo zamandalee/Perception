@@ -440,8 +440,7 @@ class Animations {
 
       //e is object!! https://developer.mozilla.org/en-US/docs/Web/Events/keydown
       state.key = (event.key).toLowerCase();
-      handleState(state); //finite state machine handles
-
+      handleState(state); //finite state machine handles animation
     }, false);
 
     window.addEventListener('resize', Animations.resizeCanvas(state), false);

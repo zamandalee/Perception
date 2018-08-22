@@ -6,8 +6,12 @@ import { animeValues } from './animeValues';
 
 export const ZERO_KEYPRESSES = 'ZERO_KEYPRESSES';
 export const ONE_KEYPRESS = 'ONE_KEYPRESS';
+export const MATCH = 'MATCH';
+export const NOT_MATCH = 'NOT_MATCH';
 
 export const handleState = (state) => {
+  const matchScore = 0;
+  const matchText = "not a match :(";
 
   switch ( state.currentState ) {
     case ZERO_KEYPRESSES:
@@ -18,11 +22,21 @@ export const handleState = (state) => {
         state.key = null;
       // }
       break;
+
     case ONE_KEYPRESS:
       state.currentState = ZERO_KEYPRESSES;
       animationHandler.dispatchAnimation(state);
 
-      // matching
+      // matching logic
+      state.currentState = state.firstKey === state.key ? MATCH : NOT_MATCH;
+
+      if ( state.currentState === MATCH ) {
+        matchScore++;
+        matchText = "you've found a match!";
+      }
+      else {
+        
+      }
 
   }
 };

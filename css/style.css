@@ -68,10 +68,40 @@
    text-align: center;
  }
 
- h1 {
-   font-size: 35px;
+ .header {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+ }
+
+ h1, h2 {
    font-weight: 300;
    margin-top: 7px;
+ }
+
+ h1 {
+   font-size: 35px;
+   margin-bottom: 7px;
+ }
+
+ .title-instructions {
+   display: flex;
+   flex-direction: column;
+   position: absolute;
+   top: 10px;
+ }
+
+ .match-score {
+   display: flex;
+   flex-direction: row;
+   margin-right: auto;
+   margin-top: 38px;
+ }
+
+ h2 {
+   margin: 0 3px;
+   font-size: 25px;
  }
 
  .instructions-bttn {
@@ -84,7 +114,21 @@
    padding: 3px 10px;
  }
 
+ .personal-prof {
+   display: flex;
+   flex-direction: row;
+ }
+
+ .personal-prof img {
+   height: 38px;
+   width: 38px;
+   margin-top: 40px;
+   margin-left: 20px;
+   opacity: 0.75;
+ }
+
  #canvas {
+   margin-top: 35px;
    width: 100%;
    height: 100%;
    border: 1px solid gray;
