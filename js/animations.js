@@ -254,13 +254,13 @@ const Animations = (canvas, ctx) => {
     console.log("squareslide");
 
     const x = 0;
-    const yVals = [ (canvas.height / 6),
-                    canvas.height * (2 / 6),
-                    canvas.height * (3 / 6),
-                    canvas.height * (4 / 6),
-                    canvas.height * (5 / 6) ];
+    const yVals = [ (canvas.height / 7),
+                    canvas.height * (2 / 7),
+                    canvas.height * (3 / 7),
+                    canvas.height * (4 / 7),
+                    canvas.height * (5 / 7) ];
 
-    const rectangles = createRectangles(x, yVals, animeVals);
+    const rectangles = createRectangles(x, yVals, animeVals, canvas.width / 2, canvas.height / 10);
 
     const animeSqSlide = anime({
       targets: rectangles,
@@ -277,23 +277,23 @@ const Animations = (canvas, ctx) => {
   const bananaPeel = (animeVals) => {
     resizeCanvas();
 
-    const x = ( canvas.width * (3 / 4) ) - ( animeVals.width / 2 );
-    const yVals = [ (canvas.height / 8) - (animeVals.height / 2),
-                    canvas.height * (2 / 8) - (animeVals.height / 2),
-                    canvas.height * (3 / 8) - (animeVals.height / 2),
-                    canvas.height * (4 / 8) - (animeVals.height / 2),
-                    canvas.height * (5 / 8) - (animeVals.height / 2),
-                    canvas.height * (6 / 8) - (animeVals.height / 2),
-                    canvas.height * (7 / 8) - (animeVals.height / 2),
-                    canvas.height * (7 / 8) - (animeVals.height / 2),
-                    canvas.height * (6 / 8) - (animeVals.height / 2),
-                    canvas.height * (5 / 8) - (animeVals.height / 2),
-                    canvas.height * (4 / 8) - (animeVals.height / 2),
-                    canvas.height * (3 / 8) - (animeVals.height / 2),
-                    canvas.height * (2 / 8) - (animeVals.height / 2),
-                    canvas.height * (1 / 8) - (animeVals.height / 2) ];
+    const x = ( canvas.width * (3 / 4) );
+    const yVals = [ (canvas.height / 9),
+                    canvas.height * (2 / 9),
+                    canvas.height * (3 / 9),
+                    canvas.height * (4 / 9),
+                    canvas.height * (5 / 9),
+                    canvas.height * (6 / 9),
+                    canvas.height * (7 / 9),
+                    canvas.height * (7 / 9),
+                    canvas.height * (6 / 9),
+                    canvas.height * (5 / 9),
+                    canvas.height * (4 / 9),
+                    canvas.height * (3 / 9),
+                    canvas.height * (2 / 9),
+                    canvas.height / 9 ];
 
-    const rectangles = createRectangles(x, yVals, animeVals);
+    const rectangles = createRectangles(x, yVals, animeVals, canvas.height / 10, canvas.height / 10);
 
     const animeBanana = anime({
       targets: rectangles,

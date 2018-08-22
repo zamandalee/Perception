@@ -333,9 +333,9 @@
 	    console.log("squareslide");
 	
 	    var x = 0;
-	    var yVals = [canvas.height / 6, canvas.height * (2 / 6), canvas.height * (3 / 6), canvas.height * (4 / 6), canvas.height * (5 / 6)];
+	    var yVals = [canvas.height / 7, canvas.height * (2 / 7), canvas.height * (3 / 7), canvas.height * (4 / 7), canvas.height * (5 / 7)];
 	
-	    var rectangles = createRectangles(x, yVals, animeVals);
+	    var rectangles = createRectangles(x, yVals, animeVals, canvas.width / 2, canvas.height / 10);
 	
 	    var animeSqSlide = (0, _animejs2.default)({
 	      targets: rectangles,
@@ -354,10 +354,10 @@
 	  var bananaPeel = function bananaPeel(animeVals) {
 	    resizeCanvas();
 	
-	    var x = canvas.width * (3 / 4) - animeVals.width / 2;
-	    var yVals = [canvas.height / 8 - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (1 / 8) - animeVals.height / 2];
+	    var x = canvas.width * (3 / 4);
+	    var yVals = [canvas.height / 9, canvas.height * (2 / 9), canvas.height * (3 / 9), canvas.height * (4 / 9), canvas.height * (5 / 9), canvas.height * (6 / 9), canvas.height * (7 / 9), canvas.height * (7 / 9), canvas.height * (6 / 9), canvas.height * (5 / 9), canvas.height * (4 / 9), canvas.height * (3 / 9), canvas.height * (2 / 9), canvas.height / 9];
 	
-	    var rectangles = createRectangles(x, yVals, animeVals);
+	    var rectangles = createRectangles(x, yVals, animeVals, canvas.height / 10, canvas.height / 10);
 	
 	    var animeBanana = (0, _animejs2.default)({
 	      targets: rectangles,
@@ -1096,8 +1096,8 @@
 	  a: {
 	    numEls: 22,
 	    colors: ['#f4de70'],
-	    width: 40,
-	    height: 10,
+	    width: 100,
+	    height: 50,
 	    endWidth: 0,
 	    duration: 500,
 	    delay: 100,
@@ -1107,8 +1107,6 @@
 	  b: {
 	    numEls: 22,
 	    colors: ['#bcd6ff', '#a2c0ef', '#83a8e2', '#6d96d6', '#5382cc'],
-	    width: 100,
-	    height: 10,
 	    duration: 700,
 	    delay: 100,
 	    easing: 'easeInOutSine'
@@ -1125,7 +1123,6 @@
 	  d: {
 	    numEls: 1,
 	    colors: ['#76aa75'],
-	    width: 800,
 	    height: 800,
 	    duration: 300,
 	    easing: 'easeInOutSine'
@@ -1150,8 +1147,6 @@
 	  g: {
 	    numEls: 10,
 	    colors: ['#e8defc', '#e5d8ff', '#ccbee8', '#b3a5d1', '#9f91bf', '#8779a8', '#706291', '#584b77', '#4a3d68', '#3b2e59'],
-	    width: 10,
-	    height: 10,
 	    endWidth: 20,
 	    endHeight: 15,
 	    duration: 500,
@@ -1161,8 +1156,6 @@
 	  h: {
 	    numEls: 5,
 	    colors: ['#5f995e', '#76aa75', '#90c18f', '#a4d1a3', '#c8edc7'],
-	    width: 5,
-	    height: 5,
 	    endWidth: 22,
 	    endHeight: 15,
 	    duration: 500
@@ -1229,8 +1222,8 @@
 	
 	    this.x = x;
 	    this.y = y;
-	    this.width = width || animeVals.width;
-	    this.height = height || animeVals.height;
+	    this.width = width;
+	    this.height = height;
 	    this.color = color;
 	  }
 	
