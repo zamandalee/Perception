@@ -1,10 +1,12 @@
 // structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+// TODO add different fonts to word animations
 
 import anime from 'animejs';
 
 import { animeValues } from './animeValues.js';
 import Circle from './circle';
 import Rectangle from './rectangle';
+import Word from './word';
 
 const Animations = (canvas, ctx) => {
   const animations = [];
@@ -48,35 +50,51 @@ const Animations = (canvas, ctx) => {
 
 
   // –––––––––––– WORDS ––––––––––––
-  const createYes = function(options) {
+  const createWords = function(animeVals, width, height) {
     const words = [];
-    for (let i = 0; i < options.numWords; i++) {
+    for (let i = 0; i < 8; i++) {
       let x = anime.random(canvas.width * (1/4), canvas.width * (3/4));
       let y = anime.random(canvas.height * (1/4), canvas.height * (3/4));
-      const word = new Word(x, y, options);
+      const word = new Word(x, y, animeVals.colors[i], animeVals, width, height);
       words.push(word);
     }
     return words;
   };
 
-// –––––– perceive ––––––
-  const animateYes = function(options) {
+  // –––––– 加油 ––––––
+  const go = function(animeVals) {
     resizeCanvas();
-    const words = createYes(options);
-    const wordAnimation = anime({
+
+    const words = createWords(animeVals);
+    const animeGo = anime({
       targets: words,
-      font: function() {
-        let endFontIdx = Math.floor((Math.random()*options.endFont.length));
-        return options.endFont[endFontIdx];
-      },
-      x: function() { return anime.random(canvas.width * (1/7), canvas.width * (6/7)); },
-      y: function() { return anime.random(canvas.height * (1/7), canvas.height * (6/7)); },
-      delay: function (el, index) { return index * 100; },
-      duration: options.duration,
-      easing: 'easeOutExpo',
+      font: animeVals.font,
+      x: () => { return anime.random(canvas.width * (1 / 8), canvas.width * (7 / 8)); },
+      y: () => { return anime.random(canvas.height * (1 / 8), canvas.height * (7 / 8)); },
+      duration: animeVals.duration,
+      delay: (el, idx) => { return idx * 80; },
+      easing: animeVals.easing,
       complete: clearAnimation
     });
-    animations.push(wordAnimation);
+    animations.push(animeGo);
+  };
+
+  // –––––– perceive ––––––
+  const perceive = function(animeVals) {
+    resizeCanvas();
+
+    const words = createWords(animeVals);
+    const animePerceive = anime({
+      targets: words,
+      font: animeVals.font,
+      x: () => { return anime.random(canvas.width * (1 / 8), canvas.width * (7 / 8)); },
+      y: () => { return anime.random(canvas.height * (1 / 8), canvas.height * (7 / 8)); },
+      duration: animeVals.duration,
+      delay: (el, idx) => { return idx * 80; },
+      easing: animeVals.easing,
+      complete: clearAnimation
+    });
+    animations.push(animePerceive);
   };
 
 
@@ -167,45 +185,45 @@ const Animations = (canvas, ctx) => {
 
 // –––––– purple slide up ––––––
   const purpleSlideUp = (animeVals) => {
-  resizeCanvas();
+    resizeCanvas();
 
-  const x = 0;
-  const y = 0;
-  let width = canvas.width;
-  let height = canvas.height;
-  const rectangle = createRectangles(x, y, animeVals, width, height);
+    const x = 0;
+    const y = 0;
+    let width = canvas.width;
+    let height = canvas.height;
+    const rectangle = createRectangles(x, y, animeVals, width, height);
 
-  const animePurpleSlide = anime({
-    targets: rectangle,
-    height: animeVals.endHeight,
-    duration: animeVals.duration,
-    easing: animeVals.easing,
-    complete: clearAnimation,
-  });
+    const animePurpleSlide = anime({
+      targets: rectangle,
+      height: animeVals.endHeight,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation,
+    });
 
-  animations.push(animePurpleSlide);
-};
+    animations.push(animePurpleSlide);
+  };
 
 // –––––– red slide left ––––––
-    const redSlideLeft = (animeVals) => {
-      resizeCanvas();
+  const redSlideLeft = (animeVals) => {
+    resizeCanvas();
 
-      const x = 0;
-      const y = 0;
-      let width = canvas.width;
-      let height = canvas.height;
-      const rectangle = createRectangles(x, y, animeVals, width, height);
+    const x = 0;
+    const y = 0;
+    let width = canvas.width;
+    let height = canvas.height;
+    const rectangle = createRectangles(x, y, animeVals, width, height);
 
-      const animeRedSlide = anime({
-        targets: rectangle,
-        width: animeVals.endWidth,
-        duration: animeVals.duration,
-        easing: animeVals.easing,
-        complete: clearAnimation,
-      });
+    const animeRedSlide = anime({
+      targets: rectangle,
+      width: animeVals.endWidth,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation,
+    });
 
-      animations.push(animeRedSlide);
-    };
+    animations.push(animeRedSlide);
+  };
 
 // –––––– green flash ––––––
   const greenFlash = (animeVals) => {
@@ -260,7 +278,7 @@ const Animations = (canvas, ctx) => {
                     canvas.height * (4 / 7),
                     canvas.height * (5 / 7) ];
 
-    const rectangles = createRectangles(x, yVals, animeVals, canvas.width / 2, canvas.height / 10);
+    const rectangles = createRectangles(x, yVals, animeVals, canvas.width / 2, canvas.height / 12);
 
     const animeSqSlide = anime({
       targets: rectangles,
@@ -350,14 +368,14 @@ const Animations = (canvas, ctx) => {
         window.animationRunning = true;
         squareLineUp( animeValues['h'] );
       }
-      // else if (key === 'i' || key === 'r' ) {
-      //   window.animationRunning = true;
-      //   purpleSlideUp( animeValues['i'] );
-      // }
-      // else if (key === 'j' || key === 'q' ) {
-      //   window.animationRunning = true;
-      //   purpleSlideUp( animeValues['j'] );
-      // }
+      else if (key === 'i' || key === 'r' ) {
+        window.animationRunning = true;
+        perceive( animeValues['i'] );
+      }
+      else if (key === 'j' || key === 'q' ) {
+        window.animationRunning = true;
+        go( animeValues['j'] );
+      }
       // else if (key === 'k' || key === 'p' ) {
       //   window.animationRunning = true;
       //   purpleSlideUp( animeValues['k'] );

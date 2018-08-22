@@ -83,9 +83,11 @@
 	
 	var _rectangle2 = _interopRequireDefault(_rectangle);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _word = __webpack_require__(6);
 	
-	// structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+	var _word2 = _interopRequireDefault(_word);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Animations = function Animations(canvas, ctx) {
 	  var animations = [];
@@ -128,41 +130,63 @@
 	  };
 	
 	  // –––––––––––– WORDS ––––––––––––
-	  var createYes = function createYes(options) {
+	  var createWords = function createWords(animeVals, width, height) {
 	    var words = [];
-	    for (var i = 0; i < options.numWords; i++) {
+	    for (var i = 0; i < 8; i++) {
 	      var x = _animejs2.default.random(canvas.width * (1 / 4), canvas.width * (3 / 4));
 	      var y = _animejs2.default.random(canvas.height * (1 / 4), canvas.height * (3 / 4));
-	      var word = new Word(x, y, options);
+	      var word = new _word2.default(x, y, animeVals.colors[i], animeVals, width, height);
 	      words.push(word);
 	    }
 	    return words;
 	  };
 	
-	  // –––––– perceive ––––––
-	  var animateYes = function animateYes(options) {
+	  // –––––– 加油 ––––––
+	  var go = function go(animeVals) {
 	    resizeCanvas();
-	    var words = createYes(options);
-	    var wordAnimation = (0, _animejs2.default)({
+	
+	    var words = createWords(animeVals);
+	    var animeGo = (0, _animejs2.default)({
 	      targets: words,
-	      font: function font() {
-	        var endFontIdx = Math.floor(Math.random() * options.endFont.length);
-	        return options.endFont[endFontIdx];
-	      },
+	      font: animeVals.font,
 	      x: function x() {
-	        return _animejs2.default.random(canvas.width * (1 / 7), canvas.width * (6 / 7));
+	        return _animejs2.default.random(canvas.width * (1 / 8), canvas.width * (7 / 8));
 	      },
 	      y: function y() {
-	        return _animejs2.default.random(canvas.height * (1 / 7), canvas.height * (6 / 7));
+	        return _animejs2.default.random(canvas.height * (1 / 8), canvas.height * (7 / 8));
 	      },
-	      delay: function delay(el, index) {
-	        return index * 100;
+	      duration: animeVals.duration,
+	      delay: function delay(el, idx) {
+	        return idx * 80;
 	      },
-	      duration: options.duration,
-	      easing: 'easeOutExpo',
+	      easing: animeVals.easing,
 	      complete: clearAnimation
 	    });
-	    animations.push(wordAnimation);
+	    animations.push(animeGo);
+	  };
+	
+	  // –––––– perceive ––––––
+	  var perceive = function perceive(animeVals) {
+	    resizeCanvas();
+	
+	    var words = createWords(animeVals);
+	    var animePerceive = (0, _animejs2.default)({
+	      targets: words,
+	      font: animeVals.font,
+	      x: function x() {
+	        return _animejs2.default.random(canvas.width * (1 / 8), canvas.width * (7 / 8));
+	      },
+	      y: function y() {
+	        return _animejs2.default.random(canvas.height * (1 / 8), canvas.height * (7 / 8));
+	      },
+	      duration: animeVals.duration,
+	      delay: function delay(el, idx) {
+	        return idx * 80;
+	      },
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	    animations.push(animePerceive);
 	  };
 	
 	  // –––––––––––– RECTANGLES ––––––––––––
@@ -335,7 +359,7 @@
 	    var x = 0;
 	    var yVals = [canvas.height / 7, canvas.height * (2 / 7), canvas.height * (3 / 7), canvas.height * (4 / 7), canvas.height * (5 / 7)];
 	
-	    var rectangles = createRectangles(x, yVals, animeVals, canvas.width / 2, canvas.height / 10);
+	    var rectangles = createRectangles(x, yVals, animeVals, canvas.width / 2, canvas.height / 12);
 	
 	    var animeSqSlide = (0, _animejs2.default)({
 	      targets: rectangles,
@@ -409,15 +433,13 @@
 	    } else if (key === 'h' || key === 's') {
 	      window.animationRunning = true;
 	      squareLineUp(_animeValues.animeValues['h']);
+	    } else if (key === 'i' || key === 'r') {
+	      window.animationRunning = true;
+	      perceive(_animeValues.animeValues['i']);
+	    } else if (key === 'j' || key === 'q') {
+	      window.animationRunning = true;
+	      go(_animeValues.animeValues['j']);
 	    }
-	    // else if (key === 'i' || key === 'r' ) {
-	    //   window.animationRunning = true;
-	    //   purpleSlideUp( animeValues['i'] );
-	    // }
-	    // else if (key === 'j' || key === 'q' ) {
-	    //   window.animationRunning = true;
-	    //   purpleSlideUp( animeValues['j'] );
-	    // }
 	    // else if (key === 'k' || key === 'p' ) {
 	    //   window.animationRunning = true;
 	    //   purpleSlideUp( animeValues['k'] );
@@ -434,7 +456,8 @@
 	  }, false);
 	
 	  window.addEventListener('resize', resizeCanvas, false);
-	};
+	}; // structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+	// TODO add different fonts to word animations
 	
 	exports.default = Animations;
 
@@ -1155,6 +1178,22 @@
 	    numEls: 5,
 	    colors: ['#5f995e', '#76aa75', '#90c18f', '#a4d1a3', '#c8edc7'],
 	    duration: 500
+	  },
+	
+	  i: {
+	    colors: ['#9f91bf', '#584b77', '#6d96d6', '#bcd6ff', '#b7e5d8', '#76aa75', '#c8edc7', '#e8defc'],
+	    duration: 500,
+	    easing: 'easeInOutSine',
+	    text: 'perceive!',
+	    font: ['40px Roboto Condensed']
+	  },
+	
+	  j: {
+	    colors: ['#eaafaf', '#d5a6bdff', '#d87070', '#f9cb9cff', '#c14343', '#f4de70', '#f49842', '#db74bc'],
+	    duration: 500,
+	    easing: 'easeInOutSine',
+	    text: '加油!',
+	    font: ['60px Roboto Condensed']
 	  }
 	};
 
@@ -1235,6 +1274,45 @@
 	}();
 	
 	exports.default = Rectangle;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Word = function () {
+	  function Word(x, y, color, animeVals) {
+	    _classCallCheck(this, Word);
+	
+	    this.x = x;
+	    this.y = y;
+	    this.color = color;
+	    this.text = animeVals.text;
+	    this.font = animeVals.font;
+	  }
+	
+	  _createClass(Word, [{
+	    key: "draw",
+	    value: function draw(ctx) {
+	      ctx.fillStyle = this.color;
+	      ctx.font = this.font;
+	      ctx.fillText(this.text, this.x, this.y);
+	    }
+	  }]);
+	
+	  return Word;
+	}();
+	
+	exports.default = Word;
 
 /***/ })
 /******/ ]);

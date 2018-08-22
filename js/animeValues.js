@@ -61,5 +61,21 @@ export const animeValues = {
     numEls: 5,
     colors: ['#5f995e', '#76aa75', '#90c18f', '#a4d1a3', '#c8edc7' ],
     duration: 500,
+  },
+
+  i: {
+    colors: ['#9f91bf', '#584b77', '#6d96d6', '#bcd6ff', '#b7e5d8', '#76aa75', '#c8edc7', '#e8defc' ],
+    duration: 500,
+    easing: 'easeInOutSine',
+    text: 'perceive!',
+    font: ['40px Roboto Condensed']
+  },
+
+  j: {
+    colors: ['#eaafaf', '#d5a6bdff', '#d87070', '#f9cb9cff', '#c14343', '#f4de70', '#f49842', '#db74bc' ],
+    duration: 500,
+    easing: 'easeInOutSine',
+    text: '加油!',
+    font: ['60px Roboto Condensed']
   }
 };
