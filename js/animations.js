@@ -48,9 +48,63 @@ const Animations = (canvas, ctx) => {
     canvas.height = window.innerHeight;
   };
 
+// –––––––––––– CIRCLES ––––––––––––
+  const createCircles = (xVals, yVals, animeVals, radius) => {
+    const circles = [];
 
-  // –––––––––––– WORDS ––––––––––––
-  const createWords = function(animeVals, width, height) {
+    for ( let i = 0; i < animeVals.numEls; i++ ) {
+      const color = animeVals.colors[i];
+      circles.push(new Circle( xVals, yVals, color, animeVals, radius ));
+    }
+
+    return circles;
+  };
+
+// –––––– fireworks ––––––
+  const fireworks = (animeVals) => {
+    resizeCanvas();
+
+    const x = Math.random() * (canvas.width * (7 / 9));
+    const y = Math.random() * (canvas.height * (7 / 9));
+    const circles = createCircles(x, y, animeVals, canvas.width / 25);
+
+    const animeFireworks = anime({
+      targets: circles,
+      x: cir => { return cir.x + anime.random(-(canvas.width), canvas.width); },
+      y: cir => { return cir.y + anime.random(-(canvas.width), canvas.width); },
+      radius: canvas.width / 55,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation,
+    });
+
+    animations.push(animeFireworks);
+  };
+
+
+// –––––– blobs ––––––
+  const blobs = (animeVals) => {
+    resizeCanvas();
+
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const circles = createCircles(x, y, animeVals, canvas.width / 14);
+
+    const animeBlobs = anime({
+      targets: circles,
+      x: () => { return anime.random(canvas.width * (1 / 8), canvas.width * (7 / 8)); },
+      y: () => { return anime.random(canvas.height * (1 / 8), canvas.height * (7 / 8)); },
+      duration: animeVals.duration,
+      // delay: (el, idx) => { return idx * 80; },
+      easing: animeVals.easing,
+      complete: clearAnimation
+    });
+    animations.push(animeBlobs);
+  };
+
+
+// –––––––––––– WORDS ––––––––––––
+  const createWords = (animeVals, width, height) => {
     const words = [];
     for (let i = 0; i < 8; i++) {
       let x = anime.random(canvas.width * (1/4), canvas.width * (3/4));
@@ -61,8 +115,8 @@ const Animations = (canvas, ctx) => {
     return words;
   };
 
-  // –––––– 加油 ––––––
-  const go = function(animeVals) {
+// –––––– 加油 ––––––
+  const go = (animeVals) => {
     resizeCanvas();
 
     const words = createWords(animeVals);
@@ -79,8 +133,8 @@ const Animations = (canvas, ctx) => {
     animations.push(animeGo);
   };
 
-  // –––––– perceive ––––––
-  const perceive = function(animeVals) {
+// –––––– perceive ––––––
+  const perceive = (animeVals) => {
     resizeCanvas();
 
     const words = createWords(animeVals);
@@ -98,27 +152,25 @@ const Animations = (canvas, ctx) => {
   };
 
 
-  // –––––––––––– RECTANGLES ––––––––––––
-  const createRectangles = (xVals, yVals, animeVals, width, height) => {
+// –––––––––––– RECTANGLES ––––––––––––
+  const createRectangles = (xVals, yVals, animeVals, w, h) => {
     const rectangles = [];
 
     for ( let i = 0; i < animeVals.numEls; i++ ) {
+      const color = animeVals.colors[i];
 
       // one of xVals or yVals could be an array, or neither could be
       if ( yVals.length ) {
-        console.log("in yvals.length true");
-        let y = yVals[i];
-        rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals, width, height ));
-      } else {
+        const y = yVals[i];
+        rectangles.push(new Rectangle( xVals, y, color, animeVals, w, h ));
+      }
+      else {
         if ( xVals.length ) {
-          console.log("in xvals.length true");
-
-          let x = xVals[i];
-          rectangles.push(new Rectangle( x, yVals, animeVals.colors[i], animeVals, width, height ));
-        } else {
-          console.log("in xvals.length false");
-
-          rectangles.push(new Rectangle( xVals, yVals, animeVals.colors[i], animeVals, width, height ));
+          const x = xVals[i];
+          rectangles.push(new Rectangle( x, yVals, color, animeVals, w, h ));
+        }
+        else {
+          rectangles.push(new Rectangle( xVals, yVals, color, animeVals, w, h ));
         }
       }
     }
@@ -327,7 +379,7 @@ const Animations = (canvas, ctx) => {
   };
 
 
-  // assign animations to keyboard keys
+// assign animations to keyboard keys
   document.addEventListener( 'keydown', (event) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -376,14 +428,14 @@ const Animations = (canvas, ctx) => {
         window.animationRunning = true;
         go( animeValues['j'] );
       }
-      // else if (key === 'k' || key === 'p' ) {
-      //   window.animationRunning = true;
-      //   purpleSlideUp( animeValues['k'] );
-      // }
-      // else if (key === 'l' || key === 'o' ) {
-      //   window.animationRunning = true;
-      //   purpleSlideUp( animeValues['l'] );
-      // }
+      else if (key === 'k' || key === 'p' ) {
+        window.animationRunning = true;
+        blobs( animeValues['k'] );
+      }
+      else if (key === 'l' || key === 'o' ) {
+        window.animationRunning = true;
+        fireworks( animeValues['l'] );
+      }
       // else if (key === 'm' || key === 'n' ) {
       //   window.animationRunning = true;
       //   purpleSlideUp( animeValues['m'] );

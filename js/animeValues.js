@@ -72,10 +72,25 @@ export const animeValues = {
   },
 
   j: {
-    colors: ['#eaafaf', '#d5a6bdff', '#d87070', '#f9cb9cff', '#c14343', '#f4de70', '#f49842', '#db74bc' ],
+    colors: ['#3a7765', '#d5a6bdff', '#d87070', '#f9cb9cff', '#c14343', '#f4de70', '#f49842', '#db74bc' ],
     duration: 500,
     easing: 'easeInOutSine',
     text: '加油!',
     font: ['60px Roboto Condensed']
+  },
+
+  k: {
+    numEls: 10,
+    colors: ['#eaafaf', '#d88c8c', '#d87070', '#d65e5e', '#f49842', '#aa2f2f', '#eaafaf', '#f49842', '#f9cb9cff' ],
+    duration: 500,
+    easing: 'easeInOutSine'
+  },
+
+  l: {
+    numEls: 20,
+    colors: ['#d9fcf2', '#f4de70', '#9cd1c2', '#eeed9eff', '#d5a6bdff', '#54917f', '#3a7765', '#54917f', '#9cd1c2',
+              '#eeed9eff', '#b7e5d8', '#d5a6bdff', '#80baa9', '#63a08e', '#f4de70', '#3a7765', '#54917f', '#9cd1c2'],
+    duration: 500,
+    easing: 'easeInOutSine'
   }
 };

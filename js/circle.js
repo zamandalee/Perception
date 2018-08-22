@@ -1,13 +1,12 @@
 class Circle {
-  constructor(x, y, color, animeVals) {
+  constructor(x, y, color, animeVals, radius) {
     this.x = x;
     this.y = y;
     this.color = color;
-    this.radius = animeVals.radius;
+    this.radius = radius;
   }
 
   draw(ctx) {
-    console.log("draw circle");
     ctx.beginPath();
     ctx.fillStyle = this.color;
     ctx.arc( this.x, this.y, this.radius, 0, 2 * Math.PI, true );

@@ -129,6 +129,67 @@
 	    canvas.height = window.innerHeight;
 	  };
 	
+	  // –––––––––––– CIRCLES ––––––––––––
+	  var createCircles = function createCircles(xVals, yVals, animeVals, radius) {
+	    var circles = [];
+	
+	    for (var i = 0; i < animeVals.numEls; i++) {
+	      var color = animeVals.colors[i];
+	      circles.push(new _circle2.default(xVals, yVals, color, animeVals, radius));
+	    }
+	
+	    return circles;
+	  };
+	
+	  // –––––– fireworks ––––––
+	  var fireworks = function fireworks(animeVals) {
+	    resizeCanvas();
+	
+	    var x = Math.random() * (canvas.width * (7 / 9));
+	    var y = Math.random() * (canvas.height * (7 / 9));
+	    var circles = createCircles(x, y, animeVals, canvas.width / 25);
+	
+	    var animeFireworks = (0, _animejs2.default)({
+	      targets: circles,
+	      x: function x(cir) {
+	        return cir.x + _animejs2.default.random(-canvas.width, canvas.width);
+	      },
+	      y: function y(cir) {
+	        return cir.y + _animejs2.default.random(-canvas.width, canvas.width);
+	      },
+	      radius: canvas.width / 55,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeFireworks);
+	  };
+	
+	  // –––––– blobs ––––––
+	  var blobs = function blobs(animeVals) {
+	    resizeCanvas();
+	
+	    var x = Math.random() * canvas.width;
+	    var y = Math.random() * canvas.height;
+	    var circles = createCircles(x, y, animeVals, canvas.width / 14);
+	
+	    var animeBlobs = (0, _animejs2.default)({
+	      targets: circles,
+	      x: function x() {
+	        return _animejs2.default.random(canvas.width * (1 / 8), canvas.width * (7 / 8));
+	      },
+	      y: function y() {
+	        return _animejs2.default.random(canvas.height * (1 / 8), canvas.height * (7 / 8));
+	      },
+	      duration: animeVals.duration,
+	      // delay: (el, idx) => { return idx * 80; },
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	    animations.push(animeBlobs);
+	  };
+	
 	  // –––––––––––– WORDS ––––––––––––
 	  var createWords = function createWords(animeVals, width, height) {
 	    var words = [];
@@ -190,26 +251,22 @@
 	  };
 	
 	  // –––––––––––– RECTANGLES ––––––––––––
-	  var createRectangles = function createRectangles(xVals, yVals, animeVals, width, height) {
+	  var createRectangles = function createRectangles(xVals, yVals, animeVals, w, h) {
 	    var rectangles = [];
 	
 	    for (var i = 0; i < animeVals.numEls; i++) {
+	      var color = animeVals.colors[i];
 	
 	      // one of xVals or yVals could be an array, or neither could be
 	      if (yVals.length) {
-	        console.log("in yvals.length true");
 	        var y = yVals[i];
-	        rectangles.push(new _rectangle2.default(xVals, y, animeVals.colors[i], animeVals, width, height));
+	        rectangles.push(new _rectangle2.default(xVals, y, color, animeVals, w, h));
 	      } else {
 	        if (xVals.length) {
-	          console.log("in xvals.length true");
-	
 	          var x = xVals[i];
-	          rectangles.push(new _rectangle2.default(x, yVals, animeVals.colors[i], animeVals, width, height));
+	          rectangles.push(new _rectangle2.default(x, yVals, color, animeVals, w, h));
 	        } else {
-	          console.log("in xvals.length false");
-	
-	          rectangles.push(new _rectangle2.default(xVals, yVals, animeVals.colors[i], animeVals, width, height));
+	          rectangles.push(new _rectangle2.default(xVals, yVals, color, animeVals, w, h));
 	        }
 	      }
 	    }
@@ -439,15 +496,13 @@
 	    } else if (key === 'j' || key === 'q') {
 	      window.animationRunning = true;
 	      go(_animeValues.animeValues['j']);
+	    } else if (key === 'k' || key === 'p') {
+	      window.animationRunning = true;
+	      blobs(_animeValues.animeValues['k']);
+	    } else if (key === 'l' || key === 'o') {
+	      window.animationRunning = true;
+	      fireworks(_animeValues.animeValues['l']);
 	    }
-	    // else if (key === 'k' || key === 'p' ) {
-	    //   window.animationRunning = true;
-	    //   purpleSlideUp( animeValues['k'] );
-	    // }
-	    // else if (key === 'l' || key === 'o' ) {
-	    //   window.animationRunning = true;
-	    //   purpleSlideUp( animeValues['l'] );
-	    // }
 	    // else if (key === 'm' || key === 'n' ) {
 	    //   window.animationRunning = true;
 	    //   purpleSlideUp( animeValues['m'] );
@@ -1189,11 +1244,25 @@
 	  },
 	
 	  j: {
-	    colors: ['#eaafaf', '#d5a6bdff', '#d87070', '#f9cb9cff', '#c14343', '#f4de70', '#f49842', '#db74bc'],
+	    colors: ['#3a7765', '#d5a6bdff', '#d87070', '#f9cb9cff', '#c14343', '#f4de70', '#f49842', '#db74bc'],
 	    duration: 500,
 	    easing: 'easeInOutSine',
 	    text: '加油!',
 	    font: ['60px Roboto Condensed']
+	  },
+	
+	  k: {
+	    numEls: 10,
+	    colors: ['#eaafaf', '#d88c8c', '#d87070', '#d65e5e', '#f49842', '#aa2f2f', '#eaafaf', '#f49842', '#f9cb9cff'],
+	    duration: 500,
+	    easing: 'easeInOutSine'
+	  },
+	
+	  l: {
+	    numEls: 20,
+	    colors: ['#d9fcf2', '#f4de70', '#9cd1c2', '#eeed9eff', '#d5a6bdff', '#54917f', '#3a7765', '#54917f', '#9cd1c2', '#eeed9eff', '#b7e5d8', '#d5a6bdff', '#80baa9', '#63a08e', '#f4de70', '#3a7765', '#54917f', '#9cd1c2'],
+	    duration: 500,
+	    easing: 'easeInOutSine'
 	  }
 	};
 
@@ -1212,19 +1281,18 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Circle = function () {
-	  function Circle(x, y, color, animeVals) {
+	  function Circle(x, y, color, animeVals, radius) {
 	    _classCallCheck(this, Circle);
 	
 	    this.x = x;
 	    this.y = y;
 	    this.color = color;
-	    this.radius = animeVals.radius;
+	    this.radius = radius;
 	  }
 	
 	  _createClass(Circle, [{
 	    key: "draw",
 	    value: function draw(ctx) {
-	      console.log("draw circle");
 	      ctx.beginPath();
 	      ctx.fillStyle = this.color;
 	      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);

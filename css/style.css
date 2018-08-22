@@ -217,7 +217,13 @@
  .dark-green { background: #5f995e; }
  .darker-green { background: #4b894a; }
 
- .light-teal { background: #b7e5d8; }
+ .lightest-teal { background: #d9fcf2; }
+ .lighter-teal { background: #b7e5d8; }
+ .light-teal { background: #9cd1c2; }
+ .mid-teal { background: #80baa9; }
+ .dark-teal { background: #63a08e; }
+ .darker-teal { background: #54917f; }
+ .darkest-teal { background: #3a7765; }
 
  .light-blue { background: #bcd6ff; }
  .mid-blue { background: #a2c0ef; }
