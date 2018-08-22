@@ -10,8 +10,8 @@ export const MATCH = 'MATCH';
 export const NOT_MATCH = 'NOT_MATCH';
 
 export const handleState = (state) => {
-  const matchScore = 0;
-  const matchText = "not a match :(";
+  let matchScore = 0;
+  let matchText = '';
 
   switch ( state.currentState ) {
     case ZERO_KEYPRESSES:
@@ -28,16 +28,25 @@ export const handleState = (state) => {
       animationHandler.dispatchAnimation(state);
 
       // matching logic
-      state.currentState = state.firstKey === state.key ? MATCH : NOT_MATCH;
+      console.log("FIRSTKEY", state.firstKey);
+      console.log(ANIMATIONS[state.firstKey](state));
+      console.log("KEY", state.key);
+      console.log(ANIMATIONS[state.key](state));
+
+      state.currentState = ANIMATIONS[state.firstKey](state) === ANIMATIONS[state.key](state) ? MATCH : NOT_MATCH;
 
       if ( state.currentState === MATCH ) {
+        matchText = "you've found a match 🎉";
+
         matchScore++;
-        matchText = "you've found a match!";
+        const htmlScore = document.getElementById('current-score');
+        htmlScore.innerHTML = matchScore;
       }
       else {
-        
+        matchText = 'not a match ☹️';
       }
-
+      const htmlMessage = document.getElementById('match-text');
+      htmlMessage.innerHTML = matchText;
   }
 };
 

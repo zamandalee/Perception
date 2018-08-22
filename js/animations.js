@@ -3,12 +3,12 @@
 
 import anime from 'animejs';
 
-import { animeValues } from './animeValues.js';
+import { animeValues } from './animeValues';
 import Circle from './circle';
 import Rectangle from './rectangle';
 import Word from './word';
 
-import { handleState, ZERO_KEYPRESSES, ONE_KEYPRESS } from './game.js';
+import { handleState, ZERO_KEYPRESSES, ONE_KEYPRESS } from './game';
 
 class Animations {
 
@@ -26,7 +26,7 @@ class Animations {
       duration: Infinity,
       update: () => {
         state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
-        // console.log("state in infinite anim", state);
+
         state.animations.forEach((anim) => {
           anim.animatables.forEach( (animatable) => {
             animatable.target.draw(state.ctx);
@@ -370,7 +370,6 @@ class Animations {
 // –––––– square slide ––––––
   static squareSlide(state, animeVals) {
     this.resizeCanvas(state);
-    console.log("squareslide");
 
     const x = 0;
     const yVals = [ (state.canvas.height / 7),
@@ -394,7 +393,6 @@ class Animations {
 
 // –––––– banana peel ––––––
   static bananaPeel(state, animeVals) {
-    console.log("state", state);
     this.resizeCanvas(state);
 
     const x = ( state.canvas.width * (3 / 4) );
@@ -425,11 +423,7 @@ class Animations {
       complete: this.clearAnimation(state),
     });
 
-    console.log(animeBanana);
-    console.log("prepush", state.animations);
-
     state.animations.push(animeBanana);
-    console.log("postpush", state.animations);
   }
 
 

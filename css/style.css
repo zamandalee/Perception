@@ -75,14 +75,13 @@
    align-items: center;
  }
 
- h1, h2 {
+ h1, h2, h3 {
    font-weight: 300;
-   margin-top: 7px;
  }
 
  h1 {
    font-size: 35px;
-   margin-bottom: 7px;
+   margin: 7px 0;
  }
 
  .title-instructions {
@@ -122,13 +121,21 @@
  .personal-prof img {
    height: 38px;
    width: 38px;
-   margin-top: 40px;
+   margin-top: 35px;
    margin-left: 20px;
-   opacity: 0.75;
+   opacity: 0.7;
+ }
+
+ h3 {
+   font-size: 22px;
+   font-weight: 400;
+   margin-top: 40px;
+   /* color: #3968b2; */
+   color: #d12323;
  }
 
  #canvas {
-   margin-top: 35px;
+   margin-top: -15px;
    width: 100%;
    height: 100%;
    border: 1px solid gray;

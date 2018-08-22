@@ -90,7 +90,7 @@
 	
 	var _word2 = _interopRequireDefault(_word);
 	
-	var _game = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./game.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _game = __webpack_require__(7);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -115,7 +115,7 @@
 	        duration: Infinity,
 	        update: function update() {
 	          state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
-	          // console.log("state in infinite anim", state);
+	
 	          state.animations.forEach(function (anim) {
 	            anim.animatables.forEach(function (animatable) {
 	              animatable.target.draw(state.ctx);
@@ -541,7 +541,6 @@
 	    key: 'squareSlide',
 	    value: function squareSlide(state, animeVals) {
 	      this.resizeCanvas(state);
-	      console.log("squareslide");
 	
 	      var x = 0;
 	      var yVals = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
@@ -566,7 +565,6 @@
 	  }, {
 	    key: 'bananaPeel',
 	    value: function bananaPeel(state, animeVals) {
-	      console.log("state", state);
 	      this.resizeCanvas(state);
 	
 	      var x = state.canvas.width * (3 / 4);
@@ -588,11 +586,7 @@
 	        complete: this.clearAnimation(state)
 	      });
 	
-	      console.log(animeBanana);
-	      console.log("prepush", state.animations);
-	
 	      state.animations.push(animeBanana);
-	      console.log("postpush", state.animations);
 	    }
 	  }]);
 	
@@ -1472,6 +1466,175 @@
 	}();
 	
 	exports.default = Word;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.handleState = exports.NOT_MATCH = exports.MATCH = exports.ONE_KEYPRESS = exports.ZERO_KEYPRESSES = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // FINITE STATE MACHINE!
+	// TODO window.animationRunning into state
+	
+	var _animations = __webpack_require__(1);
+	
+	var _animations2 = _interopRequireDefault(_animations);
+	
+	var _animeValues = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ZERO_KEYPRESSES = exports.ZERO_KEYPRESSES = 'ZERO_KEYPRESSES';
+	var ONE_KEYPRESS = exports.ONE_KEYPRESS = 'ONE_KEYPRESS';
+	var MATCH = exports.MATCH = 'MATCH';
+	var NOT_MATCH = exports.NOT_MATCH = 'NOT_MATCH';
+	
+	var handleState = exports.handleState = function handleState(state) {
+	  var matchScore = 0;
+	  var matchText = '';
+	
+	  switch (state.currentState) {
+	    case ZERO_KEYPRESSES:
+	      // if( !window.animationRunning ) {
+	      state.currentState = ONE_KEYPRESS;
+	      state.firstKey = state.key;
+	      animationHandler.dispatchAnimation(state);
+	      state.key = null;
+	      // }
+	      break;
+	
+	    case ONE_KEYPRESS:
+	      state.currentState = ZERO_KEYPRESSES;
+	      animationHandler.dispatchAnimation(state);
+	
+	      // matching logic
+	      console.log("FIRSTKEY", state.firstKey);
+	      console.log(ANIMATIONS[state.firstKey](state));
+	      console.log("KEY", state.key);
+	      console.log(ANIMATIONS[state.key](state));
+	
+	      state.currentState = ANIMATIONS[state.firstKey](state) === ANIMATIONS[state.key](state) ? MATCH : NOT_MATCH;
+	
+	      if (state.currentState === MATCH) {
+	        matchText = "you've found a match 🎉";
+	
+	        matchScore++;
+	        var htmlScore = document.getElementById('current-score');
+	        htmlScore.innerHTML = matchScore;
+	      } else {
+	        matchText = 'not a match ☹️';
+	      }
+	      var htmlMessage = document.getElementById('match-text');
+	      htmlMessage.innerHTML = matchText;
+	  }
+	};
+	
+	var ANIMATIONS = {
+	  a: function a(state) {
+	    return _animations2.default.bananaPeel(state, _animeValues.animeValues['a']);
+	  },
+	  z: function z(state) {
+	    return _animations2.default.bananaPeel(state, _animeValues.animeValues['a']);
+	  },
+	  b: function b(state) {
+	    return _animations2.default.squareSlide(state, _animeValues.animeValues['b']);
+	  },
+	  y: function y(state) {
+	    return _animations2.default.squareSlide(state, _animeValues.animeValues['b']);
+	  },
+	  c: function c(state) {
+	    return _animations2.default.squarePanels(state, _animeValues.animeValues['c']);
+	  },
+	  x: function x(state) {
+	    return _animations2.default.squarePanels(state, _animeValues.animeValues['c']);
+	  },
+	  d: function d(state) {
+	    return _animations2.default.purpleFireworks(state, _animeValues.animeValues['d']);
+	  },
+	  w: function w(state) {
+	    return _animations2.default.purpleFireworks(state, _animeValues.animeValues['d']);
+	  },
+	  e: function e(state) {
+	    return _animations2.default.redSlideLeft(state, _animeValues.animeValues['e']);
+	  },
+	  v: function v(state) {
+	    return _animations2.default.redSlideLeft(state, _animeValues.animeValues['e']);
+	  },
+	  f: function f(state) {
+	    return _animations2.default.purpleSlideUp(state, _animeValues.animeValues['f']);
+	  },
+	  u: function u(state) {
+	    return _animations2.default.purpleSlideUp(state, _animeValues.animeValues['f']);
+	  },
+	  g: function g(state) {
+	    return _animations2.default.squareLineRight(state, _animeValues.animeValues['g']);
+	  },
+	  t: function t(state) {
+	    return _animations2.default.squareLineRight(state, _animeValues.animeValues['g']);
+	  },
+	  h: function h(state) {
+	    return _animations2.default.squareLineUp(state, _animeValues.animeValues['h']);
+	  },
+	  s: function s(state) {
+	    return _animations2.default.squareLineUp(state, _animeValues.animeValues['h']);
+	  },
+	  i: function i(state) {
+	    return _animations2.default.perceive(state, _animeValues.animeValues['i']);
+	  },
+	  r: function r(state) {
+	    return _animations2.default.perceive(state, _animeValues.animeValues['i']);
+	  },
+	  j: function j(state) {
+	    return _animations2.default.go(state, _animeValues.animeValues['j']);
+	  },
+	  q: function q(state) {
+	    return _animations2.default.go(state, _animeValues.animeValues['j']);
+	  },
+	  k: function k(state) {
+	    return _animations2.default.blobs(state, _animeValues.animeValues['k']);
+	  },
+	  p: function p(state) {
+	    return _animations2.default.blobs(state, _animeValues.animeValues['k']);
+	  },
+	  l: function l(state) {
+	    return _animations2.default.tealFireworks(state, _animeValues.animeValues['l']);
+	  },
+	  o: function o(state) {
+	    return _animations2.default.tealFireworks(state, _animeValues.animeValues['l']);
+	  },
+	  m: function m(state) {
+	    return _animations2.default.balloon(state, _animeValues.animeValues['m']);
+	  },
+	  n: function n(state) {
+	    return _animations2.default.balloon(state, _animeValues.animeValues['m']);
+	  }
+	};
+	
+	var animationHandler = function () {
+	  function animationHandler() {
+	    _classCallCheck(this, animationHandler);
+	  }
+	
+	  _createClass(animationHandler, null, [{
+	    key: 'dispatchAnimation',
+	    value: function dispatchAnimation(state) {
+	
+	      if (ANIMATIONS[state.key]) {
+	        // window.animationRunning = true;
+	        ANIMATIONS[state.key](state);
+	      }
+	    }
+	  }]);
+
+	  return animationHandler;
+	}();
 
 /***/ })
 /******/ ]);
