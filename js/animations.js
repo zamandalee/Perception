@@ -60,8 +60,28 @@ const Animations = (canvas, ctx) => {
     return circles;
   };
 
+
+// –––––– balloon ––––––
+  const balloon = (animeVals) => {
+    resizeCanvas();
+
+    const x = canvas.width / 2;
+    const y = canvas.height / 2;
+    const circle = createCircles(x, y, animeVals, canvas.width * (3 / 2));
+
+    const animeBallon = anime({
+      targets: circle,
+      radius: 0,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation,
+    });
+
+    animations.push(animeBallon);
+  };
+
 // –––––– fireworks ––––––
-  const fireworks = (animeVals) => {
+  const purpleFireworks = (animeVals) => {
     resizeCanvas();
 
     const x = Math.random() * (canvas.width * (7 / 9));
@@ -81,6 +101,26 @@ const Animations = (canvas, ctx) => {
     animations.push(animeFireworks);
   };
 
+// –––––– fireworks ––––––
+  const tealFireworks = (animeVals) => {
+    resizeCanvas();
+
+    const x = Math.random() * (canvas.width * (7 / 9));
+    const y = Math.random() * (canvas.height * (7 / 9));
+    const circles = createCircles(x, y, animeVals, canvas.width / 25);
+
+    const animeFireworks = anime({
+      targets: circles,
+      x: cir => { return cir.x + anime.random(-(canvas.width), canvas.width); },
+      y: cir => { return cir.y + anime.random(-(canvas.width), canvas.width); },
+      radius: canvas.width / 55,
+      duration: animeVals.duration,
+      easing: animeVals.easing,
+      complete: clearAnimation,
+    });
+
+    animations.push(animeFireworks);
+  };
 
 // –––––– blobs ––––––
   const blobs = (animeVals) => {
@@ -95,7 +135,6 @@ const Animations = (canvas, ctx) => {
       x: () => { return anime.random(canvas.width * (1 / 8), canvas.width * (7 / 8)); },
       y: () => { return anime.random(canvas.height * (1 / 8), canvas.height * (7 / 8)); },
       duration: animeVals.duration,
-      // delay: (el, idx) => { return idx * 80; },
       easing: animeVals.easing,
       complete: clearAnimation
     });
@@ -402,7 +441,7 @@ const Animations = (canvas, ctx) => {
       }
       else if (key === 'd' || key === 'w' ) {
         window.animationRunning = true;
-        greenFlash( animeValues['d'] );
+        purpleFireworks( animeValues['d'] );
       }
       else if (key === 'e' || key === 'v' ) {
         window.animationRunning = true;
@@ -434,12 +473,12 @@ const Animations = (canvas, ctx) => {
       }
       else if (key === 'l' || key === 'o' ) {
         window.animationRunning = true;
-        fireworks( animeValues['l'] );
+        tealFireworks( animeValues['l'] );
       }
-      // else if (key === 'm' || key === 'n' ) {
-      //   window.animationRunning = true;
-      //   purpleSlideUp( animeValues['m'] );
-      // }
+      else if (key === 'm' || key === 'n' ) {
+        window.animationRunning = true;
+        balloon( animeValues['m'] );
+      }
     // }
   }, false);
 

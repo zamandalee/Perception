@@ -141,8 +141,52 @@
 	    return circles;
 	  };
 	
+	  // –––––– balloon ––––––
+	  var balloon = function balloon(animeVals) {
+	    resizeCanvas();
+	
+	    var x = canvas.width / 2;
+	    var y = canvas.height / 2;
+	    var circle = createCircles(x, y, animeVals, canvas.width * (3 / 2));
+	
+	    var animeBallon = (0, _animejs2.default)({
+	      targets: circle,
+	      radius: 0,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeBallon);
+	  };
+	
 	  // –––––– fireworks ––––––
-	  var fireworks = function fireworks(animeVals) {
+	  var purpleFireworks = function purpleFireworks(animeVals) {
+	    resizeCanvas();
+	
+	    var x = Math.random() * (canvas.width * (7 / 9));
+	    var y = Math.random() * (canvas.height * (7 / 9));
+	    var circles = createCircles(x, y, animeVals, canvas.width / 25);
+	
+	    var animeFireworks = (0, _animejs2.default)({
+	      targets: circles,
+	      x: function x(cir) {
+	        return cir.x + _animejs2.default.random(-canvas.width, canvas.width);
+	      },
+	      y: function y(cir) {
+	        return cir.y + _animejs2.default.random(-canvas.width, canvas.width);
+	      },
+	      radius: canvas.width / 55,
+	      duration: animeVals.duration,
+	      easing: animeVals.easing,
+	      complete: clearAnimation
+	    });
+	
+	    animations.push(animeFireworks);
+	  };
+	
+	  // –––––– fireworks ––––––
+	  var tealFireworks = function tealFireworks(animeVals) {
 	    resizeCanvas();
 	
 	    var x = Math.random() * (canvas.width * (7 / 9));
@@ -183,7 +227,6 @@
 	        return _animejs2.default.random(canvas.height * (1 / 8), canvas.height * (7 / 8));
 	      },
 	      duration: animeVals.duration,
-	      // delay: (el, idx) => { return idx * 80; },
 	      easing: animeVals.easing,
 	      complete: clearAnimation
 	    });
@@ -477,7 +520,7 @@
 	      squarePanels(_animeValues.animeValues['c']);
 	    } else if (key === 'd' || key === 'w') {
 	      window.animationRunning = true;
-	      greenFlash(_animeValues.animeValues['d']);
+	      purpleFireworks(_animeValues.animeValues['d']);
 	    } else if (key === 'e' || key === 'v') {
 	      window.animationRunning = true;
 	      redSlideLeft(_animeValues.animeValues['e']);
@@ -501,12 +544,11 @@
 	      blobs(_animeValues.animeValues['k']);
 	    } else if (key === 'l' || key === 'o') {
 	      window.animationRunning = true;
-	      fireworks(_animeValues.animeValues['l']);
+	      tealFireworks(_animeValues.animeValues['l']);
+	    } else if (key === 'm' || key === 'n') {
+	      window.animationRunning = true;
+	      balloon(_animeValues.animeValues['m']);
 	    }
-	    // else if (key === 'm' || key === 'n' ) {
-	    //   window.animationRunning = true;
-	    //   purpleSlideUp( animeValues['m'] );
-	    // }
 	    // }
 	  }, false);
 	
@@ -1199,10 +1241,9 @@
 	  },
 	
 	  d: {
-	    numEls: 1,
-	    colors: ['#76aa75'],
-	    height: 800,
-	    duration: 300,
+	    numEls: 20,
+	    colors: ['#e8defc', '#e5d8ff', '#ccbee8', '#b3a5d1', '#9f91bf', '#9f91bf', '#706291', '#d87070', '#4a3d68', '#3b2e59', '#2e2249', '#ccbee8', '#9f91bf', '#d87070', '#8779a8', '#ccbee8', '#584b77', '#d88c8c'],
+	    duration: 500,
 	    easing: 'easeInOutSine'
 	  },
 	
@@ -1261,6 +1302,13 @@
 	  l: {
 	    numEls: 20,
 	    colors: ['#d9fcf2', '#f4de70', '#9cd1c2', '#eeed9eff', '#d5a6bdff', '#54917f', '#3a7765', '#54917f', '#9cd1c2', '#eeed9eff', '#b7e5d8', '#d5a6bdff', '#80baa9', '#63a08e', '#f4de70', '#3a7765', '#54917f', '#9cd1c2'],
+	    duration: 500,
+	    easing: 'easeInOutSine'
+	  },
+	
+	  m: {
+	    numEls: 1,
+	    colors: ['#489e62'],
 	    duration: 500,
 	    easing: 'easeInOutSine'
 	  }
