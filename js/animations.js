@@ -112,19 +112,19 @@ const Animations = (canvas, ctx) => {
   const squareLineUp = (animeVals) => {
   resizeCanvas();
 
-    const x = canvas.width * (9 / 10);
+    const x = canvas.width * (8 / 10);
     const yArr = [ canvas.height / 7,
-                  canvas.height * (2 / 7),
-                  canvas.height * (3 / 7),
-                  canvas.height * (4 / 7),
-                  canvas.height * (5 / 7) ];
-      const squares = createRectangles(x, yArr, animeVals);
+                   canvas.height * (2 / 7),
+                   canvas.height * (3 / 7),
+                   canvas.height * (4 / 7),
+                   canvas.height * (5 / 7) ];
+      const squares = createRectangles(x, yArr, animeVals, canvas.height / 8, canvas.height / 8);
 
       const animeSquareLineUp = anime({
         targets: squares,
-        x: () => { return canvas.width * (1/10); },
-        width: animeVals.endWidth,
-        height: animeVals.endHeight,
+        x: () => { return canvas.width / 10; },
+        width: canvas.height / 15,
+        height: canvas.height / 15,
         duration: animeVals.duration,
         delay: (el, idx) => { return idx * 80; },
         easing: 'easeOutExpo',
@@ -138,24 +138,24 @@ const Animations = (canvas, ctx) => {
   const squareLineRight = (animeVals) => {
   resizeCanvas();
 
-  const x = canvas.width / 10;
-  const yVals = [ canvas.height / 11 - (animeVals.width / 2),
-                canvas.height * (2 / 11) - (animeVals.width / 2),
-                canvas.height * (3 / 11) - (animeVals.width / 2),
-                canvas.height * (4 / 11) - (animeVals.width / 2),
-                canvas.height * (5 / 11) - (animeVals.width / 2),
-                canvas.height * (6 / 11) - (animeVals.width / 2),
-                canvas.height * (7 / 11) - (animeVals.width / 2),
-                canvas.height * (8 / 11) - (animeVals.width / 2),
-                canvas.height * (9 / 11) - (animeVals.width / 2),
-                canvas.height * (10 / 11) - (animeVals.width / 2) ];
-  const squares = createRectangles(x, yVals, animeVals);
+  const x = canvas.width / 11;
+  const yVals = [ canvas.height / 12,
+                  canvas.height * (2 / 12),
+                  canvas.height * (3 / 12),
+                  canvas.height * (4 / 12),
+                  canvas.height * (5 / 12),
+                  canvas.height * (6 / 12),
+                  canvas.height * (7 / 12),
+                  canvas.height * (8 / 12),
+                  canvas.height * (9 / 12),
+                  canvas.height * (10 / 12) ];
+  const squares = createRectangles(x, yVals, animeVals, canvas.height / 20, canvas.height / 20);
 
   const animeSquareLine = anime({
     targets: squares,
-    x: () => { return canvas.width * (9/10); },
-    width: animeVals.endWidth,
-    height: animeVals.endHeight,
+    x: () => { return canvas.width * (8 / 10); },
+    width: canvas.height / 8,
+    height: canvas.height / 8,
     duration: animeVals.duration,
     delay: (el, idx) => { return idx * 80; },
     easing: animeVals.easing,
@@ -232,7 +232,7 @@ const Animations = (canvas, ctx) => {
 
     const xVals = [ 0, canvas.width / 5, canvas.width * (2 / 5),
                     canvas.width * (3 / 5), canvas.width * (4 / 5) ];
-    const y = canvas.height / 4;
+    const y = canvas.height * (3 / 8);
 
     const squares = createRectangles(xVals, y, animeVals, (canvas.width / 5), (canvas.width / 5));
 

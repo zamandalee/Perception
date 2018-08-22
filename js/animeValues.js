@@ -53,8 +53,6 @@ export const animeValues = {
   g: {
     numEls: 10,
     colors: [ '#e8defc', '#e5d8ff', '#ccbee8', '#b3a5d1', '#9f91bf', '#8779a8', '#706291', '#584b77', '#4a3d68', '#3b2e59' ],
-    endWidth: 20,
-    endHeight: 15,
     duration: 500,
     easing: 'easeInOutSine'
   },
@@ -62,8 +60,6 @@ export const animeValues = {
   h: {
     numEls: 5,
     colors: ['#5f995e', '#76aa75', '#90c18f', '#a4d1a3', '#c8edc7' ],
-    endWidth: 22,
-    endHeight: 15,
     duration: 500,
   }
 };

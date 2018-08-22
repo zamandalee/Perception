@@ -197,17 +197,17 @@
 	  var squareLineUp = function squareLineUp(animeVals) {
 	    resizeCanvas();
 	
-	    var x = canvas.width * (9 / 10);
+	    var x = canvas.width * (8 / 10);
 	    var yArr = [canvas.height / 7, canvas.height * (2 / 7), canvas.height * (3 / 7), canvas.height * (4 / 7), canvas.height * (5 / 7)];
-	    var squares = createRectangles(x, yArr, animeVals);
+	    var squares = createRectangles(x, yArr, animeVals, canvas.height / 8, canvas.height / 8);
 	
 	    var animeSquareLineUp = (0, _animejs2.default)({
 	      targets: squares,
 	      x: function x() {
-	        return canvas.width * (1 / 10);
+	        return canvas.width / 10;
 	      },
-	      width: animeVals.endWidth,
-	      height: animeVals.endHeight,
+	      width: canvas.height / 15,
+	      height: canvas.height / 15,
 	      duration: animeVals.duration,
 	      delay: function delay(el, idx) {
 	        return idx * 80;
@@ -223,17 +223,17 @@
 	  var squareLineRight = function squareLineRight(animeVals) {
 	    resizeCanvas();
 	
-	    var x = canvas.width / 10;
-	    var yVals = [canvas.height / 11 - animeVals.width / 2, canvas.height * (2 / 11) - animeVals.width / 2, canvas.height * (3 / 11) - animeVals.width / 2, canvas.height * (4 / 11) - animeVals.width / 2, canvas.height * (5 / 11) - animeVals.width / 2, canvas.height * (6 / 11) - animeVals.width / 2, canvas.height * (7 / 11) - animeVals.width / 2, canvas.height * (8 / 11) - animeVals.width / 2, canvas.height * (9 / 11) - animeVals.width / 2, canvas.height * (10 / 11) - animeVals.width / 2];
-	    var squares = createRectangles(x, yVals, animeVals);
+	    var x = canvas.width / 11;
+	    var yVals = [canvas.height / 12, canvas.height * (2 / 12), canvas.height * (3 / 12), canvas.height * (4 / 12), canvas.height * (5 / 12), canvas.height * (6 / 12), canvas.height * (7 / 12), canvas.height * (8 / 12), canvas.height * (9 / 12), canvas.height * (10 / 12)];
+	    var squares = createRectangles(x, yVals, animeVals, canvas.height / 20, canvas.height / 20);
 	
 	    var animeSquareLine = (0, _animejs2.default)({
 	      targets: squares,
 	      x: function x() {
-	        return canvas.width * (9 / 10);
+	        return canvas.width * (8 / 10);
 	      },
-	      width: animeVals.endWidth,
-	      height: animeVals.endHeight,
+	      width: canvas.height / 8,
+	      height: canvas.height / 8,
 	      duration: animeVals.duration,
 	      delay: function delay(el, idx) {
 	        return idx * 80;
@@ -311,7 +311,7 @@
 	    resizeCanvas();
 	
 	    var xVals = [0, canvas.width / 5, canvas.width * (2 / 5), canvas.width * (3 / 5), canvas.width * (4 / 5)];
-	    var y = canvas.height / 4;
+	    var y = canvas.height * (3 / 8);
 	
 	    var squares = createRectangles(xVals, y, animeVals, canvas.width / 5, canvas.width / 5);
 	
@@ -1147,8 +1147,6 @@
 	  g: {
 	    numEls: 10,
 	    colors: ['#e8defc', '#e5d8ff', '#ccbee8', '#b3a5d1', '#9f91bf', '#8779a8', '#706291', '#584b77', '#4a3d68', '#3b2e59'],
-	    endWidth: 20,
-	    endHeight: 15,
 	    duration: 500,
 	    easing: 'easeInOutSine'
 	  },
@@ -1156,8 +1154,6 @@
 	  h: {
 	    numEls: 5,
 	    colors: ['#5f995e', '#76aa75', '#90c18f', '#a4d1a3', '#c8edc7'],
-	    endWidth: 22,
-	    endHeight: 15,
 	    duration: 500
 	  }
 	};
