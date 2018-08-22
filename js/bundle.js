@@ -141,7 +141,7 @@
 	
 	  // –––––– perceive ––––––
 	  var animateYes = function animateYes(options) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	    var words = createYes(options);
 	    var wordAnimation = (0, _animejs2.default)({
 	      targets: words,
@@ -160,7 +160,7 @@
 	      },
 	      duration: options.duration,
 	      easing: 'easeOutExpo',
-	      complete: removeAnimation
+	      complete: clearAnimation
 	    });
 	    animations.push(wordAnimation);
 	  };
@@ -168,8 +168,6 @@
 	  // –––––––––––– RECTANGLES ––––––––––––
 	  var createRectangles = function createRectangles(xVals, yVals, animeVals, width, height) {
 	    var rectangles = [];
-	    console.log("xvals.length", xVals.length);
-	    console.log("yvals.length", yVals.length);
 	
 	    for (var i = 0; i < animeVals.numEls; i++) {
 	
@@ -177,13 +175,13 @@
 	      if (yVals.length) {
 	        console.log("in yvals.length true");
 	        var y = yVals[i];
-	        rectangles.push(new _rectangle2.default(xVals, y, animeVals.colors[i], animeVals));
+	        rectangles.push(new _rectangle2.default(xVals, y, animeVals.colors[i], animeVals, width, height));
 	      } else {
 	        if (xVals.length) {
 	          console.log("in xvals.length true");
 	
 	          var x = xVals[i];
-	          rectangles.push(new _rectangle2.default(x, yVals, animeVals.colors[i], animeVals));
+	          rectangles.push(new _rectangle2.default(x, yVals, animeVals.colors[i], animeVals, width, height));
 	        } else {
 	          console.log("in xvals.length false");
 	
@@ -197,7 +195,7 @@
 	
 	  // –––––– square line up ––––––
 	  var squareLineUp = function squareLineUp(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	
 	    var x = canvas.width * (9 / 10);
 	    var yArr = [canvas.height / 7, canvas.height * (2 / 7), canvas.height * (3 / 7), canvas.height * (4 / 7), canvas.height * (5 / 7)];
@@ -223,7 +221,7 @@
 	
 	  // –––––– square line right ––––––
 	  var squareLineRight = function squareLineRight(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	
 	    var x = canvas.width / 10;
 	    var yVals = [canvas.height / 11 - animeVals.width / 2, canvas.height * (2 / 11) - animeVals.width / 2, canvas.height * (3 / 11) - animeVals.width / 2, canvas.height * (4 / 11) - animeVals.width / 2, canvas.height * (5 / 11) - animeVals.width / 2, canvas.height * (6 / 11) - animeVals.width / 2, canvas.height * (7 / 11) - animeVals.width / 2, canvas.height * (8 / 11) - animeVals.width / 2, canvas.height * (9 / 11) - animeVals.width / 2, canvas.height * (10 / 11) - animeVals.width / 2];
@@ -249,7 +247,7 @@
 	
 	  // –––––– purple slide up ––––––
 	  var purpleSlideUp = function purpleSlideUp(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	
 	    var x = 0;
 	    var y = 0;
@@ -270,7 +268,7 @@
 	
 	  // –––––– red slide left ––––––
 	  var redSlideLeft = function redSlideLeft(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	
 	    var x = 0;
 	    var y = 0;
@@ -291,11 +289,11 @@
 	
 	  // –––––– green flash ––––––
 	  var greenFlash = function greenFlash(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	    var x = 0;
 	    var y = 0;
-	    var width = animeVals.width;
-	    var height = animeVals.height;
+	    var width = canvas.width;
+	    var height = canvas.height;
 	    var rectangle = createRectangles(x, y, animeVals, width, height);
 	
 	    var animeGreenFlash = (0, _animejs2.default)({
@@ -310,12 +308,12 @@
 	
 	  // –––––– square panels ––––––
 	  var squarePanels = function squarePanels(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	
 	    var xVals = [0, canvas.width / 5, canvas.width * (2 / 5), canvas.width * (3 / 5), canvas.width * (4 / 5)];
 	    var y = canvas.height / 4;
 	
-	    var squares = createRectangles(xVals, y, animeVals);
+	    var squares = createRectangles(xVals, y, animeVals, canvas.width / 5, canvas.width / 5);
 	
 	    var animeSqPanels = (0, _animejs2.default)({
 	      targets: squares,
@@ -331,7 +329,7 @@
 	
 	  // –––––– square slide ––––––
 	  var squareSlide = function squareSlide(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	    console.log("squareslide");
 	
 	    var x = 0;
@@ -354,7 +352,7 @@
 	
 	  // –––––– banana peel ––––––
 	  var bananaPeel = function bananaPeel(animeVals) {
-	    // resizeCanvas();
+	    resizeCanvas();
 	
 	    var x = canvas.width * (3 / 4) - animeVals.width / 2;
 	    var yVals = [canvas.height / 8 - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (7 / 8) - animeVals.height / 2, canvas.height * (6 / 8) - animeVals.height / 2, canvas.height * (5 / 8) - animeVals.height / 2, canvas.height * (4 / 8) - animeVals.height / 2, canvas.height * (3 / 8) - animeVals.height / 2, canvas.height * (2 / 8) - animeVals.height / 2, canvas.height * (1 / 8) - animeVals.height / 2];
@@ -1119,8 +1117,6 @@
 	  c: {
 	    numEls: 5,
 	    colors: ['#b3a5d1', '#b7e5d8', '#f9cb9cff', '#eeed9eff', '#d5a6bdff'],
-	    width: 70,
-	    height: 50,
 	    endWidth: 0,
 	    duration: 700,
 	    easing: 'easeInOutSine'
@@ -1233,8 +1229,8 @@
 	
 	    this.x = x;
 	    this.y = y;
-	    this.width = animeVals.width || width;
-	    this.height = animeVals.height || height;
+	    this.width = width || animeVals.width;
+	    this.height = height || animeVals.height;
 	    this.color = color;
 	  }
 	

@@ -23,8 +23,6 @@ export const animeValues = {
   c: {
     numEls: 5,
     colors: [ '#b3a5d1', '#b7e5d8', '#f9cb9cff', '#eeed9eff', '#d5a6bdff' ],
-    width: 70,
-    height: 50,
     endWidth: 0,
     duration: 700,
     easing: 'easeInOutSine'

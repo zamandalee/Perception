@@ -2,8 +2,8 @@ class Rectangle {
   constructor(x, y, color, animeVals, width, height) {
     this.x = x;
     this.y = y;
-    this.width = animeVals.width || width;
-    this.height = animeVals.height || height;
+    this.width = width || animeVals.width;
+    this.height = height || animeVals.height;
     this.color = color;
   }
 

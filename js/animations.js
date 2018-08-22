@@ -61,7 +61,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– perceive ––––––
   const animateYes = function(options) {
-    // resizeCanvas();
+    resizeCanvas();
     const words = createYes(options);
     const wordAnimation = anime({
       targets: words,
@@ -74,7 +74,7 @@ const Animations = (canvas, ctx) => {
       delay: function (el, index) { return index * 100; },
       duration: options.duration,
       easing: 'easeOutExpo',
-      complete: removeAnimation
+      complete: clearAnimation
     });
     animations.push(wordAnimation);
   };
@@ -83,8 +83,6 @@ const Animations = (canvas, ctx) => {
   // –––––––––––– RECTANGLES ––––––––––––
   const createRectangles = (xVals, yVals, animeVals, width, height) => {
     const rectangles = [];
-    console.log("xvals.length", xVals.length);
-    console.log("yvals.length", yVals.length);
 
     for ( let i = 0; i < animeVals.numEls; i++ ) {
 
@@ -92,13 +90,13 @@ const Animations = (canvas, ctx) => {
       if ( yVals.length ) {
         console.log("in yvals.length true");
         let y = yVals[i];
-        rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals ));
+        rectangles.push(new Rectangle( xVals, y, animeVals.colors[i], animeVals, width, height ));
       } else {
         if ( xVals.length ) {
           console.log("in xvals.length true");
 
           let x = xVals[i];
-          rectangles.push(new Rectangle( x, yVals, animeVals.colors[i], animeVals ));
+          rectangles.push(new Rectangle( x, yVals, animeVals.colors[i], animeVals, width, height ));
         } else {
           console.log("in xvals.length false");
 
@@ -112,7 +110,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– square line up ––––––
   const squareLineUp = (animeVals) => {
-  // resizeCanvas();
+  resizeCanvas();
 
     const x = canvas.width * (9 / 10);
     const yArr = [ canvas.height / 7,
@@ -138,7 +136,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– square line right ––––––
   const squareLineRight = (animeVals) => {
-  // resizeCanvas();
+  resizeCanvas();
 
   const x = canvas.width / 10;
   const yVals = [ canvas.height / 11 - (animeVals.width / 2),
@@ -169,7 +167,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– purple slide up ––––––
   const purpleSlideUp = (animeVals) => {
-  // resizeCanvas();
+  resizeCanvas();
 
   const x = 0;
   const y = 0;
@@ -190,7 +188,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– red slide left ––––––
     const redSlideLeft = (animeVals) => {
-      // resizeCanvas();
+      resizeCanvas();
 
       const x = 0;
       const y = 0;
@@ -211,11 +209,11 @@ const Animations = (canvas, ctx) => {
 
 // –––––– green flash ––––––
   const greenFlash = (animeVals) => {
-    // resizeCanvas();
+    resizeCanvas();
     const x = 0;
     const y = 0;
-    let width = animeVals.width;
-    let height = animeVals.height;
+    let width = canvas.width;
+    let height = canvas.height;
     const rectangle = createRectangles(x, y, animeVals, width, height);
 
     const animeGreenFlash = anime({
@@ -230,13 +228,13 @@ const Animations = (canvas, ctx) => {
 
 // –––––– square panels ––––––
   const squarePanels = (animeVals) => {
-    // resizeCanvas();
+    resizeCanvas();
 
     const xVals = [ 0, canvas.width / 5, canvas.width * (2 / 5),
                     canvas.width * (3 / 5), canvas.width * (4 / 5) ];
     const y = canvas.height / 4;
 
-    const squares = createRectangles(xVals, y, animeVals);
+    const squares = createRectangles(xVals, y, animeVals, (canvas.width / 5), (canvas.width / 5));
 
     const animeSqPanels = anime({
       targets: squares,
@@ -252,7 +250,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– square slide ––––––
   const squareSlide = (animeVals) => {
-    // resizeCanvas();
+    resizeCanvas();
     console.log("squareslide");
 
     const x = 0;
@@ -277,7 +275,7 @@ const Animations = (canvas, ctx) => {
 
 // –––––– banana peel ––––––
   const bananaPeel = (animeVals) => {
-    // resizeCanvas();
+    resizeCanvas();
 
     const x = ( canvas.width * (3 / 4) ) - ( animeVals.width / 2 );
     const yVals = [ (canvas.height / 8) - (animeVals.height / 2),
