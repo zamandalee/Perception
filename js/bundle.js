@@ -100,25 +100,25 @@
 	  function Animations(canvas, ctx) {
 	    _classCallCheck(this, Animations);
 	
-	    this.canvas = canvas;
-	    this.ctx = ctx;
-	    this.state = { key: null, currentState: _game.ZERO_KEYPRESSES, animationRunning: false, animations: [] };
+	    this.state = { key: null, currentState: _game.ZERO_KEYPRESSES,
+	      animationRunning: false, animations: [],
+	      canvas: canvas, ctx: ctx };
 	
-	    this.infiniteAnimation();
+	    this.infiniteAnimation(this.state);
+	    this.keydownListener(this.state);
 	  }
 	
 	  _createClass(Animations, [{
 	    key: 'infiniteAnimation',
-	    value: function infiniteAnimation() {
-	      var _this = this;
-	
+	    value: function infiniteAnimation(state) {
 	      (0, _animejs2.default)({
 	        duration: Infinity,
 	        update: function update() {
-	          _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
-	          _this.state.animations.forEach(function (anim) {
+	          state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+	          // console.log("state in infinite anim", state);
+	          state.animations.forEach(function (anim) {
 	            anim.animatables.forEach(function (animatable) {
-	              animatable.target.draw(_this.ctx);
+	              animatable.target.draw(state.ctx);
 	            });
 	          });
 	          // if ( this.state.animations.length > 0 ) {
@@ -133,26 +133,39 @@
 	    // below method from https://github.com/iamsammak/soundspace
 	
 	  }, {
-	    key: 'clearAnimation',
-	    value: function clearAnimation(anim) {
-	      if (this.state.animations.includes(anim)) {
-	        var idx = this.state.animations.indexOf(anim);
-	        this.state.animations.splice(idx, 1);
+	    key: 'keydownListener',
 	
-	        // if there are no this.state.animations in the array, set to false
-	        // if( this.state.animations.length === 0 ) {
-	        //   window.animationRunning = false;
-	        // }
-	      }
+	
+	    // assign state.animations to keyboard keys
+	    value: function keydownListener(state) {
+	      document.addEventListener('keydown', function (event) {
+	        state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+	
+	        //e is object!! https://developer.mozilla.org/en-US/docs/Web/Events/keydown
+	        state.key = event.key.toLowerCase();
+	        (0, _game.handleState)(state); //finite state machine handles
+	      }, false);
+	
+	      window.addEventListener('resize', Animations.resizeCanvas(state), false);
+	    }
+	  }], [{
+	    key: 'clearAnimation',
+	    value: function clearAnimation(state) {
+	      state.animations = [];
+	
+	      // if there are no this.state.animations in the array, set to false
+	      // if( this.state.animations.length === 0 ) {
+	      //   window.animationRunning = false;
+	      // }
 	    }
 	
 	    // stackoverflow.com/questions/1664785/resize-html5-this.canvas-to-fit-window
 	
 	  }, {
 	    key: 'resizeCanvas',
-	    value: function resizeCanvas() {
-	      this.canvas.width = window.innerWidth;
-	      this.canvas.height = window.innerHeight;
+	    value: function resizeCanvas(state) {
+	      state.canvas.width = window.innerWidth;
+	      state.canvas.height = window.innerHeight;
 	    }
 	
 	    // –––––––––––– CIRCLES ––––––––––––
@@ -173,25 +186,180 @@
 	    // –––––– balloon ––––––
 	
 	  }, {
-	    key: 'createWords',
+	    key: 'balloon',
+	    value: function balloon(state, animeVals) {
+	      this.resizeCanvas(state);
 	
+	      var x = state.canvas.width / 2;
+	      var y = state.canvas.height / 2;
+	      var circle = this.createCircles(x, y, animeVals, state.canvas.width * (3 / 2));
+	
+	      var animeBalloon = (0, _animejs2.default)({
+	        targets: circle,
+	        radius: 0,
+	        duration: animeVals.duration,
+	        easing: animeVals.easing,
+	        complete: this.clearAnimation(state)
+	      });
+	
+	      state.animations.push(animeBalloon);
+	    }
+	
+	    // –––––– fireworks ––––––
+	
+	  }, {
+	    key: 'purpleFireworks',
+	    value: function purpleFireworks(state, animeVals) {
+	      this.resizeCanvas(state);
+	
+	      var x = Math.random() * (state.canvas.width * (7 / 9));
+	      var y = Math.random() * (state.canvas.height * (7 / 9));
+	      var circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
+	
+	      var animeFireworks = (0, _animejs2.default)({
+	        targets: circles,
+	        x: function x(cir) {
+	          return cir.x + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	        },
+	        y: function y(cir) {
+	          return cir.y + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	        },
+	        radius: state.canvas.width / 55,
+	        duration: animeVals.duration,
+	        easing: animeVals.easing,
+	        complete: this.clearAnimation(state)
+	      });
+	
+	      state.animations.push(animeFireworks);
+	    }
+	
+	    // –––––– fireworks ––––––
+	
+	  }, {
+	    key: 'tealFireworks',
+	    value: function tealFireworks(state, animeVals) {
+	      this.resizeCanvas(state);
+	
+	      var x = Math.random() * (state.canvas.width * (7 / 9));
+	      var y = Math.random() * (state.canvas.height * (7 / 9));
+	      var circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
+	
+	      var animeFireworks = (0, _animejs2.default)({
+	        targets: circles,
+	        x: function x(cir) {
+	          return cir.x + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	        },
+	        y: function y(cir) {
+	          return cir.y + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	        },
+	        radius: state.canvas.width / 55,
+	        duration: animeVals.duration,
+	        easing: animeVals.easing,
+	        complete: this.clearAnimation(state)
+	      });
+	
+	      state.animations.push(animeFireworks);
+	    }
+	
+	    // –––––– blobs ––––––
+	
+	  }, {
+	    key: 'blobs',
+	    value: function blobs(state, animeVals) {
+	      this.resizeCanvas(state);
+	
+	      var x = Math.random() * state.canvas.width;
+	      var y = Math.random() * state.canvas.height;
+	      var circles = this.createCircles(x, y, animeVals, state.canvas.width / 14);
+	
+	      var animeBlobs = (0, _animejs2.default)({
+	        targets: circles,
+	        x: function x() {
+	          return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
+	        },
+	        y: function y() {
+	          return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
+	        },
+	        duration: animeVals.duration,
+	        easing: animeVals.easing,
+	        complete: this.clearAnimation(state)
+	      });
+	      state.animations.push(animeBlobs);
+	    }
 	
 	    // –––––––––––– WORDS ––––––––––––
-	    value: function createWords(animeVals, width, height) {
+	
+	  }, {
+	    key: 'createWords',
+	    value: function createWords(state, animeVals) {
 	      var words = [];
 	      for (var i = 0; i < 8; i++) {
-	        var x = _animejs2.default.random(this.canvas.width * (1 / 4), this.canvas.width * (3 / 4));
-	        var y = _animejs2.default.random(this.canvas.height * (1 / 4), this.canvas.height * (3 / 4));
-	        var word = new _word2.default(x, y, animeVals.colors[i], animeVals, width, height);
+	        var x = _animejs2.default.random(state.canvas.width * (1 / 4), state.canvas.width * (3 / 4));
+	        var y = _animejs2.default.random(state.canvas.height * (1 / 4), state.canvas.height * (3 / 4));
+	        var word = new _word2.default(x, y, animeVals.colors[i], animeVals);
 	        words.push(word);
 	      }
 	      return words;
 	    }
-	  }, {
-	    key: 'createRectangles',
 	
+	    // –––––– 加油 ––––––
+	
+	  }, {
+	    key: 'go',
+	    value: function go(state, animeVals) {
+	      this.resizeCanvas(state);
+	
+	      var words = this.createWords(state, animeVals);
+	      var animeGo = (0, _animejs2.default)({
+	        targets: words,
+	        font: animeVals.font,
+	        x: function x() {
+	          return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
+	        },
+	        y: function y() {
+	          return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
+	        },
+	        duration: animeVals.duration,
+	        delay: function delay(el, idx) {
+	          return idx * 80;
+	        },
+	        easing: animeVals.easing,
+	        complete: this.clearAnimation(state)
+	      });
+	      state.animations.push(animeGo);
+	    }
+	
+	    // –––––– perceive ––––––
+	
+	  }, {
+	    key: 'perceive',
+	    value: function perceive(state, animeVals) {
+	      this.resizeCanvas(state);
+	
+	      var words = this.createWords(state, animeVals);
+	      var animePerceive = (0, _animejs2.default)({
+	        targets: words,
+	        font: animeVals.font,
+	        x: function x() {
+	          return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
+	        },
+	        y: function y() {
+	          return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
+	        },
+	        duration: animeVals.duration,
+	        delay: function delay(el, idx) {
+	          return idx * 80;
+	        },
+	        easing: animeVals.easing,
+	        complete: this.clearAnimation(state)
+	      });
+	      state.animations.push(animePerceive);
+	    }
 	
 	    // –––––––––––– RECTANGLES ––––––––––––
+	
+	  }, {
+	    key: 'createRectangles',
 	    value: function createRectangles(xVals, yVals, animeVals, w, h) {
 	      var rectangles = [];
 	
@@ -214,333 +382,146 @@
 	
 	      return rectangles;
 	    }
-	  }, {
-	    key: 'keydownListener',
-	
-	
-	    // assign this.state.animations to keyboard keys
-	    value: function keydownListener() {
-	      var _this2 = this;
-	
-	      document.addEventListener('keydown', function (event) {
-	        _this2.ctx.clearRect(0, 0, _this2.canvas.width, _this2.canvas.height);
-	
-	        //e is object!! https://developer.mozilla.org/en-US/docs/Web/Events/keydown
-	        state.key = event.key.toLowerCase();
-	        (0, _game.handleState)(state); //finite state machine handles
-	      }, false);
-	
-	      window.addEventListener('resize', this.resizeCanvas, false);
-	    }
-	  }], [{
-	    key: 'balloon',
-	    value: function balloon(state, animeVals) {
-	      this.resizeCanvas();
-	
-	      var x = this.canvas.width / 2;
-	      var y = this.canvas.height / 2;
-	      var circle = createCircles(x, y, animeVals, this.canvas.width * (3 / 2));
-	
-	      var animeBallon = (0, _animejs2.default)({
-	        targets: circle,
-	        radius: 0,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: clearAnimation
-	      });
-	
-	      this.state.animations.push(animeBallon);
-	    }
-	  }, {
-	    key: 'purpleFireworks',
-	
-	
-	    // –––––– fireworks ––––––
-	    value: function purpleFireworks(animeVals) {
-	      var _this3 = this;
-	
-	      this.resizeCanvas();
-	
-	      var x = Math.random() * (this.canvas.width * (7 / 9));
-	      var y = Math.random() * (this.canvas.height * (7 / 9));
-	      var circles = createCircles(x, y, animeVals, this.canvas.width / 25);
-	
-	      var animeFireworks = (0, _animejs2.default)({
-	        targets: circles,
-	        x: function x(cir) {
-	          return cir.x + _animejs2.default.random(-_this3.canvas.width, _this3.canvas.width);
-	        },
-	        y: function y(cir) {
-	          return cir.y + _animejs2.default.random(-_this3.canvas.width, _this3.canvas.width);
-	        },
-	        radius: this.canvas.width / 55,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: clearAnimation
-	      });
-	
-	      this.state.animations.push(animeFireworks);
-	    }
-	  }, {
-	    key: 'tealFireworks',
-	
-	
-	    // –––––– fireworks ––––––
-	    value: function tealFireworks(animeVals) {
-	      var _this4 = this;
-	
-	      this.resizeCanvas();
-	
-	      var x = Math.random() * (this.canvas.width * (7 / 9));
-	      var y = Math.random() * (this.canvas.height * (7 / 9));
-	      var circles = createCircles(x, y, animeVals, this.canvas.width / 25);
-	
-	      var animeFireworks = (0, _animejs2.default)({
-	        targets: circles,
-	        x: function x(cir) {
-	          return cir.x + _animejs2.default.random(-_this4.canvas.width, _this4.canvas.width);
-	        },
-	        y: function y(cir) {
-	          return cir.y + _animejs2.default.random(-_this4.canvas.width, _this4.canvas.width);
-	        },
-	        radius: this.canvas.width / 55,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: clearAnimation
-	      });
-	
-	      this.state.animations.push(animeFireworks);
-	    }
-	  }, {
-	    key: 'blobs',
-	
-	
-	    // –––––– blobs ––––––
-	    value: function blobs(animeVals) {
-	      var _this5 = this;
-	
-	      this.resizeCanvas();
-	
-	      var x = Math.random() * this.canvas.width;
-	      var y = Math.random() * this.canvas.height;
-	      var circles = createCircles(x, y, animeVals, this.canvas.width / 14);
-	
-	      var animeBlobs = (0, _animejs2.default)({
-	        targets: circles,
-	        x: function x() {
-	          return _animejs2.default.random(_this5.canvas.width * (1 / 8), _this5.canvas.width * (7 / 8));
-	        },
-	        y: function y() {
-	          return _animejs2.default.random(_this5.canvas.height * (1 / 8), _this5.canvas.height * (7 / 8));
-	        },
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: clearAnimation
-	      });
-	      this.state.animations.push(animeBlobs);
-	    }
-	  }, {
-	    key: 'go',
-	
-	
-	    // –––––– 加油 ––––––
-	    value: function go(animeVals) {
-	      var _this6 = this;
-	
-	      this.resizeCanvas();
-	
-	      var words = createWords(animeVals);
-	      var animeGo = (0, _animejs2.default)({
-	        targets: words,
-	        font: animeVals.font,
-	        x: function x() {
-	          return _animejs2.default.random(_this6.canvas.width * (1 / 8), _this6.canvas.width * (7 / 8));
-	        },
-	        y: function y() {
-	          return _animejs2.default.random(_this6.canvas.height * (1 / 8), _this6.canvas.height * (7 / 8));
-	        },
-	        duration: animeVals.duration,
-	        delay: function delay(el, idx) {
-	          return idx * 80;
-	        },
-	        easing: animeVals.easing,
-	        complete: clearAnimation
-	      });
-	      this.state.animations.push(animeGo);
-	    }
-	  }, {
-	    key: 'perceive',
-	
-	
-	    // –––––– perceive ––––––
-	    value: function perceive(animeVals) {
-	      var _this7 = this;
-	
-	      this.resizeCanvas();
-	
-	      var words = createWords(animeVals);
-	      var animePerceive = (0, _animejs2.default)({
-	        targets: words,
-	        font: animeVals.font,
-	        x: function x() {
-	          return _animejs2.default.random(_this7.canvas.width * (1 / 8), _this7.canvas.width * (7 / 8));
-	        },
-	        y: function y() {
-	          return _animejs2.default.random(_this7.canvas.height * (1 / 8), _this7.canvas.height * (7 / 8));
-	        },
-	        duration: animeVals.duration,
-	        delay: function delay(el, idx) {
-	          return idx * 80;
-	        },
-	        easing: animeVals.easing,
-	        complete: clearAnimation
-	      });
-	      this.state.animations.push(animePerceive);
-	    }
-	  }, {
-	    key: 'squareLineUp',
-	
 	
 	    // –––––– square line up ––––––
-	    value: function squareLineUp(animeVals) {
-	      var _this8 = this;
 	
-	      this.resizeCanvas();
+	  }, {
+	    key: 'squareLineUp',
+	    value: function squareLineUp(state, animeVals) {
+	      this.resizeCanvas(state);
 	
-	      var x = this.canvas.width * (8 / 10);
-	      var yArr = [this.canvas.height / 7, this.canvas.height * (2 / 7), this.canvas.height * (3 / 7), this.canvas.height * (4 / 7), this.canvas.height * (5 / 7)];
-	      var squares = createRectangles(x, yArr, animeVals, this.canvas.height / 8, this.canvas.height / 8);
+	      var x = state.canvas.width * (8 / 10);
+	      var yArr = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
+	      var squares = this.createRectangles(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
 	
 	      var animeSquareLineUp = (0, _animejs2.default)({
 	        targets: squares,
 	        x: function x() {
-	          return _this8.canvas.width / 10;
+	          return state.canvas.width / 10;
 	        },
-	        width: this.canvas.height / 15,
-	        height: this.canvas.height / 15,
+	        width: state.canvas.height / 15,
+	        height: state.canvas.height / 15,
 	        duration: animeVals.duration,
 	        delay: function delay(el, idx) {
 	          return idx * 80;
 	        },
 	        easing: 'easeOutExpo',
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeSquareLineUp);
+	      state.animations.push(animeSquareLineUp);
 	    }
-	  }, {
-	    key: 'squareLineRight',
-	
 	
 	    // –––––– square line right ––––––
-	    value: function squareLineRight(animeVals) {
-	      var _this9 = this;
 	
-	      this.resizeCanvas();
+	  }, {
+	    key: 'squareLineRight',
+	    value: function squareLineRight(state, animeVals) {
+	      this.resizeCanvas(state);
 	
-	      var x = this.canvas.width / 11;
-	      var yVals = [this.canvas.height / 12, this.canvas.height * (2 / 12), this.canvas.height * (3 / 12), this.canvas.height * (4 / 12), this.canvas.height * (5 / 12), this.canvas.height * (6 / 12), this.canvas.height * (7 / 12), this.canvas.height * (8 / 12), this.canvas.height * (9 / 12), this.canvas.height * (10 / 12)];
-	      var squares = createRectangles(x, yVals, animeVals, this.canvas.height / 20, this.canvas.height / 20);
+	      var x = state.canvas.width / 11;
+	      var yVals = [state.canvas.height / 12, state.canvas.height * (2 / 12), state.canvas.height * (3 / 12), state.canvas.height * (4 / 12), state.canvas.height * (5 / 12), state.canvas.height * (6 / 12), state.canvas.height * (7 / 12), state.canvas.height * (8 / 12), state.canvas.height * (9 / 12), state.canvas.height * (10 / 12)];
+	      var squares = this.createRectangles(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
 	
 	      var animeSquareLine = (0, _animejs2.default)({
 	        targets: squares,
 	        x: function x() {
-	          return _this9.canvas.width * (8 / 10);
+	          return state.canvas.width * (8 / 10);
 	        },
-	        width: this.canvas.height / 8,
-	        height: this.canvas.height / 8,
+	        width: state.canvas.height / 8,
+	        height: state.canvas.height / 8,
 	        duration: animeVals.duration,
 	        delay: function delay(el, idx) {
 	          return idx * 80;
 	        },
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeSquareLine);
+	      state.animations.push(animeSquareLine);
 	    }
-	  }, {
-	    key: 'purpleSlideUp',
-	
 	
 	    // –––––– purple slide up ––––––
-	    value: function purpleSlideUp(animeVals) {
-	      this.resizeCanvas();
+	
+	  }, {
+	    key: 'purpleSlideUp',
+	    value: function purpleSlideUp(state, animeVals) {
+	      this.resizeCanvas(state);
 	
 	      var x = 0;
 	      var y = 0;
-	      var width = this.canvas.width;
-	      var height = this.canvas.height;
-	      var rectangle = createRectangles(x, y, animeVals, width, height);
+	      var width = state.canvas.width;
+	      var height = state.canvas.height;
+	      var rectangle = this.createRectangles(x, y, animeVals, width, height);
 	
 	      var animePurpleSlide = (0, _animejs2.default)({
 	        targets: rectangle,
 	        height: animeVals.endHeight,
 	        duration: animeVals.duration,
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animePurpleSlide);
+	      state.animations.push(animePurpleSlide);
 	    }
-	  }, {
-	    key: 'redSlideLeft',
-	
 	
 	    // –––––– red slide left ––––––
-	    value: function redSlideLeft(animeVals) {
-	      this.resizeCanvas();
+	
+	  }, {
+	    key: 'redSlideLeft',
+	    value: function redSlideLeft(state, animeVals) {
+	      this.resizeCanvas(state);
 	
 	      var x = 0;
 	      var y = 0;
-	      var width = this.canvas.width;
-	      var height = this.canvas.height;
-	      var rectangle = createRectangles(x, y, animeVals, width, height);
+	      var width = state.canvas.width;
+	      var height = state.canvas.height;
+	      var rectangle = this.createRectangles(x, y, animeVals, width, height);
 	
 	      var animeRedSlide = (0, _animejs2.default)({
 	        targets: rectangle,
 	        width: animeVals.endWidth,
 	        duration: animeVals.duration,
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeRedSlide);
+	      state.animations.push(animeRedSlide);
 	    }
-	  }, {
-	    key: 'greenFlash',
-	
 	
 	    // –––––– green flash ––––––
-	    value: function greenFlash(animeVals) {
-	      this.resizeCanvas();
+	
+	  }, {
+	    key: 'greenFlash',
+	    value: function greenFlash(state, animeVals) {
+	      this.resizeCanvas(state);
 	      var x = 0;
 	      var y = 0;
-	      var width = this.canvas.width;
-	      var height = this.canvas.height;
-	      var rectangle = createRectangles(x, y, animeVals, width, height);
+	      var width = state.canvas.width;
+	      var height = state.canvas.height;
+	      var rectangle = this.createRectangles(x, y, animeVals, width, height);
 	
 	      var animeGreenFlash = (0, _animejs2.default)({
 	        targets: rectangle,
 	        duration: animeVals.duration,
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeGreenFlash);
+	      state.animations.push(animeGreenFlash);
 	    }
-	  }, {
-	    key: 'squarePanels',
-	
 	
 	    // –––––– square panels ––––––
-	    value: function squarePanels(animeVals) {
-	      this.resizeCanvas();
 	
-	      var xVals = [0, this.canvas.width / 5, this.canvas.width * (2 / 5), this.canvas.width * (3 / 5), this.canvas.width * (4 / 5)];
-	      var y = this.canvas.height * (3 / 8);
+	  }, {
+	    key: 'squarePanels',
+	    value: function squarePanels(state, animeVals) {
+	      this.resizeCanvas(state);
 	
-	      var squares = createRectangles(xVals, y, animeVals, this.canvas.width / 5, this.canvas.width / 5);
+	      var xVals = [0, state.canvas.width / 5, state.canvas.width * (2 / 5), state.canvas.width * (3 / 5), state.canvas.width * (4 / 5)];
+	      var y = state.canvas.height * (3 / 8);
+	
+	      var squares = this.createRectangles(xVals, y, animeVals, state.canvas.width / 5, state.canvas.width / 5);
 	
 	      var animeSqPanels = (0, _animejs2.default)({
 	        targets: squares,
@@ -548,58 +529,55 @@
 	        duration: animeVals.duration,
 	        delay: 0,
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeSqPanels);
+	      state.animations.push(animeSqPanels);
 	    }
-	  }, {
-	    key: 'squareSlide',
-	
 	
 	    // –––––– square slide ––––––
-	    value: function squareSlide(animeVals) {
-	      var _this10 = this;
 	
-	      this.resizeCanvas();
+	  }, {
+	    key: 'squareSlide',
+	    value: function squareSlide(state, animeVals) {
+	      this.resizeCanvas(state);
 	      console.log("squareslide");
 	
 	      var x = 0;
-	      var yVals = [this.canvas.height / 7, this.canvas.height * (2 / 7), this.canvas.height * (3 / 7), this.canvas.height * (4 / 7), this.canvas.height * (5 / 7)];
+	      var yVals = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
 	
-	      var rectangles = createRectangles(x, yVals, animeVals, this.canvas.width / 2, this.canvas.height / 12);
+	      var rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
 	
 	      var animeSqSlide = (0, _animejs2.default)({
 	        targets: rectangles,
 	        x: function x(sq, idx) {
-	          return _this10.canvas.width;
+	          return state.canvas.width;
 	        },
 	        duration: animeVals.duration,
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeSqSlide);
+	      state.animations.push(animeSqSlide);
 	    }
-	  }, {
-	    key: 'bananaPeel',
-	
 	
 	    // –––––– banana peel ––––––
-	    value: function bananaPeel(animeVals) {
-	      var _this11 = this;
 	
-	      this.resizeCanvas();
+	  }, {
+	    key: 'bananaPeel',
+	    value: function bananaPeel(state, animeVals) {
+	      console.log("state", state);
+	      this.resizeCanvas(state);
 	
-	      var x = this.canvas.width * (3 / 4);
-	      var yVals = [this.canvas.height / 9, this.canvas.height * (2 / 9), this.canvas.height * (3 / 9), this.canvas.height * (4 / 9), this.canvas.height * (5 / 9), this.canvas.height * (6 / 9), this.canvas.height * (7 / 9), this.canvas.height * (7 / 9), this.canvas.height * (6 / 9), this.canvas.height * (5 / 9), this.canvas.height * (4 / 9), this.canvas.height * (3 / 9), this.canvas.height * (2 / 9), this.canvas.height / 9];
+	      var x = state.canvas.width * (3 / 4);
+	      var yVals = [state.canvas.height / 9, state.canvas.height * (2 / 9), state.canvas.height * (3 / 9), state.canvas.height * (4 / 9), state.canvas.height * (5 / 9), state.canvas.height * (6 / 9), state.canvas.height * (7 / 9), state.canvas.height * (7 / 9), state.canvas.height * (6 / 9), state.canvas.height * (5 / 9), state.canvas.height * (4 / 9), state.canvas.height * (3 / 9), state.canvas.height * (2 / 9), state.canvas.height / 9];
 	
-	      var rectangles = createRectangles(x, yVals, animeVals, this.canvas.height / 10, this.canvas.height / 10);
+	      var rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
 	
 	      var animeBanana = (0, _animejs2.default)({
 	        targets: rectangles,
 	        x: function x(sq, idx) {
-	          return _this11.canvas.width * (1 / 15);
+	          return state.canvas.width * (1 / 15);
 	        },
 	        width: animeVals.endWidth,
 	        duration: animeVals.duration,
@@ -607,10 +585,14 @@
 	          return index * 50;
 	        },
 	        easing: animeVals.easing,
-	        complete: clearAnimation
+	        complete: this.clearAnimation(state)
 	      });
 	
-	      this.state.animations.push(animeBanana);
+	      console.log(animeBanana);
+	      console.log("prepush", state.animations);
+	
+	      state.animations.push(animeBanana);
+	      console.log("postpush", state.animations);
 	    }
 	  }]);
 	
@@ -1507,7 +1489,11 @@
 	
 	var _animations = __webpack_require__(1);
 	
+	var _animations2 = _interopRequireDefault(_animations);
+	
 	var _animeValues = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -1521,15 +1507,97 @@
 	      // if( !window.animationRunning ) {
 	      state.currentState = ONE_KEYPRESS;
 	      state.firstKey = state.key;
-	      state.key = null;
 	      animationHandler.dispatchAnimation(state);
+	      state.key = null;
 	      // }
 	      break;
 	    case ONE_KEYPRESS:
 	      state.currentState = ZERO_KEYPRESSES;
+	      animationHandler.dispatchAnimation(state);
 	
 	    // matching
 	
+	  }
+	};
+	
+	var ANIMATIONS = {
+	  a: function a(state) {
+	    return _animations2.default.bananaPeel(state, _animeValues.animeValues['a']);
+	  },
+	  z: function z(state) {
+	    return _animations2.default.bananaPeel(state, _animeValues.animeValues['a']);
+	  },
+	  b: function b(state) {
+	    return _animations2.default.squareSlide(state, _animeValues.animeValues['b']);
+	  },
+	  y: function y(state) {
+	    return _animations2.default.squareSlide(state, _animeValues.animeValues['b']);
+	  },
+	  c: function c(state) {
+	    return _animations2.default.squarePanels(state, _animeValues.animeValues['c']);
+	  },
+	  x: function x(state) {
+	    return _animations2.default.squarePanels(state, _animeValues.animeValues['c']);
+	  },
+	  d: function d(state) {
+	    return _animations2.default.purpleFireworks(state, _animeValues.animeValues['d']);
+	  },
+	  w: function w(state) {
+	    return _animations2.default.purpleFireworks(state, _animeValues.animeValues['d']);
+	  },
+	  e: function e(state) {
+	    return _animations2.default.redSlideLeft(state, _animeValues.animeValues['e']);
+	  },
+	  v: function v(state) {
+	    return _animations2.default.redSlideLeft(state, _animeValues.animeValues['e']);
+	  },
+	  f: function f(state) {
+	    return _animations2.default.purpleSlideUp(state, _animeValues.animeValues['f']);
+	  },
+	  u: function u(state) {
+	    return _animations2.default.purpleSlideUp(state, _animeValues.animeValues['f']);
+	  },
+	  g: function g(state) {
+	    return _animations2.default.squareLineRight(state, _animeValues.animeValues['g']);
+	  },
+	  t: function t(state) {
+	    return _animations2.default.squareLineRight(state, _animeValues.animeValues['g']);
+	  },
+	  h: function h(state) {
+	    return _animations2.default.squareLineUp(state, _animeValues.animeValues['h']);
+	  },
+	  s: function s(state) {
+	    return _animations2.default.squareLineUp(state, _animeValues.animeValues['h']);
+	  },
+	  i: function i(state) {
+	    return _animations2.default.perceive(state, _animeValues.animeValues['i']);
+	  },
+	  r: function r(state) {
+	    return _animations2.default.perceive(state, _animeValues.animeValues['i']);
+	  },
+	  j: function j(state) {
+	    return _animations2.default.go(state, _animeValues.animeValues['j']);
+	  },
+	  q: function q(state) {
+	    return _animations2.default.go(state, _animeValues.animeValues['j']);
+	  },
+	  k: function k(state) {
+	    return _animations2.default.blobs(state, _animeValues.animeValues['k']);
+	  },
+	  p: function p(state) {
+	    return _animations2.default.blobs(state, _animeValues.animeValues['k']);
+	  },
+	  l: function l(state) {
+	    return _animations2.default.tealFireworks(state, _animeValues.animeValues['l']);
+	  },
+	  o: function o(state) {
+	    return _animations2.default.tealFireworks(state, _animeValues.animeValues['l']);
+	  },
+	  m: function m(state) {
+	    return _animations2.default.balloon(state, _animeValues.animeValues['m']);
+	  },
+	  n: function n(state) {
+	    return _animations2.default.balloon(state, _animeValues.animeValues['m']);
 	  }
 	};
 	
@@ -1541,100 +1609,11 @@
 	  _createClass(animationHandler, null, [{
 	    key: 'dispatchAnimation',
 	    value: function dispatchAnimation(state) {
-	      if (this.ANIMATIONS[state.key]) {
-	        console.log("in conditional");
-	        window.animationRunning = true;
-	        this.ANIMATIONS[state.key](state);
+	
+	      if (ANIMATIONS[state.key]) {
+	        // window.animationRunning = true;
+	        ANIMATIONS[state.key](state);
 	      }
-	    }
-	  }, {
-	    key: 'ANIMATIONS',
-	
-	
-	    // create class constant:
-	    get: function get() {
-	      console.log(_animations.Animations.bananaPeel);
-	      console.log(_animations.Animations.bananaPeel(_animeValues.animeValues['a']));
-	      return {
-	        a: function a(state) {
-	          return _animations.Animations.bananaPeel(state, _animeValues.animeValues['a']);
-	        },
-	        z: function z(state) {
-	          return _animations.Animations.bananaPeel(state, _animeValues.animeValues['a']);
-	        },
-	        b: function b(state) {
-	          return _animations.Animations.squareSlide(state, _animeValues.animeValues['b']);
-	        },
-	        y: function y(state) {
-	          return _animations.Animations.squareSlide(state, _animeValues.animeValues['b']);
-	        },
-	        c: function c(state) {
-	          return _animations.Animations.squarePanels(state, _animeValues.animeValues['c']);
-	        },
-	        x: function x(state) {
-	          return _animations.Animations.squarePanels(state, _animeValues.animeValues['c']);
-	        },
-	        d: function d(state) {
-	          return _animations.Animations.purpleFireworks(state, _animeValues.animeValues['d']);
-	        },
-	        w: function w(state) {
-	          return _animations.Animations.purpleFireworks(state, _animeValues.animeValues['d']);
-	        },
-	        e: function e(state) {
-	          return _animations.Animations.redSlideLeft(state, _animeValues.animeValues['e']);
-	        },
-	        v: function v(state) {
-	          return _animations.Animations.redSlideLeft(state, _animeValues.animeValues['e']);
-	        },
-	        f: function f(state) {
-	          return _animations.Animations.purpleSlideUp(state, _animeValues.animeValues['f']);
-	        },
-	        u: function u(state) {
-	          return _animations.Animations.purpleSlideUp(state, _animeValues.animeValues['f']);
-	        },
-	        g: function g(state) {
-	          return _animations.Animations.squareLineRight(state, _animeValues.animeValues['g']);
-	        },
-	        t: function t(state) {
-	          return _animations.Animations.squareLineRight(state, _animeValues.animeValues['g']);
-	        },
-	        h: function h(state) {
-	          return _animations.Animations.squareLineUp(state, _animeValues.animeValues['h']);
-	        },
-	        s: function s(state) {
-	          return _animations.Animations.squareLineUp(state, _animeValues.animeValues['h']);
-	        },
-	        i: function i(state) {
-	          return _animations.Animations.perceive(state, _animeValues.animeValues['i']);
-	        },
-	        r: function r(state) {
-	          return _animations.Animations.perceive(state, _animeValues.animeValues['i']);
-	        },
-	        j: function j(state) {
-	          return _animations.Animations.go(state, _animeValues.animeValues['j']);
-	        },
-	        q: function q(state) {
-	          return _animations.Animations.go(state, _animeValues.animeValues['j']);
-	        },
-	        k: function k(state) {
-	          return _animations.Animations.blobs(state, _animeValues.animeValues['k']);
-	        },
-	        p: function p(state) {
-	          return _animations.Animations.blobs(state, _animeValues.animeValues['k']);
-	        },
-	        l: function l(state) {
-	          return _animations.Animations.tealFireworks(state, _animeValues.animeValues['l']);
-	        },
-	        o: function o(state) {
-	          return _animations.Animations.tealFireworks(state, _animeValues.animeValues['l']);
-	        },
-	        m: function m(state) {
-	          return _animations.Animations.balloon(state, _animeValues.animeValues['m']);
-	        },
-	        n: function n(state) {
-	          return _animations.Animations.balloon(state, _animeValues.animeValues['m']);
-	        }
-	      };
 	    }
 	  }]);
 

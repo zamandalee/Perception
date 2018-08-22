@@ -13,21 +13,23 @@ import { handleState, ZERO_KEYPRESSES, ONE_KEYPRESS } from './game.js';
 class Animations {
 
   constructor(canvas, ctx) {
-    this.canvas = canvas;
-    this.ctx = ctx;
-    this.state = { key: null, currentState: ZERO_KEYPRESSES, animationRunning: false, animations: [] };
+    this.state = { key: null, currentState: ZERO_KEYPRESSES,
+      animationRunning: false, animations: [],
+      canvas: canvas, ctx: ctx };
 
-    this.infiniteAnimation();
+    this.infiniteAnimation(this.state);
+    this.keydownListener(this.state);
   }
 
-  infiniteAnimation() {
+  infiniteAnimation(state) {
     anime({
       duration: Infinity,
       update: () => {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.state.animations.forEach((anim) => {
+        state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+        // console.log("state in infinite anim", state);
+        state.animations.forEach((anim) => {
           anim.animatables.forEach( (animatable) => {
-            animatable.target.draw(this.ctx);
+            animatable.target.draw(state.ctx);
           });
         });
         // if ( this.state.animations.length > 0 ) {
@@ -41,26 +43,23 @@ class Animations {
 
   // below method from https://github.com/iamsammak/soundspace
 
-  clearAnimation(anim) {
-    if( this.state.animations.includes(anim) ) {
-      const idx = this.state.animations.indexOf(anim);
-      this.state.animations.splice(idx, 1);
+  static clearAnimation(state) {
+    state.animations = [];
 
-      // if there are no this.state.animations in the array, set to false
-      // if( this.state.animations.length === 0 ) {
-      //   window.animationRunning = false;
-      // }
-    }
+    // if there are no this.state.animations in the array, set to false
+    // if( this.state.animations.length === 0 ) {
+    //   window.animationRunning = false;
+    // }
   }
 
   // stackoverflow.com/questions/1664785/resize-html5-this.canvas-to-fit-window
-  resizeCanvas() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+  static resizeCanvas(state) {
+    state.canvas.width = window.innerWidth;
+    state.canvas.height = window.innerHeight;
   }
 
 // –––––––––––– CIRCLES ––––––––––––
-  createCircles(xVals, yVals, animeVals, radius) {
+  static createCircles(xVals, yVals, animeVals, radius) {
     const circles = [];
 
     for ( let i = 0; i < animeVals.numEls; i++ ) {
@@ -74,136 +73,136 @@ class Animations {
 
 // –––––– balloon ––––––
   static balloon(state, animeVals) {
-    this.resizeCanvas();
+    this.resizeCanvas(state);
 
-    const x = this.canvas.width / 2;
-    const y = this.canvas.height / 2;
-    const circle = createCircles(x, y, animeVals, this.canvas.width * (3 / 2));
+    const x = state.canvas.width / 2;
+    const y = state.canvas.height / 2;
+    const circle = this.createCircles(x, y, animeVals, state.canvas.width * (3 / 2));
 
-    const animeBallon = anime({
+    const animeBalloon = anime({
       targets: circle,
       radius: 0,
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation,
+      complete: this.clearAnimation(state),
     });
 
-    this.state.animations.push(animeBallon);
-  };
+    state.animations.push(animeBalloon);
+  }
 
 // –––––– fireworks ––––––
-  static purpleFireworks(animeVals) {
-    this.resizeCanvas();
+  static purpleFireworks(state, animeVals) {
+    this.resizeCanvas(state);
 
-    const x = Math.random() * (this.canvas.width * (7 / 9));
-    const y = Math.random() * (this.canvas.height * (7 / 9));
-    const circles = createCircles(x, y, animeVals, this.canvas.width / 25);
+    const x = Math.random() * (state.canvas.width * (7 / 9));
+    const y = Math.random() * (state.canvas.height * (7 / 9));
+    const circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
 
     const animeFireworks = anime({
       targets: circles,
-      x: cir => { return cir.x + anime.random(-(this.canvas.width), this.canvas.width); },
-      y: cir => { return cir.y + anime.random(-(this.canvas.width), this.canvas.width); },
-      radius: this.canvas.width / 55,
+      x: cir => { return cir.x + anime.random(-(state.canvas.width), state.canvas.width); },
+      y: cir => { return cir.y + anime.random(-(state.canvas.width), state.canvas.width); },
+      radius: state.canvas.width / 55,
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation,
+      complete: this.clearAnimation(state),
     });
 
-    this.state.animations.push(animeFireworks);
-  };
+    state.animations.push(animeFireworks);
+  }
 
 // –––––– fireworks ––––––
-  static tealFireworks(animeVals) {
-    this.resizeCanvas();
+  static tealFireworks(state, animeVals) {
+    this.resizeCanvas(state);
 
-    const x = Math.random() * (this.canvas.width * (7 / 9));
-    const y = Math.random() * (this.canvas.height * (7 / 9));
-    const circles = createCircles(x, y, animeVals, this.canvas.width / 25);
+    const x = Math.random() * (state.canvas.width * (7 / 9));
+    const y = Math.random() * (state.canvas.height * (7 / 9));
+    const circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
 
     const animeFireworks = anime({
       targets: circles,
-      x: cir => { return cir.x + anime.random(-(this.canvas.width), this.canvas.width); },
-      y: cir => { return cir.y + anime.random(-(this.canvas.width), this.canvas.width); },
-      radius: this.canvas.width / 55,
+      x: cir => { return cir.x + anime.random(-(state.canvas.width), state.canvas.width); },
+      y: cir => { return cir.y + anime.random(-(state.canvas.width), state.canvas.width); },
+      radius: state.canvas.width / 55,
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation,
+      complete: this.clearAnimation(state),
     });
 
-    this.state.animations.push(animeFireworks);
-  };
+    state.animations.push(animeFireworks);
+  }
 
 // –––––– blobs ––––––
-  static blobs(animeVals) {
-    this.resizeCanvas();
+  static blobs(state, animeVals) {
+    this.resizeCanvas(state);
 
-    const x = Math.random() * this.canvas.width;
-    const y = Math.random() * this.canvas.height;
-    const circles = createCircles(x, y, animeVals, this.canvas.width / 14);
+    const x = Math.random() * state.canvas.width;
+    const y = Math.random() * state.canvas.height;
+    const circles = this.createCircles(x, y, animeVals, state.canvas.width / 14);
 
     const animeBlobs = anime({
       targets: circles,
-      x: () => { return anime.random(this.canvas.width * (1 / 8), this.canvas.width * (7 / 8)); },
-      y: () => { return anime.random(this.canvas.height * (1 / 8), this.canvas.height * (7 / 8)); },
+      x: () => { return anime.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8)); },
+      y: () => { return anime.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8)); },
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation
+      complete: this.clearAnimation(state)
     });
-    this.state.animations.push(animeBlobs);
-  };
+    state.animations.push(animeBlobs);
+  }
 
 
 // –––––––––––– WORDS ––––––––––––
-  createWords(animeVals, width, height) {
+  static createWords(state, animeVals) {
     const words = [];
     for (let i = 0; i < 8; i++) {
-      let x = anime.random(this.canvas.width * (1/4), this.canvas.width * (3/4));
-      let y = anime.random(this.canvas.height * (1/4), this.canvas.height * (3/4));
-      const word = new Word(x, y, animeVals.colors[i], animeVals, width, height);
+      let x = anime.random(state.canvas.width * (1/4), state.canvas.width * (3/4));
+      let y = anime.random(state.canvas.height * (1/4), state.canvas.height * (3/4));
+      const word = new Word(x, y, animeVals.colors[i], animeVals);
       words.push(word);
     }
     return words;
-  };
+  }
 
 // –––––– 加油 ––––––
-  static go(animeVals) {
-    this.resizeCanvas();
+  static go(state, animeVals) {
+    this.resizeCanvas(state);
 
-    const words = createWords(animeVals);
+    const words = this.createWords(state, animeVals);
     const animeGo = anime({
       targets: words,
       font: animeVals.font,
-      x: () => { return anime.random(this.canvas.width * (1 / 8), this.canvas.width * (7 / 8)); },
-      y: () => { return anime.random(this.canvas.height * (1 / 8), this.canvas.height * (7 / 8)); },
+      x: () => { return anime.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8)); },
+      y: () => { return anime.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8)); },
       duration: animeVals.duration,
       delay: (el, idx) => { return idx * 80; },
       easing: animeVals.easing,
-      complete: clearAnimation
+      complete: this.clearAnimation(state)
     });
-    this.state.animations.push(animeGo);
-  };
+    state.animations.push(animeGo);
+  }
 
 // –––––– perceive ––––––
-  static perceive(animeVals) {
-    this.resizeCanvas();
+  static perceive(state, animeVals) {
+    this.resizeCanvas(state);
 
-    const words = createWords(animeVals);
+    const words = this.createWords(state, animeVals);
     const animePerceive = anime({
       targets: words,
       font: animeVals.font,
-      x: () => { return anime.random(this.canvas.width * (1 / 8), this.canvas.width * (7 / 8)); },
-      y: () => { return anime.random(this.canvas.height * (1 / 8), this.canvas.height * (7 / 8)); },
+      x: () => { return anime.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8)); },
+      y: () => { return anime.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8)); },
       duration: animeVals.duration,
       delay: (el, idx) => { return idx * 80; },
       easing: animeVals.easing,
-      complete: clearAnimation
+      complete: this.clearAnimation(state)
     });
-    this.state.animations.push(animePerceive);
-  };
+    state.animations.push(animePerceive);
+  }
 
 
 // –––––––––––– RECTANGLES ––––––––––––
-  createRectangles(xVals, yVals, animeVals, w, h) {
+  static createRectangles(xVals, yVals, animeVals, w, h) {
     const rectangles = [];
 
     for ( let i = 0; i < animeVals.numEls; i++ ) {
@@ -226,135 +225,135 @@ class Animations {
     }
 
     return rectangles;
-  };
+  }
 
 // –––––– square line up ––––––
-  static squareLineUp(animeVals) {
-  this.resizeCanvas();
+  static squareLineUp(state, animeVals) {
+  this.resizeCanvas(state);
 
-    const x = this.canvas.width * (8 / 10);
-    const yArr = [ this.canvas.height / 7,
-                   this.canvas.height * (2 / 7),
-                   this.canvas.height * (3 / 7),
-                   this.canvas.height * (4 / 7),
-                   this.canvas.height * (5 / 7) ];
-      const squares = createRectangles(x, yArr, animeVals, this.canvas.height / 8, this.canvas.height / 8);
+    const x = state.canvas.width * (8 / 10);
+    const yArr = [ state.canvas.height / 7,
+                   state.canvas.height * (2 / 7),
+                   state.canvas.height * (3 / 7),
+                   state.canvas.height * (4 / 7),
+                   state.canvas.height * (5 / 7) ];
+      const squares = this.createRectangles(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
 
       const animeSquareLineUp = anime({
         targets: squares,
-        x: () => { return this.canvas.width / 10; },
-        width: this.canvas.height / 15,
-        height: this.canvas.height / 15,
+        x: () => { return state.canvas.width / 10; },
+        width: state.canvas.height / 15,
+        height: state.canvas.height / 15,
         duration: animeVals.duration,
         delay: (el, idx) => { return idx * 80; },
         easing: 'easeOutExpo',
-        complete: clearAnimation,
+        complete: this.clearAnimation(state),
       });
 
-      this.state.animations.push(animeSquareLineUp);
-};
+      state.animations.push(animeSquareLineUp);
+}
 
 // –––––– square line right ––––––
-  static squareLineRight(animeVals) {
-  this.resizeCanvas();
+  static squareLineRight(state, animeVals) {
+  this.resizeCanvas(state);
 
-  const x = this.canvas.width / 11;
-  const yVals = [ this.canvas.height / 12,
-                  this.canvas.height * (2 / 12),
-                  this.canvas.height * (3 / 12),
-                  this.canvas.height * (4 / 12),
-                  this.canvas.height * (5 / 12),
-                  this.canvas.height * (6 / 12),
-                  this.canvas.height * (7 / 12),
-                  this.canvas.height * (8 / 12),
-                  this.canvas.height * (9 / 12),
-                  this.canvas.height * (10 / 12) ];
-  const squares = createRectangles(x, yVals, animeVals, this.canvas.height / 20, this.canvas.height / 20);
+  const x = state.canvas.width / 11;
+  const yVals = [ state.canvas.height / 12,
+                  state.canvas.height * (2 / 12),
+                  state.canvas.height * (3 / 12),
+                  state.canvas.height * (4 / 12),
+                  state.canvas.height * (5 / 12),
+                  state.canvas.height * (6 / 12),
+                  state.canvas.height * (7 / 12),
+                  state.canvas.height * (8 / 12),
+                  state.canvas.height * (9 / 12),
+                  state.canvas.height * (10 / 12) ];
+  const squares = this.createRectangles(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
 
   const animeSquareLine = anime({
     targets: squares,
-    x: () => { return this.canvas.width * (8 / 10); },
-    width: this.canvas.height / 8,
-    height: this.canvas.height / 8,
+    x: () => { return state.canvas.width * (8 / 10); },
+    width: state.canvas.height / 8,
+    height: state.canvas.height / 8,
     duration: animeVals.duration,
     delay: (el, idx) => { return idx * 80; },
     easing: animeVals.easing,
-    complete: clearAnimation,
+    complete: this.clearAnimation(state),
   });
 
-  this.state.animations.push(animeSquareLine);
-};
+  state.animations.push(animeSquareLine);
+}
 
 // –––––– purple slide up ––––––
-  static purpleSlideUp(animeVals) {
-    this.resizeCanvas();
+  static purpleSlideUp(state, animeVals) {
+    this.resizeCanvas(state);
 
     const x = 0;
     const y = 0;
-    let width = this.canvas.width;
-    let height = this.canvas.height;
-    const rectangle = createRectangles(x, y, animeVals, width, height);
+    let width = state.canvas.width;
+    let height = state.canvas.height;
+    const rectangle = this.createRectangles(x, y, animeVals, width, height);
 
     const animePurpleSlide = anime({
       targets: rectangle,
       height: animeVals.endHeight,
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation,
+      complete: this.clearAnimation(state),
     });
 
-    this.state.animations.push(animePurpleSlide);
-  };
+    state.animations.push(animePurpleSlide);
+  }
 
 // –––––– red slide left ––––––
-  static redSlideLeft(animeVals) {
-    this.resizeCanvas();
+  static redSlideLeft(state, animeVals) {
+    this.resizeCanvas(state);
 
     const x = 0;
     const y = 0;
-    let width = this.canvas.width;
-    let height = this.canvas.height;
-    const rectangle = createRectangles(x, y, animeVals, width, height);
+    let width = state.canvas.width;
+    let height = state.canvas.height;
+    const rectangle = this.createRectangles(x, y, animeVals, width, height);
 
     const animeRedSlide = anime({
       targets: rectangle,
       width: animeVals.endWidth,
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation,
+      complete: this.clearAnimation(state),
     });
 
-    this.state.animations.push(animeRedSlide);
-  };
+    state.animations.push(animeRedSlide);
+  }
 
 // –––––– green flash ––––––
-  static greenFlash(animeVals) {
-    this.resizeCanvas();
+  static greenFlash(state, animeVals) {
+    this.resizeCanvas(state);
     const x = 0;
     const y = 0;
-    let width = this.canvas.width;
-    let height = this.canvas.height;
-    const rectangle = createRectangles(x, y, animeVals, width, height);
+    let width = state.canvas.width;
+    let height = state.canvas.height;
+    const rectangle = this.createRectangles(x, y, animeVals, width, height);
 
     const animeGreenFlash = anime({
       targets: rectangle,
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation
+      complete: this.clearAnimation(state)
     });
 
-    this.state.animations.push(animeGreenFlash);
-  };
+    state.animations.push(animeGreenFlash);
+  }
 
 // –––––– square panels ––––––
-  static squarePanels(animeVals) {
-    this.resizeCanvas();
+  static squarePanels(state, animeVals) {
+    this.resizeCanvas(state);
 
-    const xVals = [ 0, this.canvas.width / 5, this.canvas.width * (2 / 5),
-                    this.canvas.width * (3 / 5), this.canvas.width * (4 / 5) ];
-    const y = this.canvas.height * (3 / 8);
+    const xVals = [ 0, state.canvas.width / 5, state.canvas.width * (2 / 5),
+                    state.canvas.width * (3 / 5), state.canvas.width * (4 / 5) ];
+    const y = state.canvas.height * (3 / 8);
 
-    const squares = createRectangles(xVals, y, animeVals, (this.canvas.width / 5), (this.canvas.width / 5));
+    const squares = this.createRectangles(xVals, y, animeVals, (state.canvas.width / 5), (state.canvas.width / 5));
 
     const animeSqPanels = anime({
       targets: squares,
@@ -362,77 +361,82 @@ class Animations {
       duration: animeVals.duration,
       delay: 0,
       easing: animeVals.easing,
-      complete: clearAnimation
+      complete: this.clearAnimation(state)
     });
 
-    this.state.animations.push(animeSqPanels);
-  };
+    state.animations.push(animeSqPanels);
+  }
 
 // –––––– square slide ––––––
-  static squareSlide(animeVals) {
-    this.resizeCanvas();
+  static squareSlide(state, animeVals) {
+    this.resizeCanvas(state);
     console.log("squareslide");
 
     const x = 0;
-    const yVals = [ (this.canvas.height / 7),
-                    this.canvas.height * (2 / 7),
-                    this.canvas.height * (3 / 7),
-                    this.canvas.height * (4 / 7),
-                    this.canvas.height * (5 / 7) ];
+    const yVals = [ (state.canvas.height / 7),
+                    state.canvas.height * (2 / 7),
+                    state.canvas.height * (3 / 7),
+                    state.canvas.height * (4 / 7),
+                    state.canvas.height * (5 / 7) ];
 
-    const rectangles = createRectangles(x, yVals, animeVals, this.canvas.width / 2, this.canvas.height / 12);
+    const rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
 
     const animeSqSlide = anime({
       targets: rectangles,
-      x: (sq, idx) => { return this.canvas.width; },
+      x: (sq, idx) => { return state.canvas.width; },
       duration: animeVals.duration,
       easing: animeVals.easing,
-      complete: clearAnimation
+      complete: this.clearAnimation(state)
     });
 
-    this.state.animations.push(animeSqSlide);
-  };
+    state.animations.push(animeSqSlide);
+  }
 
 // –––––– banana peel ––––––
-  static bananaPeel(animeVals) {
-    this.resizeCanvas();
+  static bananaPeel(state, animeVals) {
+    console.log("state", state);
+    this.resizeCanvas(state);
 
-    const x = ( this.canvas.width * (3 / 4) );
-    const yVals = [ (this.canvas.height / 9),
-                    this.canvas.height * (2 / 9),
-                    this.canvas.height * (3 / 9),
-                    this.canvas.height * (4 / 9),
-                    this.canvas.height * (5 / 9),
-                    this.canvas.height * (6 / 9),
-                    this.canvas.height * (7 / 9),
-                    this.canvas.height * (7 / 9),
-                    this.canvas.height * (6 / 9),
-                    this.canvas.height * (5 / 9),
-                    this.canvas.height * (4 / 9),
-                    this.canvas.height * (3 / 9),
-                    this.canvas.height * (2 / 9),
-                    this.canvas.height / 9 ];
+    const x = ( state.canvas.width * (3 / 4) );
+    const yVals = [ (state.canvas.height / 9),
+                    state.canvas.height * (2 / 9),
+                    state.canvas.height * (3 / 9),
+                    state.canvas.height * (4 / 9),
+                    state.canvas.height * (5 / 9),
+                    state.canvas.height * (6 / 9),
+                    state.canvas.height * (7 / 9),
+                    state.canvas.height * (7 / 9),
+                    state.canvas.height * (6 / 9),
+                    state.canvas.height * (5 / 9),
+                    state.canvas.height * (4 / 9),
+                    state.canvas.height * (3 / 9),
+                    state.canvas.height * (2 / 9),
+                    state.canvas.height / 9 ];
 
-    const rectangles = createRectangles(x, yVals, animeVals, this.canvas.height / 10, this.canvas.height / 10);
+    const rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
 
     const animeBanana = anime({
       targets: rectangles,
-      x: (sq, idx) => { return this.canvas.width * (1/15); },
+      x: (sq, idx) => { return state.canvas.width * (1/15); },
       width: animeVals.endWidth,
       duration: animeVals.duration,
       delay: (el, index) => { return index * 50; },
       easing: animeVals.easing,
-      complete: clearAnimation,
+      complete: this.clearAnimation(state),
     });
 
-    this.state.animations.push(animeBanana);
-  };
+    console.log(animeBanana);
+    console.log("prepush", state.animations);
+
+    state.animations.push(animeBanana);
+    console.log("postpush", state.animations);
+  }
 
 
-// assign this.state.animations to keyboard keys
-  keydownListener() {
+// assign state.animations to keyboard keys
+  keydownListener(state) {
     document.addEventListener( 'keydown', (event) => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
 
       //e is object!! https://developer.mozilla.org/en-US/docs/Web/Events/keydown
       state.key = (event.key).toLowerCase();
@@ -440,9 +444,9 @@ class Animations {
 
     }, false);
 
-    window.addEventListener('resize', this.resizeCanvas, false);
+    window.addEventListener('resize', Animations.resizeCanvas(state), false);
   }
 
-  }
+}
 
 export default Animations;
