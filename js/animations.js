@@ -1,4 +1,5 @@
-// structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+// flow: shapeCreation -> animation creation is ___Animations ->
+// keypress listener here -> keypress and animation rendering handled in game
 // TODO add different fonts to word animations
 
 import anime from 'animejs';

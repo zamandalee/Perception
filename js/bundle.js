@@ -69,7 +69,8 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // structure of code inspired by iamsammak's soundspace: https://github.com/iamsammak/soundspace
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // flow: shapeCreation -> animation creation is ___Animations ->
+	// keypress listener here -> keypress and animation rendering handled in game
 	// TODO add different fonts to word animations
 	
 	var _animejs = __webpack_require__(2);
@@ -818,6 +819,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	// use of this file was inspired by iamsammak: https://github.com/iamsammak/soundspace
+	
 	var animeValues = exports.animeValues = {
 	  a: {
 	    numEls: 22,

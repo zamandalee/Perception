@@ -1,3 +1,5 @@
+// use of this file was inspired by iamsammak: https://github.com/iamsammak/soundspace
+
 export const animeValues = {
   a: {
     numEls: 22,

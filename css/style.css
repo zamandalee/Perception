@@ -61,7 +61,7 @@
  body {
    font-family: 'Roboto Condensed', sans-serif;
    height: 100vh;
-   max-height: 700px;
+   /* max-height: 700px; */
    width: 80%;
    margin: auto;
    text-align: center;
@@ -74,6 +74,8 @@
    align-items: center;
    padding-top: 0;
  }
+
+ /* 1/3: match score & found keys */
 
  .match-score-keys {
    display: flex;
@@ -116,6 +118,7 @@
    color: #80b7c9;
  }
 
+/* 2/3 title and message */
  .title {
    display: flex;
    flex-direction: column;
@@ -155,6 +158,8 @@
    color: #d65e5e;
  }
 
+/* 3/3: personal prof & instructions */
+
  .personal-prof-instructions {
    display: flex;
    flex-direction: column;
@@ -193,7 +198,51 @@
  }
 
  .instructions-bttn:hover {
-   background: #eaf9ff;
+   background: #dce8ed;
+ }
+
+ #hidden-instructions, #hidden-blackout, .hidden-win {
+   display: none;
+ }
+
+ #instructions-blackout {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+   z-index: 2;
+   position: fixed;
+   width: 100vw;
+   height: 100vh;
+   top: 0;
+   left: 0;
+   background: rgba(0,0,0, 0.5);
+ }
+
+ #instructions-modal {
+   z-index: 3;
+   width: 400px;
+   height: 400px;
+   padding: 15px;
+   box-sizing: border-box;
+
+   background: #e6eaef;
+   border: 1px solid gray;
+   border-radius: 7px;
+   font-family: 'Roboto Condensed';
+   text-align: left;
+ }
+
+ #instructions-modal h4 {
+   text-align: center;
+   font-size: 18px;
+   color: #3e849b;
+ }
+
+ #instructions-modal p {
+   text-align: left;
+   font-size: 14px;
  }
 
  #canvas {

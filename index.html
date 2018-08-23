@@ -34,11 +34,51 @@
             <img class="linkedin" src="./assets/images/linkedinlogo.png"/>
           </a>
         </div>
-        <input type="button" class="instructions-bttn" value="Instructions"/>
+        <input type="button" class="instructions-bttn" value="Instructions" onClick="instructionsModal('visible')"/>
       </div>
+
+      <script type="text/javascript">
+        function instructionsModal(option) {
+
+          const instructions = option === "visible" ?
+            document.getElementById( "hidden-instructions" ) :
+            document.getElementById( "instructions-modal" );
+
+          const blackout = option === "visible" ?
+            document.getElementById( "hidden-blackout" ) :
+            document.getElementById( "instructions-blackout" );
+
+          if( option === "visible" ) {
+            instructions.setAttribute( "id", "instructions-modal" );
+            blackout.setAttribute( "id", "instructions-blackout" );
+          }
+          else {
+            console.log(instructions);
+            console.log(blackout);
+            instructions.setAttribute( "id", "hidden-instructions" );
+            blackout.setAttribute( "id", "hidden-blackout" );
+          }
+        }
+      </script>
 
     </div>
 
+
+    <!-- winning button just reg button for replay -->
+    <!-- instructions modal! -->
+    <div id="hidden-blackout" onClick="instructionsModal('hidden')">
+      <div id="hidden-instructions">
+        <button class="x-button" onClick="instructionsModal('hidden')">&times;</button>
+        <h4>Welcome to PERCEPTION,</h4>
+        <h4>a game of memory!</h4>
+        <ol>
+          <li>Press keys a-z on your computer</li>
+          <li>Remember which keys show the same animation</li>
+          <li>Press two keys in a row to get a match</li>
+          <li>Keep an eye on the messages at top of the screen. Good luck!</li>
+        </ol>
+      </div>
+    </div>
 
     <canvas id="canvas"></canvas>
 
