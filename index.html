@@ -13,27 +13,32 @@
 
   <body>
     <div class="header">
-      <div id="match-score">
-        <h2>match score: </h2> <h2 id="current-score">0</h2> <h2> / 13</h2>
+      <div class="match-score-keys">
+        <div id="match-score">
+          <h2>match score: </h2> <h2 id="current-score">0</h2> <h2> / 13</h2>
+        </div>
+        <h4 id="matched-keys"></h4>
       </div>
 
-      <div class="title-instructions">
-        <h1>PERCEPTION</h1>
+      <div class="title">
+        <h1>P E R C E P T I O N</h1>
+        <h3 id="match-text">press a-z keys to start matching!</h3>
+      </div>
+
+      <div class="personal-prof-instructions">
+        <div class="personal-prof">
+          <a href="https://github.com/aguamenti">
+            <img src="./assets/images/githublogo.png"/>
+          </a>
+          <a href="https://www.linkedin.com/in/zemei-amanda-lee">
+            <img class="linkedin" src="./assets/images/linkedinlogo.png"/>
+          </a>
+        </div>
         <input type="button" class="instructions-bttn" value="Instructions"/>
       </div>
 
-      <div class="personal-prof">
-        <a href="https://github.com/aguamenti">
-          <img src="./assets/images/githublogo.png"/>
-        </a>
-        <a href="https://www.linkedin.com/in/zemei-amanda-lee">
-          <img src="./assets/images/linkedinlogo.png"/>
-        </a>
-      </div>
     </div>
 
-    <h3 id="match-text">press a-z keys to start matching !</h3>
-    <h4 id="matched-keys"></h4>
 
     <canvas id="canvas"></canvas>
 

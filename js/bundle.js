@@ -1506,7 +1506,7 @@
 	
 	    // already matched
 	    if (!matchedKeys[state.key]) {
-	      matchText = "you've already found this key's match, try again 🙃";
+	      matchText = "you've already found this match, try again 🙃";
 	      state.currentState = ZERO_KEYPRESSES;
 	    }
 	    // not already matched
