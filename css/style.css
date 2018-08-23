@@ -90,11 +90,18 @@
    top: 10px;
  }
 
- .match-score {
+ #match-score {
    display: flex;
    flex-direction: row;
    margin-right: auto;
    margin-top: 38px;
+ }
+
+ .winning-score {
+   padding: 5px;
+   color: white;
+   background: #489e62;
+   border-radius: 5px;
  }
 
  h2, .instructions-bttn {
@@ -148,6 +155,14 @@
    /* color: #d12323; */
    /* color: #655d9e; */
    color: #679fb2;
+ }
+
+ .message-green {
+   color: #489e62;
+ }
+
+ .message-red {
+   color: #d65e5e;
  }
 
  #matched-keys {

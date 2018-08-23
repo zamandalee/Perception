@@ -50,6 +50,9 @@ export const handleState = (state) => {
           const htmlScore = document.getElementById('current-score');
           htmlScore.innerHTML = state.matchScore;
 
+          // htmlMessage.classList.remove("message-red");
+          // htmlMessage.classList.add("message-green");
+
           matchText = "you've found a match 🎉";
 
           // render array of already matched key pairs
@@ -62,9 +65,19 @@ export const handleState = (state) => {
           delete matchedKeys[ state.key ];
           delete KEY_ANIMATIONS[ state.firstKey ];
           delete KEY_ANIMATIONS[ state.key ];
+
+          // if won
+          if ( state.matchScore === 1 ) {
+            matchText = "YOU WIN 🌟";
+
+            const htmlWinningScore = document.getElementById("match-score");
+            htmlWinningScore.classList.add("winning-score");
+          }
         }
         else {
           matchText = 'not a match ☹️';
+          // htmlMessage.classList.remove("message-green");
+          // htmlMessage.classList.add("message-red");
         }
 
         state.currentState = ZERO_KEYPRESSES;
@@ -72,6 +85,9 @@ export const handleState = (state) => {
 
     }
   } else {
+    // htmlMessage.classList.remove("message-green");
+    // htmlMessage.classList.remove("message-red");
+
     let oldMatchText = htmlMessage.innerHTML;
     //SET TIMEOUT
     matchText = "that's not an a-z key 🙅🏻, try again";
