@@ -1506,6 +1506,7 @@
 	    // already matched
 	    if (!matchedKeys[state.key]) {
 	      matchText = "you've already found this key's match, try again 🙃";
+	      state.currentState = ZERO_KEYPRESSES;
 	    }
 	    // not already matched
 	    else {
@@ -1513,7 +1514,6 @@
 	          case ZERO_KEYPRESSES:
 	            // if( !window.animationRunning ) {
 	            matchText = "that's one key, now press the matching one!";
-	            htmlMessage.innerHTML = matchText;
 	
 	            state.currentState = ONE_KEYPRESS;
 	            state.firstKey = state.key;
@@ -1546,15 +1546,13 @@
 	
 	            state.currentState = ZERO_KEYPRESSES;
 	        }
-	
-	        htmlMessage.innerHTML = matchText;
 	      }
 	  } else {
 	    var oldMatchText = htmlMessage.innerHTML;
 	    //SET TIMEOUT
 	    matchText = "that's not an a-z key 🙅🏻, try again";
-	    htmlMessage.innerHTML = matchText;
 	  }
+	  htmlMessage.innerHTML = matchText;
 	
 	  console.log("matchedKeys", matchedKeys);
 	  console.log("KEY_ANIMATIONS", KEY_ANIMATIONS);
