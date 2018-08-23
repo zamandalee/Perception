@@ -4,10 +4,7 @@
 import anime from 'animejs';
 
 import { animeValues } from './animeValues';
-import Circle from './circle';
-import Rectangle from './rectangle';
-import Word from './word';
-
+import { createCircles, createWords, createRectangles } from './shapeCreation';
 import { handleState, ZERO_KEYPRESSES, ONE_KEYPRESS } from './game';
 
 class Animations {
@@ -58,26 +55,15 @@ class Animations {
     state.canvas.height = window.innerHeight;
   }
 
+
 // –––––––––––– CIRCLES ––––––––––––
-  static createCircles(xVals, yVals, animeVals, radius) {
-    const circles = [];
-
-    for ( let i = 0; i < animeVals.numEls; i++ ) {
-      const color = animeVals.colors[i];
-      circles.push(new Circle( xVals, yVals, color, animeVals, radius ));
-    }
-
-    return circles;
-  }
-
-
 // –––––– balloon ––––––
   static balloon(state, animeVals) {
     this.resizeCanvas(state);
 
     const x = state.canvas.width / 2;
     const y = state.canvas.height / 2;
-    const circle = this.createCircles(x, y, animeVals, state.canvas.width * (3 / 2));
+    const circle = createCircles(x, y, animeVals, state.canvas.width * (3 / 2));
 
     const animeBalloon = anime({
       targets: circle,
@@ -90,13 +76,13 @@ class Animations {
     state.animations.push(animeBalloon);
   }
 
-// –––––– fireworks ––––––
+// –––––– purple fireworks ––––––
   static purpleFireworks(state, animeVals) {
     this.resizeCanvas(state);
 
     const x = Math.random() * (state.canvas.width * (7 / 9));
     const y = Math.random() * (state.canvas.height * (7 / 9));
-    const circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
+    const circles = createCircles(x, y, animeVals, state.canvas.width / 25);
 
     const animeFireworks = anime({
       targets: circles,
@@ -111,13 +97,13 @@ class Animations {
     state.animations.push(animeFireworks);
   }
 
-// –––––– fireworks ––––––
+// –––––– teal fireworks ––––––
   static tealFireworks(state, animeVals) {
     this.resizeCanvas(state);
 
     const x = Math.random() * (state.canvas.width * (7 / 9));
     const y = Math.random() * (state.canvas.height * (7 / 9));
-    const circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
+    const circles = createCircles(x, y, animeVals, state.canvas.width / 25);
 
     const animeFireworks = anime({
       targets: circles,
@@ -138,7 +124,7 @@ class Animations {
 
     const x = Math.random() * state.canvas.width;
     const y = Math.random() * state.canvas.height;
-    const circles = this.createCircles(x, y, animeVals, state.canvas.width / 14);
+    const circles = createCircles(x, y, animeVals, state.canvas.width / 14);
 
     const animeBlobs = anime({
       targets: circles,
@@ -153,22 +139,11 @@ class Animations {
 
 
 // –––––––––––– WORDS ––––––––––––
-  static createWords(state, animeVals) {
-    const words = [];
-    for (let i = 0; i < 8; i++) {
-      let x = anime.random(state.canvas.width * (1/4), state.canvas.width * (3/4));
-      let y = anime.random(state.canvas.height * (1/4), state.canvas.height * (3/4));
-      const word = new Word(x, y, animeVals.colors[i], animeVals);
-      words.push(word);
-    }
-    return words;
-  }
-
 // –––––– 加油 ––––––
   static go(state, animeVals) {
     this.resizeCanvas(state);
 
-    const words = this.createWords(state, animeVals);
+    const words = createWords(state, animeVals);
     const animeGo = anime({
       targets: words,
       font: animeVals.font,
@@ -186,7 +161,7 @@ class Animations {
   static perceive(state, animeVals) {
     this.resizeCanvas(state);
 
-    const words = this.createWords(state, animeVals);
+    const words = createWords(state, animeVals);
     const animePerceive = anime({
       targets: words,
       font: animeVals.font,
@@ -202,31 +177,6 @@ class Animations {
 
 
 // –––––––––––– RECTANGLES ––––––––––––
-  static createRectangles(xVals, yVals, animeVals, w, h) {
-    const rectangles = [];
-
-    for ( let i = 0; i < animeVals.numEls; i++ ) {
-      const color = animeVals.colors[i];
-
-      // one of xVals or yVals could be an array, or neither could be
-      if ( yVals.length ) {
-        const y = yVals[i];
-        rectangles.push(new Rectangle( xVals, y, color, animeVals, w, h ));
-      }
-      else {
-        if ( xVals.length ) {
-          const x = xVals[i];
-          rectangles.push(new Rectangle( x, yVals, color, animeVals, w, h ));
-        }
-        else {
-          rectangles.push(new Rectangle( xVals, yVals, color, animeVals, w, h ));
-        }
-      }
-    }
-
-    return rectangles;
-  }
-
 // –––––– square line up ––––––
   static squareLineUp(state, animeVals) {
   this.resizeCanvas(state);
@@ -237,7 +187,7 @@ class Animations {
                    state.canvas.height * (3 / 7),
                    state.canvas.height * (4 / 7),
                    state.canvas.height * (5 / 7) ];
-      const squares = this.createRectangles(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
+      const squares = createRectangles(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
 
       const animeSquareLineUp = anime({
         targets: squares,
@@ -268,7 +218,7 @@ class Animations {
                   state.canvas.height * (8 / 12),
                   state.canvas.height * (9 / 12),
                   state.canvas.height * (10 / 12) ];
-  const squares = this.createRectangles(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
+  const squares = createRectangles(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
 
   const animeSquareLine = anime({
     targets: squares,
@@ -292,7 +242,7 @@ class Animations {
     const y = 0;
     let width = state.canvas.width;
     let height = state.canvas.height;
-    const rectangle = this.createRectangles(x, y, animeVals, width, height);
+    const rectangle = createRectangles(x, y, animeVals, width, height);
 
     const animePurpleSlide = anime({
       targets: rectangle,
@@ -313,7 +263,7 @@ class Animations {
     const y = 0;
     let width = state.canvas.width;
     let height = state.canvas.height;
-    const rectangle = this.createRectangles(x, y, animeVals, width, height);
+    const rectangle = createRectangles(x, y, animeVals, width, height);
 
     const animeRedSlide = anime({
       targets: rectangle,
@@ -333,7 +283,7 @@ class Animations {
     const y = 0;
     let width = state.canvas.width;
     let height = state.canvas.height;
-    const rectangle = this.createRectangles(x, y, animeVals, width, height);
+    const rectangle = createRectangles(x, y, animeVals, width, height);
 
     const animeGreenFlash = anime({
       targets: rectangle,
@@ -353,7 +303,7 @@ class Animations {
                     state.canvas.width * (3 / 5), state.canvas.width * (4 / 5) ];
     const y = state.canvas.height * (3 / 8);
 
-    const squares = this.createRectangles(xVals, y, animeVals, (state.canvas.width / 5), (state.canvas.width / 5));
+    const squares = createRectangles(xVals, y, animeVals, (state.canvas.width / 5), (state.canvas.width / 5));
 
     const animeSqPanels = anime({
       targets: squares,
@@ -378,7 +328,7 @@ class Animations {
                     state.canvas.height * (4 / 7),
                     state.canvas.height * (5 / 7) ];
 
-    const rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
+    const rectangles = createRectangles(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
 
     const animeSqSlide = anime({
       targets: rectangles,
@@ -411,7 +361,7 @@ class Animations {
                     state.canvas.height * (2 / 9),
                     state.canvas.height / 9 ];
 
-    const rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
+    const rectangles = createRectangles(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
 
     const animeBanana = anime({
       targets: rectangles,

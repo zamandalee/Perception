@@ -78,17 +78,7 @@
 	
 	var _animeValues = __webpack_require__(3);
 	
-	var _circle = __webpack_require__(4);
-	
-	var _circle2 = _interopRequireDefault(_circle);
-	
-	var _rectangle = __webpack_require__(5);
-	
-	var _rectangle2 = _interopRequireDefault(_rectangle);
-	
-	var _word = __webpack_require__(6);
-	
-	var _word2 = _interopRequireDefault(_word);
+	var _shapeCreation = __webpack_require__(8);
 	
 	var _game = __webpack_require__(7);
 	
@@ -169,20 +159,6 @@
 	    }
 	
 	    // –––––––––––– CIRCLES ––––––––––––
-	
-	  }, {
-	    key: 'createCircles',
-	    value: function createCircles(xVals, yVals, animeVals, radius) {
-	      var circles = [];
-	
-	      for (var i = 0; i < animeVals.numEls; i++) {
-	        var color = animeVals.colors[i];
-	        circles.push(new _circle2.default(xVals, yVals, color, animeVals, radius));
-	      }
-	
-	      return circles;
-	    }
-	
 	    // –––––– balloon ––––––
 	
 	  }, {
@@ -192,7 +168,7 @@
 	
 	      var x = state.canvas.width / 2;
 	      var y = state.canvas.height / 2;
-	      var circle = this.createCircles(x, y, animeVals, state.canvas.width * (3 / 2));
+	      var circle = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width * (3 / 2));
 	
 	      var animeBalloon = (0, _animejs2.default)({
 	        targets: circle,
@@ -205,7 +181,7 @@
 	      state.animations.push(animeBalloon);
 	    }
 	
-	    // –––––– fireworks ––––––
+	    // –––––– purple fireworks ––––––
 	
 	  }, {
 	    key: 'purpleFireworks',
@@ -214,7 +190,7 @@
 	
 	      var x = Math.random() * (state.canvas.width * (7 / 9));
 	      var y = Math.random() * (state.canvas.height * (7 / 9));
-	      var circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
+	      var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 25);
 	
 	      var animeFireworks = (0, _animejs2.default)({
 	        targets: circles,
@@ -233,7 +209,7 @@
 	      state.animations.push(animeFireworks);
 	    }
 	
-	    // –––––– fireworks ––––––
+	    // –––––– teal fireworks ––––––
 	
 	  }, {
 	    key: 'tealFireworks',
@@ -242,7 +218,7 @@
 	
 	      var x = Math.random() * (state.canvas.width * (7 / 9));
 	      var y = Math.random() * (state.canvas.height * (7 / 9));
-	      var circles = this.createCircles(x, y, animeVals, state.canvas.width / 25);
+	      var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 25);
 	
 	      var animeFireworks = (0, _animejs2.default)({
 	        targets: circles,
@@ -270,7 +246,7 @@
 	
 	      var x = Math.random() * state.canvas.width;
 	      var y = Math.random() * state.canvas.height;
-	      var circles = this.createCircles(x, y, animeVals, state.canvas.width / 14);
+	      var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 14);
 	
 	      var animeBlobs = (0, _animejs2.default)({
 	        targets: circles,
@@ -288,20 +264,6 @@
 	    }
 	
 	    // –––––––––––– WORDS ––––––––––––
-	
-	  }, {
-	    key: 'createWords',
-	    value: function createWords(state, animeVals) {
-	      var words = [];
-	      for (var i = 0; i < 8; i++) {
-	        var x = _animejs2.default.random(state.canvas.width * (1 / 4), state.canvas.width * (3 / 4));
-	        var y = _animejs2.default.random(state.canvas.height * (1 / 4), state.canvas.height * (3 / 4));
-	        var word = new _word2.default(x, y, animeVals.colors[i], animeVals);
-	        words.push(word);
-	      }
-	      return words;
-	    }
-	
 	    // –––––– 加油 ––––––
 	
 	  }, {
@@ -309,7 +271,7 @@
 	    value: function go(state, animeVals) {
 	      this.resizeCanvas(state);
 	
-	      var words = this.createWords(state, animeVals);
+	      var words = (0, _shapeCreation.createWords)(state, animeVals);
 	      var animeGo = (0, _animejs2.default)({
 	        targets: words,
 	        font: animeVals.font,
@@ -336,7 +298,7 @@
 	    value: function perceive(state, animeVals) {
 	      this.resizeCanvas(state);
 	
-	      var words = this.createWords(state, animeVals);
+	      var words = (0, _shapeCreation.createWords)(state, animeVals);
 	      var animePerceive = (0, _animejs2.default)({
 	        targets: words,
 	        font: animeVals.font,
@@ -357,32 +319,6 @@
 	    }
 	
 	    // –––––––––––– RECTANGLES ––––––––––––
-	
-	  }, {
-	    key: 'createRectangles',
-	    value: function createRectangles(xVals, yVals, animeVals, w, h) {
-	      var rectangles = [];
-	
-	      for (var i = 0; i < animeVals.numEls; i++) {
-	        var color = animeVals.colors[i];
-	
-	        // one of xVals or yVals could be an array, or neither could be
-	        if (yVals.length) {
-	          var y = yVals[i];
-	          rectangles.push(new _rectangle2.default(xVals, y, color, animeVals, w, h));
-	        } else {
-	          if (xVals.length) {
-	            var x = xVals[i];
-	            rectangles.push(new _rectangle2.default(x, yVals, color, animeVals, w, h));
-	          } else {
-	            rectangles.push(new _rectangle2.default(xVals, yVals, color, animeVals, w, h));
-	          }
-	        }
-	      }
-	
-	      return rectangles;
-	    }
-	
 	    // –––––– square line up ––––––
 	
 	  }, {
@@ -392,7 +328,7 @@
 	
 	      var x = state.canvas.width * (8 / 10);
 	      var yArr = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
-	      var squares = this.createRectangles(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
+	      var squares = (0, _shapeCreation.createRectangles)(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
 	
 	      var animeSquareLineUp = (0, _animejs2.default)({
 	        targets: squares,
@@ -421,7 +357,7 @@
 	
 	      var x = state.canvas.width / 11;
 	      var yVals = [state.canvas.height / 12, state.canvas.height * (2 / 12), state.canvas.height * (3 / 12), state.canvas.height * (4 / 12), state.canvas.height * (5 / 12), state.canvas.height * (6 / 12), state.canvas.height * (7 / 12), state.canvas.height * (8 / 12), state.canvas.height * (9 / 12), state.canvas.height * (10 / 12)];
-	      var squares = this.createRectangles(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
+	      var squares = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
 	
 	      var animeSquareLine = (0, _animejs2.default)({
 	        targets: squares,
@@ -452,7 +388,7 @@
 	      var y = 0;
 	      var width = state.canvas.width;
 	      var height = state.canvas.height;
-	      var rectangle = this.createRectangles(x, y, animeVals, width, height);
+	      var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
 	
 	      var animePurpleSlide = (0, _animejs2.default)({
 	        targets: rectangle,
@@ -476,7 +412,7 @@
 	      var y = 0;
 	      var width = state.canvas.width;
 	      var height = state.canvas.height;
-	      var rectangle = this.createRectangles(x, y, animeVals, width, height);
+	      var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
 	
 	      var animeRedSlide = (0, _animejs2.default)({
 	        targets: rectangle,
@@ -499,7 +435,7 @@
 	      var y = 0;
 	      var width = state.canvas.width;
 	      var height = state.canvas.height;
-	      var rectangle = this.createRectangles(x, y, animeVals, width, height);
+	      var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
 	
 	      var animeGreenFlash = (0, _animejs2.default)({
 	        targets: rectangle,
@@ -521,7 +457,7 @@
 	      var xVals = [0, state.canvas.width / 5, state.canvas.width * (2 / 5), state.canvas.width * (3 / 5), state.canvas.width * (4 / 5)];
 	      var y = state.canvas.height * (3 / 8);
 	
-	      var squares = this.createRectangles(xVals, y, animeVals, state.canvas.width / 5, state.canvas.width / 5);
+	      var squares = (0, _shapeCreation.createRectangles)(xVals, y, animeVals, state.canvas.width / 5, state.canvas.width / 5);
 	
 	      var animeSqPanels = (0, _animejs2.default)({
 	        targets: squares,
@@ -545,7 +481,7 @@
 	      var x = 0;
 	      var yVals = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
 	
-	      var rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
+	      var rectangles = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
 	
 	      var animeSqSlide = (0, _animejs2.default)({
 	        targets: rectangles,
@@ -570,7 +506,7 @@
 	      var x = state.canvas.width * (3 / 4);
 	      var yVals = [state.canvas.height / 9, state.canvas.height * (2 / 9), state.canvas.height * (3 / 9), state.canvas.height * (4 / 9), state.canvas.height * (5 / 9), state.canvas.height * (6 / 9), state.canvas.height * (7 / 9), state.canvas.height * (7 / 9), state.canvas.height * (6 / 9), state.canvas.height * (5 / 9), state.canvas.height * (4 / 9), state.canvas.height * (3 / 9), state.canvas.height * (2 / 9), state.canvas.height / 9];
 	
-	      var rectangles = this.createRectangles(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
+	      var rectangles = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
 	
 	      var animeBanana = (0, _animejs2.default)({
 	        targets: rectangles,
@@ -1651,6 +1587,85 @@
 	    // window.animationRunning = true;
 	    KEY_ANIMATIONS[state.key](state);
 	  }
+	};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.createRectangles = exports.createWords = exports.createCircles = undefined;
+	
+	var _animejs = __webpack_require__(2);
+	
+	var _animejs2 = _interopRequireDefault(_animejs);
+	
+	var _circle = __webpack_require__(4);
+	
+	var _circle2 = _interopRequireDefault(_circle);
+	
+	var _rectangle = __webpack_require__(5);
+	
+	var _rectangle2 = _interopRequireDefault(_rectangle);
+	
+	var _word = __webpack_require__(6);
+	
+	var _word2 = _interopRequireDefault(_word);
+	
+	var _animeValues = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// –––––––––––– CIRCLES ––––––––––––
+	var createCircles = exports.createCircles = function createCircles(xVals, yVals, animeVals, radius) {
+	  var circles = [];
+	
+	  for (var i = 0; i < animeVals.numEls; i++) {
+	    var color = animeVals.colors[i];
+	    circles.push(new _circle2.default(xVals, yVals, color, animeVals, radius));
+	  }
+	
+	  return circles;
+	};
+	
+	// –––––––––––– WORDS ––––––––––––
+	var createWords = exports.createWords = function createWords(state, animeVals) {
+	  var words = [];
+	  for (var i = 0; i < 8; i++) {
+	    var x = _animejs2.default.random(state.canvas.width * (1 / 4), state.canvas.width * (3 / 4));
+	    var y = _animejs2.default.random(state.canvas.height * (1 / 4), state.canvas.height * (3 / 4));
+	    var word = new _word2.default(x, y, animeVals.colors[i], animeVals);
+	    words.push(word);
+	  }
+	  return words;
+	};
+	
+	// –––––––––––– RECTANGLES ––––––––––––
+	var createRectangles = exports.createRectangles = function createRectangles(xVals, yVals, animeVals, w, h) {
+	  var rectangles = [];
+	
+	  for (var i = 0; i < animeVals.numEls; i++) {
+	    var color = animeVals.colors[i];
+	
+	    // one of xVals or yVals could be an array, or neither could be
+	    if (yVals.length) {
+	      var y = yVals[i];
+	      rectangles.push(new _rectangle2.default(xVals, y, color, animeVals, w, h));
+	    } else {
+	      if (xVals.length) {
+	        var x = xVals[i];
+	        rectangles.push(new _rectangle2.default(x, yVals, color, animeVals, w, h));
+	      } else {
+	        rectangles.push(new _rectangle2.default(xVals, yVals, color, animeVals, w, h));
+	      }
+	    }
+	  }
+	
+	  return rectangles;
 	};
 
 /***/ })
