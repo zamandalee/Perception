@@ -78,9 +78,9 @@
 	
 	var _animeValues = __webpack_require__(3);
 	
-	var _shapeCreation = __webpack_require__(8);
+	var _shapeCreation = __webpack_require__(4);
 	
-	var _game = __webpack_require__(7);
+	var _game = __webpack_require__(8);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -97,6 +97,9 @@
 	    this.infiniteAnimation(this.state);
 	    this.keydownListener(this.state);
 	  }
+	
+	  // below method from https://github.com/iamsammak/soundspace
+	
 	
 	  _createClass(Animations, [{
 	    key: 'infiniteAnimation',
@@ -119,9 +122,6 @@
 	        }
 	      });
 	    }
-	
-	    // below method from https://github.com/iamsammak/soundspace
-	
 	  }, {
 	    key: 'keydownListener',
 	
@@ -156,373 +156,6 @@
 	    value: function resizeCanvas(state) {
 	      state.canvas.width = window.innerWidth;
 	      state.canvas.height = window.innerHeight;
-	    }
-	
-	    // –––––––––––– CIRCLES ––––––––––––
-	    // –––––– balloon ––––––
-	
-	  }, {
-	    key: 'balloon',
-	    value: function balloon(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = state.canvas.width / 2;
-	      var y = state.canvas.height / 2;
-	      var circle = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width * (3 / 2));
-	
-	      var animeBalloon = (0, _animejs2.default)({
-	        targets: circle,
-	        radius: 0,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeBalloon);
-	    }
-	
-	    // –––––– purple fireworks ––––––
-	
-	  }, {
-	    key: 'purpleFireworks',
-	    value: function purpleFireworks(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = Math.random() * (state.canvas.width * (7 / 9));
-	      var y = Math.random() * (state.canvas.height * (7 / 9));
-	      var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 25);
-	
-	      var animeFireworks = (0, _animejs2.default)({
-	        targets: circles,
-	        x: function x(cir) {
-	          return cir.x + _animejs2.default.random(-state.canvas.width, state.canvas.width);
-	        },
-	        y: function y(cir) {
-	          return cir.y + _animejs2.default.random(-state.canvas.width, state.canvas.width);
-	        },
-	        radius: state.canvas.width / 55,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeFireworks);
-	    }
-	
-	    // –––––– teal fireworks ––––––
-	
-	  }, {
-	    key: 'tealFireworks',
-	    value: function tealFireworks(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = Math.random() * (state.canvas.width * (7 / 9));
-	      var y = Math.random() * (state.canvas.height * (7 / 9));
-	      var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 25);
-	
-	      var animeFireworks = (0, _animejs2.default)({
-	        targets: circles,
-	        x: function x(cir) {
-	          return cir.x + _animejs2.default.random(-state.canvas.width, state.canvas.width);
-	        },
-	        y: function y(cir) {
-	          return cir.y + _animejs2.default.random(-state.canvas.width, state.canvas.width);
-	        },
-	        radius: state.canvas.width / 55,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeFireworks);
-	    }
-	
-	    // –––––– blobs ––––––
-	
-	  }, {
-	    key: 'blobs',
-	    value: function blobs(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = Math.random() * state.canvas.width;
-	      var y = Math.random() * state.canvas.height;
-	      var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 14);
-	
-	      var animeBlobs = (0, _animejs2.default)({
-	        targets: circles,
-	        x: function x() {
-	          return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
-	        },
-	        y: function y() {
-	          return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
-	        },
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	      state.animations.push(animeBlobs);
-	    }
-	
-	    // –––––––––––– WORDS ––––––––––––
-	    // –––––– 加油 ––––––
-	
-	  }, {
-	    key: 'go',
-	    value: function go(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var words = (0, _shapeCreation.createWords)(state, animeVals);
-	      var animeGo = (0, _animejs2.default)({
-	        targets: words,
-	        font: animeVals.font,
-	        x: function x() {
-	          return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
-	        },
-	        y: function y() {
-	          return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
-	        },
-	        duration: animeVals.duration,
-	        delay: function delay(el, idx) {
-	          return idx * 80;
-	        },
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	      state.animations.push(animeGo);
-	    }
-	
-	    // –––––– perceive ––––––
-	
-	  }, {
-	    key: 'perceive',
-	    value: function perceive(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var words = (0, _shapeCreation.createWords)(state, animeVals);
-	      var animePerceive = (0, _animejs2.default)({
-	        targets: words,
-	        font: animeVals.font,
-	        x: function x() {
-	          return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
-	        },
-	        y: function y() {
-	          return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
-	        },
-	        duration: animeVals.duration,
-	        delay: function delay(el, idx) {
-	          return idx * 80;
-	        },
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	      state.animations.push(animePerceive);
-	    }
-	
-	    // –––––––––––– RECTANGLES ––––––––––––
-	    // –––––– square line up ––––––
-	
-	  }, {
-	    key: 'squareLineUp',
-	    value: function squareLineUp(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = state.canvas.width * (8 / 10);
-	      var yArr = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
-	      var squares = (0, _shapeCreation.createRectangles)(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
-	
-	      var animeSquareLineUp = (0, _animejs2.default)({
-	        targets: squares,
-	        x: function x() {
-	          return state.canvas.width / 10;
-	        },
-	        width: state.canvas.height / 15,
-	        height: state.canvas.height / 15,
-	        duration: animeVals.duration,
-	        delay: function delay(el, idx) {
-	          return idx * 80;
-	        },
-	        easing: 'easeOutExpo',
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeSquareLineUp);
-	    }
-	
-	    // –––––– square line right ––––––
-	
-	  }, {
-	    key: 'squareLineRight',
-	    value: function squareLineRight(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = state.canvas.width / 11;
-	      var yVals = [state.canvas.height / 12, state.canvas.height * (2 / 12), state.canvas.height * (3 / 12), state.canvas.height * (4 / 12), state.canvas.height * (5 / 12), state.canvas.height * (6 / 12), state.canvas.height * (7 / 12), state.canvas.height * (8 / 12), state.canvas.height * (9 / 12), state.canvas.height * (10 / 12)];
-	      var squares = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
-	
-	      var animeSquareLine = (0, _animejs2.default)({
-	        targets: squares,
-	        x: function x() {
-	          return state.canvas.width * (8 / 10);
-	        },
-	        width: state.canvas.height / 8,
-	        height: state.canvas.height / 8,
-	        duration: animeVals.duration,
-	        delay: function delay(el, idx) {
-	          return idx * 80;
-	        },
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeSquareLine);
-	    }
-	
-	    // –––––– purple slide up ––––––
-	
-	  }, {
-	    key: 'purpleSlideUp',
-	    value: function purpleSlideUp(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = 0;
-	      var y = 0;
-	      var width = state.canvas.width;
-	      var height = state.canvas.height;
-	      var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
-	
-	      var animePurpleSlide = (0, _animejs2.default)({
-	        targets: rectangle,
-	        height: animeVals.endHeight,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animePurpleSlide);
-	    }
-	
-	    // –––––– red slide left ––––––
-	
-	  }, {
-	    key: 'redSlideLeft',
-	    value: function redSlideLeft(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = 0;
-	      var y = 0;
-	      var width = state.canvas.width;
-	      var height = state.canvas.height;
-	      var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
-	
-	      var animeRedSlide = (0, _animejs2.default)({
-	        targets: rectangle,
-	        width: animeVals.endWidth,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeRedSlide);
-	    }
-	
-	    // –––––– green flash ––––––
-	
-	  }, {
-	    key: 'greenFlash',
-	    value: function greenFlash(state, animeVals) {
-	      this.resizeCanvas(state);
-	      var x = 0;
-	      var y = 0;
-	      var width = state.canvas.width;
-	      var height = state.canvas.height;
-	      var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
-	
-	      var animeGreenFlash = (0, _animejs2.default)({
-	        targets: rectangle,
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeGreenFlash);
-	    }
-	
-	    // –––––– square panels ––––––
-	
-	  }, {
-	    key: 'squarePanels',
-	    value: function squarePanels(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var xVals = [0, state.canvas.width / 5, state.canvas.width * (2 / 5), state.canvas.width * (3 / 5), state.canvas.width * (4 / 5)];
-	      var y = state.canvas.height * (3 / 8);
-	
-	      var squares = (0, _shapeCreation.createRectangles)(xVals, y, animeVals, state.canvas.width / 5, state.canvas.width / 5);
-	
-	      var animeSqPanels = (0, _animejs2.default)({
-	        targets: squares,
-	        width: animeVals.endWidth,
-	        duration: animeVals.duration,
-	        delay: 0,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeSqPanels);
-	    }
-	
-	    // –––––– square slide ––––––
-	
-	  }, {
-	    key: 'squareSlide',
-	    value: function squareSlide(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = 0;
-	      var yVals = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
-	
-	      var rectangles = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
-	
-	      var animeSqSlide = (0, _animejs2.default)({
-	        targets: rectangles,
-	        x: function x(sq, idx) {
-	          return state.canvas.width;
-	        },
-	        duration: animeVals.duration,
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeSqSlide);
-	    }
-	
-	    // –––––– banana peel ––––––
-	
-	  }, {
-	    key: 'bananaPeel',
-	    value: function bananaPeel(state, animeVals) {
-	      this.resizeCanvas(state);
-	
-	      var x = state.canvas.width * (3 / 4);
-	      var yVals = [state.canvas.height / 9, state.canvas.height * (2 / 9), state.canvas.height * (3 / 9), state.canvas.height * (4 / 9), state.canvas.height * (5 / 9), state.canvas.height * (6 / 9), state.canvas.height * (7 / 9), state.canvas.height * (7 / 9), state.canvas.height * (6 / 9), state.canvas.height * (5 / 9), state.canvas.height * (4 / 9), state.canvas.height * (3 / 9), state.canvas.height * (2 / 9), state.canvas.height / 9];
-	
-	      var rectangles = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
-	
-	      var animeBanana = (0, _animejs2.default)({
-	        targets: rectangles,
-	        x: function x(sq, idx) {
-	          return state.canvas.width * (1 / 15);
-	        },
-	        width: animeVals.endWidth,
-	        duration: animeVals.duration,
-	        delay: function delay(el, index) {
-	          return index * 50;
-	        },
-	        easing: animeVals.easing,
-	        complete: this.clearAnimation(state)
-	      });
-	
-	      state.animations.push(animeBanana);
 	    }
 	  }]);
 	
@@ -1289,6 +922,85 @@
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.createRectangles = exports.createWords = exports.createCircles = undefined;
+	
+	var _animejs = __webpack_require__(2);
+	
+	var _animejs2 = _interopRequireDefault(_animejs);
+	
+	var _circle = __webpack_require__(5);
+	
+	var _circle2 = _interopRequireDefault(_circle);
+	
+	var _rectangle = __webpack_require__(6);
+	
+	var _rectangle2 = _interopRequireDefault(_rectangle);
+	
+	var _word = __webpack_require__(7);
+	
+	var _word2 = _interopRequireDefault(_word);
+	
+	var _animeValues = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// –––––––––––– CIRCLES ––––––––––––
+	var createCircles = exports.createCircles = function createCircles(xVals, yVals, animeVals, radius) {
+	  var circles = [];
+	
+	  for (var i = 0; i < animeVals.numEls; i++) {
+	    var color = animeVals.colors[i];
+	    circles.push(new _circle2.default(xVals, yVals, color, animeVals, radius));
+	  }
+	
+	  return circles;
+	};
+	
+	// –––––––––––– WORDS ––––––––––––
+	var createWords = exports.createWords = function createWords(state, animeVals) {
+	  var words = [];
+	  for (var i = 0; i < 8; i++) {
+	    var x = _animejs2.default.random(state.canvas.width * (1 / 4), state.canvas.width * (3 / 4));
+	    var y = _animejs2.default.random(state.canvas.height * (1 / 4), state.canvas.height * (3 / 4));
+	    var word = new _word2.default(x, y, animeVals.colors[i], animeVals);
+	    words.push(word);
+	  }
+	  return words;
+	};
+	
+	// –––––––––––– RECTANGLES ––––––––––––
+	var createRectangles = exports.createRectangles = function createRectangles(xVals, yVals, animeVals, w, h) {
+	  var rectangles = [];
+	
+	  for (var i = 0; i < animeVals.numEls; i++) {
+	    var color = animeVals.colors[i];
+	
+	    // one of xVals or yVals could be an array, or neither could be
+	    if (yVals.length) {
+	      var y = yVals[i];
+	      rectangles.push(new _rectangle2.default(xVals, y, color, animeVals, w, h));
+	    } else {
+	      if (xVals.length) {
+	        var x = xVals[i];
+	        rectangles.push(new _rectangle2.default(x, yVals, color, animeVals, w, h));
+	      } else {
+	        rectangles.push(new _rectangle2.default(xVals, yVals, color, animeVals, w, h));
+	      }
+	    }
+	  }
+	
+	  return rectangles;
+	};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -1327,7 +1039,7 @@
 	exports.default = Circle;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -1365,7 +1077,7 @@
 	exports.default = Rectangle;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -1404,7 +1116,7 @@
 	exports.default = Word;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1414,19 +1126,28 @@
 	});
 	exports.handleState = exports.NOT_MATCH = exports.MATCH = exports.ONE_KEYPRESS = exports.ZERO_KEYPRESSES = undefined;
 	
-	var _animations = __webpack_require__(1);
+	var _circleAnimations = __webpack_require__(9);
 	
-	var _animations2 = _interopRequireDefault(_animations);
+	var circleAnimations = _interopRequireWildcard(_circleAnimations);
+	
+	var _wordAnimations = __webpack_require__(10);
+	
+	var wordAnimations = _interopRequireWildcard(_wordAnimations);
+	
+	var _rectangleAnimations = __webpack_require__(11);
+	
+	var rectangleAnimations = _interopRequireWildcard(_rectangleAnimations);
 	
 	var _animeValues = __webpack_require__(3);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	// ANIMATION/MATCHING GAME FLOW using a FINITE STATE MACHINE:
 	
 	//possible currentStates
 	// TODO window.animationRunning into state
 	
+	// import Animations from './animations';
 	var ZERO_KEYPRESSES = exports.ZERO_KEYPRESSES = 'ZERO_KEYPRESSES';
 	var ONE_KEYPRESS = exports.ONE_KEYPRESS = 'ONE_KEYPRESS';
 	var MATCH = exports.MATCH = 'MATCH';
@@ -1544,31 +1265,31 @@
 	
 	// KEY_ANIMATIONS = set same animation to paired keys
 	var allAnimations = [function (state) {
-	  return _animations2.default.bananaPeel(state, _animeValues.animeValues['a']);
+	  return rectangleAnimations.bananaPeel(state, _animeValues.animeValues['a']);
 	}, function (state) {
-	  return _animations2.default.squareSlide(state, _animeValues.animeValues['b']);
+	  return rectangleAnimations.squareSlide(state, _animeValues.animeValues['b']);
 	}, function (state) {
-	  return _animations2.default.squarePanels(state, _animeValues.animeValues['c']);
+	  return rectangleAnimations.squarePanels(state, _animeValues.animeValues['c']);
 	}, function (state) {
-	  return _animations2.default.purpleFireworks(state, _animeValues.animeValues['d']);
+	  return rectangleAnimations.purpleFireworks(state, _animeValues.animeValues['d']);
 	}, function (state) {
-	  return _animations2.default.redSlideLeft(state, _animeValues.animeValues['e']);
+	  return rectangleAnimations.redSlideLeft(state, _animeValues.animeValues['e']);
 	}, function (state) {
-	  return _animations2.default.purpleSlideUp(state, _animeValues.animeValues['f']);
+	  return rectangleAnimations.purpleSlideUp(state, _animeValues.animeValues['f']);
 	}, function (state) {
-	  return _animations2.default.squareLineRight(state, _animeValues.animeValues['g']);
+	  return rectangleAnimations.squareLineRight(state, _animeValues.animeValues['g']);
 	}, function (state) {
-	  return _animations2.default.squareLineUp(state, _animeValues.animeValues['h']);
+	  return rectangleAnimations.squareLineUp(state, _animeValues.animeValues['h']);
 	}, function (state) {
-	  return _animations2.default.perceive(state, _animeValues.animeValues['i']);
+	  return wordAnimations.perceive(state, _animeValues.animeValues['i']);
 	}, function (state) {
-	  return _animations2.default.go(state, _animeValues.animeValues['j']);
+	  return wordAnimations.go(state, _animeValues.animeValues['j']);
 	}, function (state) {
-	  return _animations2.default.blobs(state, _animeValues.animeValues['k']);
+	  return circleAnimations.blobs(state, _animeValues.animeValues['k']);
 	}, function (state) {
-	  return _animations2.default.tealFireworks(state, _animeValues.animeValues['l']);
+	  return circleAnimations.tealFireworks(state, _animeValues.animeValues['l']);
 	}, function (state) {
-	  return _animations2.default.balloon(state, _animeValues.animeValues['m']);
+	  return circleAnimations.balloon(state, _animeValues.animeValues['m']);
 	}];
 	
 	var KEY_ANIMATIONS = {};
@@ -1590,7 +1311,7 @@
 	};
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1598,74 +1319,410 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.createRectangles = exports.createWords = exports.createCircles = undefined;
+	exports.blobs = exports.tealFireworks = exports.purpleFireworks = exports.balloon = undefined;
 	
 	var _animejs = __webpack_require__(2);
 	
 	var _animejs2 = _interopRequireDefault(_animejs);
 	
-	var _circle = __webpack_require__(4);
-	
-	var _circle2 = _interopRequireDefault(_circle);
-	
-	var _rectangle = __webpack_require__(5);
-	
-	var _rectangle2 = _interopRequireDefault(_rectangle);
-	
-	var _word = __webpack_require__(6);
-	
-	var _word2 = _interopRequireDefault(_word);
-	
 	var _animeValues = __webpack_require__(3);
+	
+	var _shapeCreation = __webpack_require__(4);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var resizeCanvas = function resizeCanvas(state) {
+	  state.canvas.width = window.innerWidth;
+	  state.canvas.height = window.innerHeight;
+	};
+	
+	var clearAnimation = function clearAnimation(state) {
+	  state.animations = [];
+	};
+	
 	// –––––––––––– CIRCLES ––––––––––––
-	var createCircles = exports.createCircles = function createCircles(xVals, yVals, animeVals, radius) {
-	  var circles = [];
+	// –––––– balloon ––––––
+	var balloon = exports.balloon = function balloon(state, animeVals) {
+	  resizeCanvas(state);
 	
-	  for (var i = 0; i < animeVals.numEls; i++) {
-	    var color = animeVals.colors[i];
-	    circles.push(new _circle2.default(xVals, yVals, color, animeVals, radius));
-	  }
+	  var x = state.canvas.width / 2;
+	  var y = state.canvas.height / 2;
+	  var circle = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width * (3 / 2));
 	
-	  return circles;
+	  var animeBalloon = (0, _animejs2.default)({
+	    targets: circle,
+	    radius: 0,
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeBalloon);
+	};
+	
+	// –––––– purple fireworks ––––––
+	var purpleFireworks = exports.purpleFireworks = function purpleFireworks(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = Math.random() * (state.canvas.width * (7 / 9));
+	  var y = Math.random() * (state.canvas.height * (7 / 9));
+	  var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 25);
+	
+	  var animeFireworks = (0, _animejs2.default)({
+	    targets: circles,
+	    x: function x(cir) {
+	      return cir.x + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	    },
+	    y: function y(cir) {
+	      return cir.y + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	    },
+	    radius: state.canvas.width / 55,
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeFireworks);
+	};
+	
+	// –––––– teal fireworks ––––––
+	var tealFireworks = exports.tealFireworks = function tealFireworks(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = Math.random() * (state.canvas.width * (7 / 9));
+	  var y = Math.random() * (state.canvas.height * (7 / 9));
+	  var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 25);
+	
+	  var animeFireworks = (0, _animejs2.default)({
+	    targets: circles,
+	    x: function x(cir) {
+	      return cir.x + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	    },
+	    y: function y(cir) {
+	      return cir.y + _animejs2.default.random(-state.canvas.width, state.canvas.width);
+	    },
+	    radius: state.canvas.width / 55,
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeFireworks);
+	};
+	
+	// –––––– blobs ––––––
+	var blobs = exports.blobs = function blobs(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = Math.random() * state.canvas.width;
+	  var y = Math.random() * state.canvas.height;
+	  var circles = (0, _shapeCreation.createCircles)(x, y, animeVals, state.canvas.width / 14);
+	
+	  var animeBlobs = (0, _animejs2.default)({
+	    targets: circles,
+	    x: function x() {
+	      return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
+	    },
+	    y: function y() {
+	      return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
+	    },
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	  state.animations.push(animeBlobs);
+	};
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.perceive = exports.go = undefined;
+	
+	var _animejs = __webpack_require__(2);
+	
+	var _animejs2 = _interopRequireDefault(_animejs);
+	
+	var _animeValues = __webpack_require__(3);
+	
+	var _shapeCreation = __webpack_require__(4);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var resizeCanvas = function resizeCanvas(state) {
+	  state.canvas.width = window.innerWidth;
+	  state.canvas.height = window.innerHeight;
+	};
+	
+	var clearAnimation = function clearAnimation(state) {
+	  state.animations = [];
 	};
 	
 	// –––––––––––– WORDS ––––––––––––
-	var createWords = exports.createWords = function createWords(state, animeVals) {
-	  var words = [];
-	  for (var i = 0; i < 8; i++) {
-	    var x = _animejs2.default.random(state.canvas.width * (1 / 4), state.canvas.width * (3 / 4));
-	    var y = _animejs2.default.random(state.canvas.height * (1 / 4), state.canvas.height * (3 / 4));
-	    var word = new _word2.default(x, y, animeVals.colors[i], animeVals);
-	    words.push(word);
-	  }
-	  return words;
+	// –––––– 加油 ––––––
+	var go = exports.go = function go(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var words = (0, _shapeCreation.createWords)(state, animeVals);
+	  var animeGo = (0, _animejs2.default)({
+	    targets: words,
+	    font: animeVals.font,
+	    x: function x() {
+	      return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
+	    },
+	    y: function y() {
+	      return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
+	    },
+	    duration: animeVals.duration,
+	    delay: function delay(el, idx) {
+	      return idx * 80;
+	    },
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	  state.animations.push(animeGo);
+	};
+	
+	// –––––– perceive ––––––
+	var perceive = exports.perceive = function perceive(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var words = (0, _shapeCreation.createWords)(state, animeVals);
+	  var animePerceive = (0, _animejs2.default)({
+	    targets: words,
+	    font: animeVals.font,
+	    x: function x() {
+	      return _animejs2.default.random(state.canvas.width * (1 / 8), state.canvas.width * (7 / 8));
+	    },
+	    y: function y() {
+	      return _animejs2.default.random(state.canvas.height * (1 / 8), state.canvas.height * (7 / 8));
+	    },
+	    duration: animeVals.duration,
+	    delay: function delay(el, idx) {
+	      return idx * 80;
+	    },
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	  state.animations.push(animePerceive);
+	};
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.bananaPeel = exports.squareSlide = exports.squarePanels = exports.greenFlash = exports.redSlideLeft = exports.purpleSlideUp = exports.squareLineRight = exports.squareLineUp = undefined;
+	
+	var _animejs = __webpack_require__(2);
+	
+	var _animejs2 = _interopRequireDefault(_animejs);
+	
+	var _animeValues = __webpack_require__(3);
+	
+	var _shapeCreation = __webpack_require__(4);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var resizeCanvas = function resizeCanvas(state) {
+	  state.canvas.width = window.innerWidth;
+	  state.canvas.height = window.innerHeight;
+	};
+	
+	var clearAnimation = function clearAnimation(state) {
+	  state.animations = [];
 	};
 	
 	// –––––––––––– RECTANGLES ––––––––––––
-	var createRectangles = exports.createRectangles = function createRectangles(xVals, yVals, animeVals, w, h) {
-	  var rectangles = [];
+	// –––––– square line up ––––––
+	var squareLineUp = exports.squareLineUp = function squareLineUp(state, animeVals) {
+	  resizeCanvas(state);
 	
-	  for (var i = 0; i < animeVals.numEls; i++) {
-	    var color = animeVals.colors[i];
+	  var x = state.canvas.width * (8 / 10);
+	  var yArr = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
+	  var squares = (0, _shapeCreation.createRectangles)(x, yArr, animeVals, state.canvas.height / 8, state.canvas.height / 8);
 	
-	    // one of xVals or yVals could be an array, or neither could be
-	    if (yVals.length) {
-	      var y = yVals[i];
-	      rectangles.push(new _rectangle2.default(xVals, y, color, animeVals, w, h));
-	    } else {
-	      if (xVals.length) {
-	        var x = xVals[i];
-	        rectangles.push(new _rectangle2.default(x, yVals, color, animeVals, w, h));
-	      } else {
-	        rectangles.push(new _rectangle2.default(xVals, yVals, color, animeVals, w, h));
-	      }
-	    }
-	  }
+	  var animeSquareLineUp = (0, _animejs2.default)({
+	    targets: squares,
+	    x: function x() {
+	      return state.canvas.width / 10;
+	    },
+	    width: state.canvas.height / 15,
+	    height: state.canvas.height / 15,
+	    duration: animeVals.duration,
+	    delay: function delay(el, idx) {
+	      return idx * 80;
+	    },
+	    easing: 'easeOutExpo',
+	    complete: clearAnimation(state)
+	  });
 	
-	  return rectangles;
+	  state.animations.push(animeSquareLineUp);
+	};
+	
+	// –––––– square line right ––––––
+	var squareLineRight = exports.squareLineRight = function squareLineRight(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = state.canvas.width / 11;
+	  var yVals = [state.canvas.height / 12, state.canvas.height * (2 / 12), state.canvas.height * (3 / 12), state.canvas.height * (4 / 12), state.canvas.height * (5 / 12), state.canvas.height * (6 / 12), state.canvas.height * (7 / 12), state.canvas.height * (8 / 12), state.canvas.height * (9 / 12), state.canvas.height * (10 / 12)];
+	  var squares = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.height / 20, state.canvas.height / 20);
+	
+	  var animeSquareLine = (0, _animejs2.default)({
+	    targets: squares,
+	    x: function x() {
+	      return state.canvas.width * (8 / 10);
+	    },
+	    width: state.canvas.height / 8,
+	    height: state.canvas.height / 8,
+	    duration: animeVals.duration,
+	    delay: function delay(el, idx) {
+	      return idx * 80;
+	    },
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeSquareLine);
+	};
+	
+	// –––––– purple slide up ––––––
+	var purpleSlideUp = exports.purpleSlideUp = function purpleSlideUp(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = 0;
+	  var y = 0;
+	  var width = state.canvas.width;
+	  var height = state.canvas.height;
+	  var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
+	
+	  var animePurpleSlide = (0, _animejs2.default)({
+	    targets: rectangle,
+	    height: animeVals.endHeight,
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animePurpleSlide);
+	};
+	
+	// –––––– red slide left ––––––
+	var redSlideLeft = exports.redSlideLeft = function redSlideLeft(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = 0;
+	  var y = 0;
+	  var width = state.canvas.width;
+	  var height = state.canvas.height;
+	  var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
+	
+	  var animeRedSlide = (0, _animejs2.default)({
+	    targets: rectangle,
+	    width: animeVals.endWidth,
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeRedSlide);
+	};
+	
+	// –––––– green flash ––––––
+	var greenFlash = exports.greenFlash = function greenFlash(state, animeVals) {
+	  resizeCanvas(state);
+	  var x = 0;
+	  var y = 0;
+	  var width = state.canvas.width;
+	  var height = state.canvas.height;
+	  var rectangle = (0, _shapeCreation.createRectangles)(x, y, animeVals, width, height);
+	
+	  var animeGreenFlash = (0, _animejs2.default)({
+	    targets: rectangle,
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeGreenFlash);
+	};
+	
+	// –––––– square panels ––––––
+	var squarePanels = exports.squarePanels = function squarePanels(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var xVals = [0, state.canvas.width / 5, state.canvas.width * (2 / 5), state.canvas.width * (3 / 5), state.canvas.width * (4 / 5)];
+	  var y = state.canvas.height * (3 / 8);
+	
+	  var squares = (0, _shapeCreation.createRectangles)(xVals, y, animeVals, state.canvas.width / 5, state.canvas.width / 5);
+	
+	  var animeSqPanels = (0, _animejs2.default)({
+	    targets: squares,
+	    width: animeVals.endWidth,
+	    duration: animeVals.duration,
+	    delay: 0,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeSqPanels);
+	};
+	
+	// –––––– square slide ––––––
+	var squareSlide = exports.squareSlide = function squareSlide(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = 0;
+	  var yVals = [state.canvas.height / 7, state.canvas.height * (2 / 7), state.canvas.height * (3 / 7), state.canvas.height * (4 / 7), state.canvas.height * (5 / 7)];
+	
+	  var rectangles = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.width / 2, state.canvas.height / 12);
+	
+	  var animeSqSlide = (0, _animejs2.default)({
+	    targets: rectangles,
+	    x: function x(sq, idx) {
+	      return state.canvas.width;
+	    },
+	    duration: animeVals.duration,
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeSqSlide);
+	};
+	
+	// –––––– banana peel ––––––
+	var bananaPeel = exports.bananaPeel = function bananaPeel(state, animeVals) {
+	  resizeCanvas(state);
+	
+	  var x = state.canvas.width * (3 / 4);
+	  var yVals = [state.canvas.height / 9, state.canvas.height * (2 / 9), state.canvas.height * (3 / 9), state.canvas.height * (4 / 9), state.canvas.height * (5 / 9), state.canvas.height * (6 / 9), state.canvas.height * (7 / 9), state.canvas.height * (7 / 9), state.canvas.height * (6 / 9), state.canvas.height * (5 / 9), state.canvas.height * (4 / 9), state.canvas.height * (3 / 9), state.canvas.height * (2 / 9), state.canvas.height / 9];
+	
+	  var rectangles = (0, _shapeCreation.createRectangles)(x, yVals, animeVals, state.canvas.height / 10, state.canvas.height / 10);
+	
+	  var animeBanana = (0, _animejs2.default)({
+	    targets: rectangles,
+	    x: function x(sq, idx) {
+	      return state.canvas.width * (1 / 15);
+	    },
+	    width: animeVals.endWidth,
+	    duration: animeVals.duration,
+	    delay: function delay(el, index) {
+	      return index * 50;
+	    },
+	    easing: animeVals.easing,
+	    complete: clearAnimation(state)
+	  });
+	
+	  state.animations.push(animeBanana);
 	};
 
 /***/ })

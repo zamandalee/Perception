@@ -1,6 +1,9 @@
 // TODO window.animationRunning into state
 
-import Animations from './animations';
+// import Animations from './animations';
+import * as circleAnimations from './circleAnimations';
+import * as wordAnimations from './wordAnimations';
+import * as rectangleAnimations from './rectangleAnimations';
 import { animeValues } from './animeValues';
 
 // ANIMATION/MATCHING GAME FLOW using a FINITE STATE MACHINE:
@@ -129,19 +132,19 @@ for (let i = 0; i < shuffledAlphabet.length; i += 2) {
 
 // KEY_ANIMATIONS = set same animation to paired keys
 const allAnimations = [
-  (state) => Animations.bananaPeel( state, animeValues['a'] ),
-  (state) => Animations.squareSlide( state, animeValues['b'] ),
-  (state) => Animations.squarePanels( state, animeValues['c'] ),
-  (state) => Animations.purpleFireworks( state, animeValues['d'] ),
-  (state) => Animations.redSlideLeft( state, animeValues['e'] ),
-  (state) => Animations.purpleSlideUp( state, animeValues['f'] ),
-  (state) => Animations.squareLineRight( state, animeValues['g'] ),
-  (state) => Animations.squareLineUp( state, animeValues['h'] ),
-  (state) => Animations.perceive( state, animeValues['i'] ),
-  (state) => Animations.go( state, animeValues['j'] ),
-  (state) => Animations.blobs( state, animeValues['k'] ),
-  (state) => Animations.tealFireworks( state, animeValues['l'] ),
-  (state) => Animations.balloon( state, animeValues['m'] )
+  (state) => rectangleAnimations.bananaPeel( state, animeValues['a'] ),
+  (state) => rectangleAnimations.squareSlide( state, animeValues['b'] ),
+  (state) => rectangleAnimations.squarePanels( state, animeValues['c'] ),
+  (state) => rectangleAnimations.purpleFireworks( state, animeValues['d'] ),
+  (state) => rectangleAnimations.redSlideLeft( state, animeValues['e'] ),
+  (state) => rectangleAnimations.purpleSlideUp( state, animeValues['f'] ),
+  (state) => rectangleAnimations.squareLineRight( state, animeValues['g'] ),
+  (state) => rectangleAnimations.squareLineUp( state, animeValues['h'] ),
+  (state) => wordAnimations.perceive( state, animeValues['i'] ),
+  (state) => wordAnimations.go( state, animeValues['j'] ),
+  (state) => circleAnimations.blobs( state, animeValues['k'] ),
+  (state) => circleAnimations.tealFireworks( state, animeValues['l'] ),
+  (state) => circleAnimations.balloon( state, animeValues['m'] )
 ];
 
 let KEY_ANIMATIONS = {};
