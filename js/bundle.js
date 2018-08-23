@@ -1476,7 +1476,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.handleState = exports.ALREADY_MATCHED = exports.NOT_MATCH = exports.MATCH = exports.ONE_KEYPRESS = exports.ZERO_KEYPRESSES = undefined;
+	exports.handleState = exports.NOT_MATCH = exports.MATCH = exports.ONE_KEYPRESS = exports.ZERO_KEYPRESSES = undefined;
 	
 	var _animations = __webpack_require__(1);
 	
@@ -1495,11 +1495,12 @@
 	var ONE_KEYPRESS = exports.ONE_KEYPRESS = 'ONE_KEYPRESS';
 	var MATCH = exports.MATCH = 'MATCH';
 	var NOT_MATCH = exports.NOT_MATCH = 'NOT_MATCH';
-	var ALREADY_MATCHED = exports.ALREADY_MATCHED = 'ALREADY_MATCHED';
 	
 	var handleState = exports.handleState = function handleState(state) {
 	  var matchText = '';
 	  var htmlMessage = document.getElementById('match-text');
+	
+	  var alreadyMatched = [];
 	
 	  if (alphabet.includes(state.key)) {
 	
@@ -1534,6 +1535,11 @@
 	              htmlScore.innerHTML = state.matchScore;
 	
 	              matchText = "you've found a match 🎉";
+	
+	              // render array of already matched key pairs
+	              alreadyMatched.push([state.key, state.firstKey]);
+	              var htmlMatchedKeys = document.getElementById('matched-keys');
+	              htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched;
 	
 	              //disable key from being pressed again
 	              delete matchedKeys[state.firstKey];

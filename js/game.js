@@ -10,11 +10,12 @@ export const ZERO_KEYPRESSES = 'ZERO_KEYPRESSES';
 export const ONE_KEYPRESS = 'ONE_KEYPRESS';
 export const MATCH = 'MATCH';
 export const NOT_MATCH = 'NOT_MATCH';
-export const ALREADY_MATCHED = 'ALREADY_MATCHED';
 
 export const handleState = (state) => {
   let matchText = '';
   const htmlMessage = document.getElementById('match-text');
+
+  let alreadyMatched = [];
 
   if( alphabet.includes(state.key) ) {
 
@@ -49,6 +50,11 @@ export const handleState = (state) => {
           htmlScore.innerHTML = state.matchScore;
 
           matchText = "you've found a match 🎉";
+
+          // render array of already matched key pairs
+          alreadyMatched.push([ state.key, state.firstKey ]);
+          const htmlMatchedKeys = document.getElementById('matched-keys');
+          htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched;
 
           //disable key from being pressed again
           delete matchedKeys[ state.firstKey ];
