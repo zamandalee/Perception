@@ -1496,11 +1496,11 @@
 	var MATCH = exports.MATCH = 'MATCH';
 	var NOT_MATCH = exports.NOT_MATCH = 'NOT_MATCH';
 	
+	var alreadyMatched = [];
+	
 	var handleState = exports.handleState = function handleState(state) {
 	  var matchText = '';
 	  var htmlMessage = document.getElementById('match-text');
-	
-	  var alreadyMatched = [];
 	
 	  if (alphabet.includes(state.key)) {
 	
@@ -1537,9 +1537,9 @@
 	              matchText = "you've found a match 🎉";
 	
 	              // render array of already matched key pairs
-	              alreadyMatched.push([state.key, state.firstKey]);
 	              var htmlMatchedKeys = document.getElementById('matched-keys');
-	              htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched;
+	              alreadyMatched = alreadyMatched.concat([state.key, state.firstKey]);
+	              htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched.sort().join(', ');
 	
 	              //disable key from being pressed again
 	              delete matchedKeys[state.firstKey];
