@@ -10,48 +10,60 @@ export const ZERO_KEYPRESSES = 'ZERO_KEYPRESSES';
 export const ONE_KEYPRESS = 'ONE_KEYPRESS';
 export const MATCH = 'MATCH';
 export const NOT_MATCH = 'NOT_MATCH';
+export const ALREADY_MATCHED = 'ALREADY_MATCHED';
 
 export const handleState = (state) => {
   let matchText = '';
   const htmlMessage = document.getElementById('match-text');
 
   if( alphabet.includes(state.key) ) {
-    switch ( state.currentState ) {
-      case ZERO_KEYPRESSES:
-      console.log("in zero keypresses");
-      // if( !window.animationRunning ) {
-      matchText = "that's one key, press the matching one!";
-      htmlMessage.innerHTML = matchText;
 
-      state.currentState = ONE_KEYPRESS;
-      state.firstKey = state.key;
-      dispatchAnimation(state);
-      state.key = null;
+    // already matched
+    if ( !matchedKeys[state.key] ) {
+      matchText = "you've already found this key's match, try again 🙃";
+    }
+    // not already matched
+    else {
+      switch ( state.currentState ) {
+        case ZERO_KEYPRESSES:
+        // if( !window.animationRunning ) {
+        matchText = "that's one key, now press the matching one!";
+        htmlMessage.innerHTML = matchText;
 
-      htmlMessage.innerHTML = matchText;
-      // }
-      break;
+        state.currentState = ONE_KEYPRESS;
+        state.firstKey = state.key;
+        dispatchAnimation(state);
+        state.key = null;
+        // }
+        break;
 
-      case ONE_KEYPRESS:
-      console.log("in one keypress");
-      dispatchAnimation(state);
+        case ONE_KEYPRESS:
+        dispatchAnimation(state);
 
-      // matching logic
-      state.currentState = matchedKeys[state.firstKey] === state.key ? MATCH : NOT_MATCH;
+        // matching logic
+        state.currentState = matchedKeys[state.firstKey] === state.key ? MATCH : NOT_MATCH;
 
-      if ( state.currentState === MATCH ) {
-        matchText = "you've found a match 🎉";
+        if ( state.currentState === MATCH ) {
+          state.matchScore++;
+          const htmlScore = document.getElementById('current-score');
+          htmlScore.innerHTML = state.matchScore;
 
-        state.matchScore++;
-        const htmlScore = document.getElementById('current-score');
-        htmlScore.innerHTML = state.matchScore;
+          matchText = "you've found a match 🎉";
+
+          //disable key from being pressed again
+          delete matchedKeys[ state.firstKey ];
+          delete matchedKeys[ state.key ];
+          delete KEY_ANIMATIONS[ state.firstKey ];
+          delete KEY_ANIMATIONS[ state.key ];
+        }
+        else {
+          matchText = 'not a match ☹️';
+        }
+
+        state.currentState = ZERO_KEYPRESSES;
       }
-      else {
-        matchText = 'not a match ☹️';
-      }
-      htmlMessage.innerHTML = matchText;
 
-      state.currentState = ZERO_KEYPRESSES;
+      htmlMessage.innerHTML = matchText;
     }
   } else {
     let oldMatchText = htmlMessage.innerHTML;
@@ -59,6 +71,9 @@ export const handleState = (state) => {
     matchText = "that's not an a-z key 🙅🏻, try again";
     htmlMessage.innerHTML = matchText;
   }
+
+  console.log("matchedKeys", matchedKeys);
+  console.log("KEY_ANIMATIONS", KEY_ANIMATIONS);
 };
 
 
@@ -66,7 +81,7 @@ export const handleState = (state) => {
 
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
+        let j = Math.floor( Math.random() * (i + 1) );
         let temp = array[i];
         array[i] = array[j];
         array[j] = temp;
@@ -74,8 +89,8 @@ const shuffleArray = (array) => {
     return array;
 };
 
-const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
 const shuffledAlphabet = shuffleArray(alphabet);
 
