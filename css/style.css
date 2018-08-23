@@ -79,7 +79,8 @@
    font-size: 35px;
    font-weight: 400px;
    margin: 7px 0;
-   color: #6254ad;
+   /* color: #6254ad; */
+   color: #3e849b;
  }
 
  .title-instructions {
@@ -117,7 +118,7 @@
  }
 
   .instructions-bttn:hover {
-    background: #e9e5ff;
+    background: #eaf9ff;
   }
 
  .personal-prof {
@@ -145,7 +146,8 @@
    height: 25px;
    /* color: #3968b2; */
    /* color: #d12323; */
-   color: #655d9e;
+   /* color: #655d9e; */
+   color: #679fb2;
  }
 
  #matched-keys {
@@ -153,7 +155,8 @@
    margin-bottom: 10px;
    font-size: 18px;
    font-weight: 400;
-   color: #8981c4;
+   /* color: #8981c4; */
+   color: #80b7c9;
  }
 
  #canvas {
