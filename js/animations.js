@@ -15,7 +15,7 @@ class Animations {
   constructor(canvas, ctx) {
     this.state = { key: null, currentState: ZERO_KEYPRESSES,
       animationRunning: false, animations: [],
-      canvas: canvas, ctx: ctx };
+      canvas, ctx, matchScore: 0};
 
     this.infiniteAnimation(this.state);
     this.keydownListener(this.state);
