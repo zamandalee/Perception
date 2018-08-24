@@ -220,7 +220,7 @@
    background: rgba(0,0,0, 0.5);
  }
 
- #instructions-modal {
+ #instructions-modal, #win-modal {
    z-index: 3;
    width: 42%;
    padding: 15px;

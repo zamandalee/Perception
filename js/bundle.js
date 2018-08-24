@@ -115,11 +115,6 @@
 	              animatable.target.draw(state.ctx);
 	            });
 	          });
-	          // if ( this.state.animations.length > 0 ) {
-	          //   this.state.animations[0].animatables.forEach( (animatable) => {
-	          //       animatable.target.draw(this.ctx);
-	          //     });
-	          // }
 	        }
 	      });
 	    }
@@ -143,11 +138,6 @@
 	    key: 'clearAnimation',
 	    value: function clearAnimation(state) {
 	      state.animations = [];
-	
-	      // if there are no this.state.animations in the array, set to false
-	      // if( this.state.animations.length === 0 ) {
-	      //   window.animationRunning = false;
-	      // }
 	    }
 	
 	    // stackoverflow.com/questions/1664785/resize-html5-this.canvas-to-fit-window
@@ -1125,9 +1115,9 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
-	exports.handleState = exports.NOT_MATCH = exports.MATCH = exports.ONE_KEYPRESS = exports.ZERO_KEYPRESSES = undefined;
+	exports.handleState = exports.WON = exports.NOT_MATCH = exports.MATCH = exports.ONE_KEYPRESS = exports.ZERO_KEYPRESSES = undefined;
 	
 	var _circleAnimations = __webpack_require__(9);
 	
@@ -1155,112 +1145,125 @@
 	var ONE_KEYPRESS = exports.ONE_KEYPRESS = 'ONE_KEYPRESS';
 	var MATCH = exports.MATCH = 'MATCH';
 	var NOT_MATCH = exports.NOT_MATCH = 'NOT_MATCH';
+	var WON = exports.WON = 'WON';
 	
 	var alreadyMatched = [];
 	
 	var handleState = exports.handleState = function handleState(state) {
-	  var matchText = '';
-	  var htmlMessage = document.getElementById('match-text');
+	    var matchText = '';
+	    var htmlMessage = document.getElementById('match-text');
 	
-	  if (alphabet.includes(state.key)) {
+	    console.log("key outside if alph", state.key);
+	    if (alphabet.includes(state.key)) {
 	
-	    // already matched
-	    if (!matchedKeys[state.key]) {
-	      matchText = "you've already found this match, try again 🙃";
-	      state.currentState = ZERO_KEYPRESSES;
-	    }
-	    // not already matched
-	    else {
-	        switch (state.currentState) {
-	          case ZERO_KEYPRESSES:
-	            // if( !window.animationRunning ) {
-	            matchText = "that's one key, now press the matching one!";
-	            htmlMessage.innerHTML = matchText;
-	
-	            state.currentState = ONE_KEYPRESS;
-	            state.firstKey = state.key;
-	            dispatchAnimation(state);
-	            state.key = null;
-	            // }
-	            break;
-	
-	          case ONE_KEYPRESS:
-	            dispatchAnimation(state);
-	
-	            // matching logic
-	            state.currentState = matchedKeys[state.firstKey] === state.key ? MATCH : NOT_MATCH;
-	            handleState(state);
-	
+	        // already matched
+	        if (!matchedKeys[state.key]) {
+	            matchText = "you've already found this match, try again 🙃";
 	            state.currentState = ZERO_KEYPRESSES;
-	            break;
-	
-	          case MATCH:
-	            state.matchScore++;
-	            var htmlScore = document.getElementById('current-score');
-	            htmlScore.innerHTML = state.matchScore;
-	
-	            // htmlMessage.classList.remove("message-red");
-	            // htmlMessage.classList.add("message-green");
-	
-	            matchText = "you've found a match 🎉";
-	            htmlMessage.innerHTML = matchText;
-	
-	            // render array of already matched key pairs
-	            var htmlMatchedKeys = document.getElementById('matched-keys');
-	            alreadyMatched = alreadyMatched.concat([state.key, state.firstKey]);
-	            htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched.sort().join(', ');
-	
-	            //disable key from being pressed again
-	            delete matchedKeys[state.firstKey];
-	            delete matchedKeys[state.key];
-	            delete KEY_ANIMATIONS[state.firstKey];
-	            delete KEY_ANIMATIONS[state.key];
-	
-	            // if won
-	            if (state.matchScore === 1) {
-	              matchText = "YOU WIN 🌟";
-	              htmlMessage.innerHTML = matchText;
-	
-	              var htmlWinningScore = document.getElementById("match-score");
-	              htmlWinningScore.classList.add("winning-score");
-	            }
-	
-	            // htmlMessage.innerHTML = matchText;
-	
-	            // state.currentState = ZERO_KEYPRESSES;
-	            break;
-	          case NOT_MATCH:
-	            matchText = 'not a match ☹️';
-	            htmlMessage.innerHTML = matchText;
-	
-	          // state.currentState = ZERO_KEYPRESSES;
-	
-	          // htmlMessage.classList.remove("message-green");
-	          // htmlMessage.classList.add("message-red");
-	          // htmlMessage.innerHTML = matchText;
 	        }
-	      }
-	  } else {
-	    // htmlMessage.classList.remove("message-green");
-	    // htmlMessage.classList.remove("message-red");
+	        // not already matched
+	        else {
+	                console.log("key inside else");
+	                switch (state.currentState) {
+	                    case ZERO_KEYPRESSES:
+	                        matchText = "that's one key, now press the matching one!";
+	                        htmlMessage.innerHTML = matchText;
 	
-	    var oldMatchText = htmlMessage.innerHTML;
-	    //SET TIMEOUT
-	    matchText = "that's not an a-z key 🙅🏻, try again";
-	    htmlMessage.innerHTML = matchText;
-	  }
+	                        state.currentState = ONE_KEYPRESS;
+	                        state.firstKey = state.key;
+	                        dispatchAnimation(state);
+	                        state.key = null;
+	                        break;
+	
+	                    case ONE_KEYPRESS:
+	                        dispatchAnimation(state);
+	
+	                        // matching logic
+	                        state.currentState = matchedKeys[state.firstKey] === state.key ? MATCH : NOT_MATCH;
+	                        handleState(state);
+	
+	                        state.currentState = ZERO_KEYPRESSES;
+	                        break;
+	
+	                    case MATCH:
+	                        state.matchScore++;
+	                        var htmlScore = document.getElementById('current-score');
+	                        htmlScore.innerHTML = state.matchScore;
+	
+	                        // htmlMessage.classList.remove("message-red");
+	                        // htmlMessage.classList.add("message-green");
+	
+	                        matchText = "you've found a match 🎉";
+	                        htmlMessage.innerHTML = matchText;
+	
+	                        // render array of already matched key pairs
+	                        var htmlMatchedKeys = document.getElementById('matched-keys');
+	                        alreadyMatched = alreadyMatched.concat([state.key, state.firstKey]);
+	                        htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched.sort().join(', ');
+	
+	                        // if won
+	                        if (state.matchScore === 2) {
+	                            console.log("inside win conditional");
+	                            console.log("key inside if win", state.key);
+	
+	                            state.currentState = WON;
+	                            handleState(state);
+	                        } else {
+	                            //disable key from being pressed again if not won
+	                            delete matchedKeys[state.firstKey];
+	                            delete matchedKeys[state.key];
+	                            delete KEY_ANIMATIONS[state.firstKey];
+	                            delete KEY_ANIMATIONS[state.key];
+	                        }
+	
+	                        // htmlMessage.innerHTML = matchText;
+	
+	                        break;
+	                    case NOT_MATCH:
+	                        matchText = 'not a match ☹️';
+	                        htmlMessage.innerHTML = matchText;
+	
+	                        // htmlMessage.classList.remove("message-green");
+	                        // htmlMessage.classList.add("message-red");
+	                        // htmlMessage.innerHTML = matchText;
+	                        break;
+	
+	                    case WON:
+	                        console.log("inside won");
+	                        matchText = "YOU WIN 🌟";
+	                        htmlMessage.innerHTML = matchText;
+	
+	                        var htmlWinningScore = document.getElementById("match-score");
+	                        htmlWinningScore.classList.add("winning-score");
+	
+	                        // render a won modal
+	                        var htmlWinModal = document.getElementById("hidden-win-modal");
+	                        var blackout = document.getElementById("hidden-blackout");
+	                        htmlWinModal.setAttribute("id", "win-modal");
+	                        blackout.setAttribute("id", "instructions-blackout");
+	                }
+	            }
+	    } else {
+	        // htmlMessage.classList.remove("message-green");
+	        // htmlMessage.classList.remove("message-red");
+	
+	        var oldMatchText = htmlMessage.innerHTML;
+	        //SET TIMEOUT
+	        matchText = "that's not an a-z key 🙅🏻, try again";
+	        htmlMessage.innerHTML = matchText;
+	    }
 	};
 	
 	// KEY/ANIMATION RANDOM ASSIGNMENT LOGIC:
 	
 	var shuffleArray = function shuffleArray(array) {
-	  for (var i = array.length - 1; i > 0; i--) {
-	    var j = Math.floor(Math.random() * (i + 1));
-	    var temp = array[i];
-	    array[i] = array[j];
-	    array[j] = temp;
-	  }
-	  return array;
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+	    return array;
 	};
 	
 	var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -1271,57 +1274,57 @@
 	var matchedKeys = {};
 	
 	for (var i = 0; i < shuffledAlphabet.length; i += 2) {
-	  var nextLetter = shuffledAlphabet[i + 1];
-	  var currentLetter = shuffledAlphabet[i];
-	  matchedKeys[currentLetter] = nextLetter;
-	  matchedKeys[nextLetter] = currentLetter;
+	    var nextLetter = shuffledAlphabet[i + 1];
+	    var currentLetter = shuffledAlphabet[i];
+	    matchedKeys[currentLetter] = nextLetter;
+	    matchedKeys[nextLetter] = currentLetter;
 	}
 	
 	// KEY_ANIMATIONS = set same animation to paired keys
 	var allAnimations = [function (state) {
-	  return rectangleAnimations.bananaPeel(state, _animeValues.animeValues['a']);
+	    return rectangleAnimations.bananaPeel(state, _animeValues.animeValues['a']);
 	}, function (state) {
-	  return rectangleAnimations.squareSlide(state, _animeValues.animeValues['b']);
+	    return rectangleAnimations.squareSlide(state, _animeValues.animeValues['b']);
 	}, function (state) {
-	  return rectangleAnimations.squarePanels(state, _animeValues.animeValues['c']);
+	    return rectangleAnimations.squarePanels(state, _animeValues.animeValues['c']);
 	}, function (state) {
-	  return circleAnimations.purpleFireworks(state, _animeValues.animeValues['d']);
+	    return circleAnimations.purpleFireworks(state, _animeValues.animeValues['d']);
 	}, function (state) {
-	  return rectangleAnimations.redSlideLeft(state, _animeValues.animeValues['e']);
+	    return rectangleAnimations.redSlideLeft(state, _animeValues.animeValues['e']);
 	}, function (state) {
-	  return rectangleAnimations.purpleSlideUp(state, _animeValues.animeValues['f']);
+	    return rectangleAnimations.purpleSlideUp(state, _animeValues.animeValues['f']);
 	}, function (state) {
-	  return rectangleAnimations.squareLineRight(state, _animeValues.animeValues['g']);
+	    return rectangleAnimations.squareLineRight(state, _animeValues.animeValues['g']);
 	}, function (state) {
-	  return rectangleAnimations.squareLineUp(state, _animeValues.animeValues['h']);
+	    return rectangleAnimations.squareLineUp(state, _animeValues.animeValues['h']);
 	}, function (state) {
-	  return wordAnimations.perceive(state, _animeValues.animeValues['i']);
+	    return wordAnimations.perceive(state, _animeValues.animeValues['i']);
 	}, function (state) {
-	  return wordAnimations.go(state, _animeValues.animeValues['j']);
+	    return wordAnimations.go(state, _animeValues.animeValues['j']);
 	}, function (state) {
-	  return circleAnimations.blobs(state, _animeValues.animeValues['k']);
+	    return circleAnimations.blobs(state, _animeValues.animeValues['k']);
 	}, function (state) {
-	  return circleAnimations.tealFireworks(state, _animeValues.animeValues['l']);
+	    return circleAnimations.tealFireworks(state, _animeValues.animeValues['l']);
 	}, function (state) {
-	  return circleAnimations.balloon(state, _animeValues.animeValues['m']);
+	    return circleAnimations.balloon(state, _animeValues.animeValues['m']);
 	}];
 	
 	var KEY_ANIMATIONS = {};
 	
 	for (var _i = 0; _i < Object.keys(matchedKeys).length; _i += 2) {
-	  var currentKey = Object.keys(matchedKeys)[_i];
-	  var matchedKey = matchedKeys[currentKey];
+	    var currentKey = Object.keys(matchedKeys)[_i];
+	    var matchedKey = matchedKeys[currentKey];
 	
-	  KEY_ANIMATIONS[currentKey] = allAnimations[_i / 2];
-	  KEY_ANIMATIONS[matchedKey] = allAnimations[_i / 2];
+	    KEY_ANIMATIONS[currentKey] = allAnimations[_i / 2];
+	    KEY_ANIMATIONS[matchedKey] = allAnimations[_i / 2];
 	}
 	
 	// run animation if pressed key is in KEY_ANIMATIONS
 	var dispatchAnimation = function dispatchAnimation(state) {
-	  if (KEY_ANIMATIONS[state.key]) {
-	    // window.animationRunning = true;
-	    KEY_ANIMATIONS[state.key](state);
-	  }
+	    if (KEY_ANIMATIONS[state.key]) {
+	        // window.animationRunning = true;
+	        KEY_ANIMATIONS[state.key](state);
+	    }
 	};
 
 /***/ }),

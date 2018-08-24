@@ -37,6 +37,7 @@
         <input type="button" class="instructions-bttn" value="Instructions" onClick="instructionsModal('visible')"/>
       </div>
 
+      <!-- handles instructions modal popup -->
       <script type="text/javascript">
         function instructionsModal(option) {
 
@@ -53,8 +54,6 @@
             blackout.setAttribute( "id", "instructions-blackout" );
           }
           else {
-            console.log(instructions);
-            console.log(blackout);
             instructions.setAttribute( "id", "hidden-instructions" );
             blackout.setAttribute( "id", "hidden-blackout" );
           }
@@ -63,8 +62,6 @@
 
     </div>
 
-
-    <!-- winning button just reg button for replay -->
     <!-- instructions modal! -->
     <div id="hidden-blackout" onClick="instructionsModal('hidden')">
       <div id="hidden-instructions">
@@ -79,8 +76,20 @@
       </div>
     </div>
 
-    <canvas id="canvas"></canvas>
+    <!-- winning modal! -->
+    <div id="hidden-blackout">
+      <div id="hidden-win-modal">
+        <!-- <button class="x-button" onClick="instructionsModal('hidden')">&times;</button> -->
+        <form>
+          <h4>YOU HAVE WON!</h4>
+          <h5>Congrats on finding all 13 matching keys 👏🏼</h5>
+          <button type="button">Play Again!</button>
+        </form>
+      </div>
+    </div>
 
+
+    <canvas id="canvas"></canvas>
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script> -->
     <script src="js/bundle.js" type="application/javascript"></script>

@@ -31,22 +31,12 @@ class Animations {
             animatable.target.draw(state.ctx);
           });
         });
-        // if ( this.state.animations.length > 0 ) {
-        //   this.state.animations[0].animatables.forEach( (animatable) => {
-        //       animatable.target.draw(this.ctx);
-        //     });
-        // }
       },
     });
   }
 
   static clearAnimation(state) {
     state.animations = [];
-
-    // if there are no this.state.animations in the array, set to false
-    // if( this.state.animations.length === 0 ) {
-    //   window.animationRunning = false;
-    // }
   }
 
   // stackoverflow.com/questions/1664785/resize-html5-this.canvas-to-fit-window

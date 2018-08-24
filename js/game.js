@@ -13,6 +13,7 @@ export const ZERO_KEYPRESSES = 'ZERO_KEYPRESSES';
 export const ONE_KEYPRESS = 'ONE_KEYPRESS';
 export const MATCH = 'MATCH';
 export const NOT_MATCH = 'NOT_MATCH';
+export const WON = 'WON';
 
 let alreadyMatched = [];
 
@@ -20,19 +21,19 @@ export const handleState = (state) => {
   let matchText = '';
   const htmlMessage = document.getElementById('match-text');
 
-
+  console.log("key outside if alph", state.key);
   if( alphabet.includes(state.key) ) {
 
     // already matched
     if ( !matchedKeys[state.key] ) {
-      matchText = "you've already found this match, try again 🙃";
-      state.currentState = ZERO_KEYPRESSES;
+        matchText = "you've already found this match, try again 🙃";
+        state.currentState = ZERO_KEYPRESSES;
     }
     // not already matched
     else {
+        console.log("key inside else");
       switch ( state.currentState ) {
         case ZERO_KEYPRESSES:
-            // if( !window.animationRunning ) {
             matchText = "that's one key, now press the matching one!";
             htmlMessage.innerHTML = matchText;
 
@@ -40,7 +41,6 @@ export const handleState = (state) => {
             state.firstKey = state.key;
             dispatchAnimation(state);
             state.key = null;
-            // }
             break;
 
         case ONE_KEYPRESS:
@@ -69,34 +69,46 @@ export const handleState = (state) => {
             alreadyMatched = alreadyMatched.concat( [state.key, state.firstKey] );
             htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched.sort().join(', ');
 
-            //disable key from being pressed again
-            delete matchedKeys[ state.firstKey ];
-            delete matchedKeys[ state.key ];
-            delete KEY_ANIMATIONS[ state.firstKey ];
-            delete KEY_ANIMATIONS[ state.key ];
-
             // if won
-            if ( state.matchScore === 1 ) {
-              matchText = "YOU WIN 🌟";
-              htmlMessage.innerHTML = matchText;
+            if ( state.matchScore === 2 ) {
+                console.log("inside win conditional");
+                console.log("key inside if win", state.key);
 
-              const htmlWinningScore = document.getElementById("match-score");
-              htmlWinningScore.classList.add("winning-score");
+                state.currentState = WON;
+                handleState(state);
+            } else {
+                //disable key from being pressed again if not won
+                delete matchedKeys[ state.firstKey ];
+                delete matchedKeys[ state.key ];
+                delete KEY_ANIMATIONS[ state.firstKey ];
+                delete KEY_ANIMATIONS[ state.key ];
             }
 
             // htmlMessage.innerHTML = matchText;
 
-            // state.currentState = ZERO_KEYPRESSES;
             break;
         case NOT_MATCH:
             matchText = 'not a match ☹️';
             htmlMessage.innerHTML = matchText;
 
-            // state.currentState = ZERO_KEYPRESSES;
+            // htmlMessage.classList.remove("message-green");
+            // htmlMessage.classList.add("message-red");
+            // htmlMessage.innerHTML = matchText;
+            break;
 
-              // htmlMessage.classList.remove("message-green");
-              // htmlMessage.classList.add("message-red");
-              // htmlMessage.innerHTML = matchText;
+        case WON:
+            console.log("inside won");
+            matchText = "YOU WIN 🌟";
+            htmlMessage.innerHTML = matchText;
+
+            const htmlWinningScore = document.getElementById("match-score");
+            htmlWinningScore.classList.add("winning-score");
+
+            // render a won modal
+            const htmlWinModal = document.getElementById("hidden-win-modal");
+            const blackout = document.getElementById("hidden-blackout");
+            htmlWinModal.setAttribute("id", "win-modal");
+            blackout.setAttribute("id", "instructions-blackout");
       }
     }
   } else {
