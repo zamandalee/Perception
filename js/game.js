@@ -1,4 +1,4 @@
-// TODO window.animationRunning into state
+// TODO turn the matchText briefly green or red or purple depending on text
 
 // import Animations from './animations';
 import * as circleAnimations from './circleAnimations';
@@ -21,17 +21,16 @@ export const handleState = (state) => {
   let matchText = '';
   const htmlMessage = document.getElementById('match-text');
 
-  console.log("key outside if alph", state.key);
   if( alphabet.includes(state.key) ) {
 
     // already matched
     if ( !matchedKeys[state.key] ) {
         matchText = "you've already found this match, try again 🙃";
+        htmlMessage.innerHTML = matchText;
         state.currentState = ZERO_KEYPRESSES;
     }
     // not already matched
     else {
-        console.log("key inside else");
       switch ( state.currentState ) {
         case ZERO_KEYPRESSES:
             matchText = "that's one key, now press the matching one!";
@@ -71,9 +70,6 @@ export const handleState = (state) => {
 
             // if won
             if ( state.matchScore === 13 ) {
-                console.log("inside win conditional");
-                console.log("key inside if win", state.key);
-
                 state.currentState = WON;
                 handleState(state);
             } else {
@@ -97,7 +93,6 @@ export const handleState = (state) => {
             break;
 
         case WON:
-            console.log("inside won");
             matchText = "YOU WIN 🌟";
             htmlMessage.innerHTML = matchText;
 
@@ -109,6 +104,10 @@ export const handleState = (state) => {
             const blackout = document.getElementById("hidden-win-blackout");
             htmlWinModal.setAttribute("id", "win-modal");
             blackout.setAttribute("id", "win-blackout");
+
+            // delete so not clickable
+            delete matchedKeys[ state.firstKey ];
+            delete matchedKeys[ state.key ];
       }
     }
   } else {

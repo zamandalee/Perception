@@ -7,7 +7,6 @@ class Triangle {
   }
 
   draw(ctx) {
-    console.log("draw triangle");
     ctx.beginPath();
     ctx.beginPath();
     ctx.moveTo(75, 50);
