@@ -1,4 +1,4 @@
-<p align="center"><img src="./assets/images/perceptionlogo.png" width=250px/></p>
+<p align="center"><img src="./assets/images/perceptionlogo.png" width=350px/></p>
 
 <h1 align="center">Perception</h1>
 
@@ -15,25 +15,25 @@
   <a href="#pending-features">Pending Features</a>
 </p>
 
-<p align="center"><img src="./assets/images/shortanimationdemo.gif" width=400px/></p>
+<p align="center"><img src="./assets/images/shortanimationdemo.gif" width=600px/></p>
 
-## Technologies
+# Technologies
 - JavaScript
 - HTML/CSS, Canvas
 - Anime.js library
 
-## Background
+# Background
 Perception: memory game with a twist. One that simultaneously stimulates the hippocampus and sensory cortex.
 
-<img src="./assets/images/instructions.png" width=300px/>
+<img src="./assets/images/instructions.png" width=450px/>
 
 Upon pressing an alphabet key, an animation will appear on the screen. The player aims to remember which keys have the same associated animation, and to find all 13 matching keys.
 
 ###### Be sure to check out how I used a <a href="#finite-state-machine">Finite State Machine</a>! It's super cool.
 
-## Key Features
+# Key Features
 #### Custom Animations
-<img src="./assets/images/animationsdemo.gif" width=400px/>
+<img src="./assets/images/animationsdemo.gif" width=700px/>
 
 A novel way to integrate the Anime.js API, positional equations, and HTML5 Canvas:
 
@@ -68,8 +68,8 @@ const animePerceive = anime({
 });
 ```
 
-## Project Design
-#### Finite State Machine
+# Project Design
+## Finite State Machine
 To implement game logic, a Finite State Machine (an abstract computational model) is used, resulting in a game flow that proceeds depending on a single state that updates depending on external conditions:
 
 ```js
@@ -79,8 +79,8 @@ this.state = { firstKey: null, currentKey: null, currentState: ZERO_KEYPRESSES..
 
 In this case, a Deterministic Finite Automaton is used.
 
-** Key Matching and Winning **
-<img src="./assets/images/windemo.gif" width=400px/>
+#### Key Matching and Winning
+<img src="./assets/images/windemo.gif" width=700px/>
 
 Perception can be in one of 5 current states: ```ZERO_KEYPRESSES```, ```ONE_KEYPRESS```, ```MATCH```, ```NOT_MATCH```, and ```WON```:
 
@@ -109,7 +109,7 @@ switch( state.currentState ) {
 ```
 The above function is called recursively within some case statements to handle a changed state.
 
-## Pending Features
+# Pending Features
 - Introduce a timer feature, recording how long it takes the user to find 13 matches
 - Incorporate a backend so user highscores are saved
 - Explore the Howler.js library to add sounds corresponding to each
