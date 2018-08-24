@@ -140,9 +140,9 @@
  #match-text {
    margin-top: -3px;
    margin-bottom: 5px;
-   height: 25px;
+   height: 26px;
 
-   font-size: 18px;
+   font-size: 24px;
    font-weight: 400;
    /* color: #3968b2; */
    /* color: #d12323; */
@@ -173,8 +173,8 @@
  }
 
  .personal-prof img {
-   height: 35px;
-   width: 35px;
+   height: 36px;
+   width: 36px;
    margin-left: 30px;
    opacity: 0.7;
  }
@@ -187,7 +187,7 @@
    margin-top: 7px;
    margin-left: auto;
    width: 45%;
-   font-size: 14px;
+   font-size: 17px;
    font-family: 'Roboto Condensed', sans-serif;
 
    border: 1px solid gray;
