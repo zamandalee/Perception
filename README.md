@@ -13,7 +13,7 @@
   <a href="#project-design">Project Design</a> •
   <a href="#pending-features">Pending Features</a>
 </p>
-
+<br>
 <p align="center"><img src="./assets/images/shortanimationdemo.gif" width=700px/></p>
 
 <p align="center">

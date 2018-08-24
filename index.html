@@ -54,8 +54,10 @@
             blackout.setAttribute( "id", "instructions-blackout" );
           }
           else {
-            instructions.setAttribute( "id", "hidden-instructions" );
-            blackout.setAttribute( "id", "hidden-blackout" );
+            if( instructions && blackout ) {
+              instructions.setAttribute( "id", "hidden-instructions" );
+              blackout.setAttribute( "id", "hidden-blackout" );
+            }
           }
         }
       </script>
