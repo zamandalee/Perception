@@ -2,10 +2,9 @@
 
 <h1 align="center">Perception</h1>
 
-<p align="center">
+<h3 align="center">
   <a href="https://aguamenti.github.io/Perception/">Click to Play!</a>
-  <br>Experience a visual exploration of human perception to moving objects and muscle memory.
-</p>
+</h3>
 
 <p align="center">
   <a href="#technologies">Technologies</a> •
@@ -16,10 +15,13 @@
 </p>
 
 <p align="center"><img src="./assets/images/shortanimationdemo.gif" width=700px/></p>
+<p align="center">
+<br>Experience a visual exploration of human perception to moving objects and muscle memory.
+</p>
 
 # Technologies
 - JavaScript
-- HTML/CSS, Canvas
+- HTML5/CSS3, Canvas
 - Anime.js library
 
 # Background
@@ -29,7 +31,7 @@ Perception: memory game with a twist. One that simultaneously stimulates the hip
 
 Upon pressing an alphabet key, an animation will appear on the screen. The player aims to remember which keys have the same associated animation, and to find all 13 matching keys.
 
-###### Be sure to check out how I used a <a href="#finite-state-machine">Finite State Machine</a>! It's super cool.
+### Be sure to check out how I used a <a href="#finite-state-machine">Finite State Machine</a>! It's super cool.
 
 # Key Features
 ## Custom Animations
@@ -104,7 +106,6 @@ switch( state.currentState ) {
     // change state, etc.
   case WON:
     // render won modal, etc.
-
 }
 ```
 The above function is called recursively within some case statements to handle a changed state.
