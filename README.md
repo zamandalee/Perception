@@ -2,9 +2,9 @@
 
 <h1 align="center">Perception</h1>
 
-<h3 align="center">
+<h2 align="center">
   <a href="https://aguamenti.github.io/Perception/">Click to Play!</a>
-</h3>
+</h2>
 
 <p align="center">
   <a href="#technologies">Technologies</a> •
@@ -15,8 +15,9 @@
 </p>
 
 <p align="center"><img src="./assets/images/shortanimationdemo.gif" width=700px/></p>
+
 <p align="center">
-<br>Experience a visual exploration of human perception to moving objects and muscle memory.
+  Experience a visual exploration of human perception to moving objects and muscle memory.
 </p>
 
 # Technologies
