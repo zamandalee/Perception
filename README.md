@@ -15,7 +15,7 @@
   <a href="#pending-features">Pending Features</a>
 </p>
 
-<p align="center"><img src="./assets/images/shortanimationdemo.gif" width=600px/></p>
+<p align="center"><img src="./assets/images/shortanimationdemo.gif" width=700px/></p>
 
 # Technologies
 - JavaScript
@@ -32,8 +32,8 @@ Upon pressing an alphabet key, an animation will appear on the screen. The playe
 ###### Be sure to check out how I used a <a href="#finite-state-machine">Finite State Machine</a>! It's super cool.
 
 # Key Features
-#### Custom Animations
-<img src="./assets/images/animationsdemo.gif" width=700px/>
+## Custom Animations
+<img src="./assets/images/animationsdemo.gif" width=750px/>
 
 A novel way to integrate the Anime.js API, positional equations, and HTML5 Canvas:
 
@@ -79,8 +79,8 @@ this.state = { firstKey: null, currentKey: null, currentState: ZERO_KEYPRESSES..
 
 In this case, a Deterministic Finite Automaton is used.
 
-#### Key Matching and Winning
-<img src="./assets/images/windemo.gif" width=700px/>
+### Key Matching and Winning
+<img src="./assets/images/windemo.gif" width=750px/>
 
 Perception can be in one of 5 current states: ```ZERO_KEYPRESSES```, ```ONE_KEYPRESS```, ```MATCH```, ```NOT_MATCH```, and ```WON```:
 
