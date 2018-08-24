@@ -222,27 +222,45 @@
 
  #instructions-modal {
    z-index: 3;
-   width: 400px;
-   height: 400px;
+   width: 42%;
    padding: 15px;
    box-sizing: border-box;
 
    background: #e6eaef;
    border: 1px solid gray;
-   border-radius: 7px;
+   border-radius: 5px;
+
    font-family: 'Roboto Condensed';
-   text-align: left;
+   color: #606366;
+   text-align: right;
  }
 
- #instructions-modal h4 {
+ .x-button {
+   margin-top: -10px;
+   padding-right: 10px;
+   font-size: 40px;
+ }
+
+ #instructions-modal h4, #instructions-modal h5 {
+   margin: 0;
    text-align: center;
-   font-size: 18px;
+   font-weight: 400;
    color: #3e849b;
  }
 
- #instructions-modal p {
+ #instructions-modal h4 {
+   font-size: 30px;
+ }
+
+ #instructions-modal h5 {
+   padding-top: 5px;
+   font-size: 16px;
+ }
+
+ #instructions-modal li {
    text-align: left;
-   font-size: 14px;
+   font-size: 18px;
+   line-height: 1.9;
  }
 
  #canvas {
