@@ -1202,7 +1202,7 @@
 	                        htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched.sort().join(', ');
 	
 	                        // if won
-	                        if (state.matchScore === 2) {
+	                        if (state.matchScore === 13) {
 	                            console.log("inside win conditional");
 	                            console.log("key inside if win", state.key);
 	
@@ -1237,10 +1237,10 @@
 	                        htmlWinningScore.classList.add("winning-score");
 	
 	                        // render a won modal
-	                        var htmlWinModal = document.getElementById("hidden-win-modal");
-	                        var blackout = document.getElementById("hidden-blackout");
+	                        var htmlWinModal = document.getElementById("hidden-win");
+	                        var blackout = document.getElementById("hidden-win-blackout");
 	                        htmlWinModal.setAttribute("id", "win-modal");
-	                        blackout.setAttribute("id", "instructions-blackout");
+	                        blackout.setAttribute("id", "win-blackout");
 	                }
 	            }
 	    } else {

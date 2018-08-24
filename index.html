@@ -27,7 +27,7 @@
 
       <div class="personal-prof-instructions">
         <div class="personal-prof">
-          <a href="https://github.com/aguamenti">
+          <a href="https://github.com/aguamenti/Perception">
             <img src="./assets/images/githublogo.png"/>
           </a>
           <a href="https://www.linkedin.com/in/zemei-amanda-lee">
@@ -66,10 +66,10 @@
     <div id="hidden-blackout" onClick="instructionsModal('hidden')">
       <div id="hidden-instructions">
         <button class="x-button" onClick="instructionsModal('hidden')">&times;</button>
-        <h4>P E R C E P T I O N</h4>
-        <h5>——— a memory game ———</h5>
+        <h5>P E R C E P T I O N</h5>
+        <h6>——— a memory game ———</h6>
         <ol>
-          <li>Press keys a-z on your computer 💻</li>
+          <li>Press keys a—z on your computer 💻</li>
           <li>Remember which keys show the same animation 💭</li>
           <li>Press those two keys in a row to get a match 🎉</li>
         </ol>
@@ -77,14 +77,24 @@
     </div>
 
     <!-- winning modal! -->
-    <div id="hidden-blackout">
-      <div id="hidden-win-modal">
+    <div id="hidden-win-blackout">
+      <div id="hidden-win">
         <!-- <button class="x-button" onClick="instructionsModal('hidden')">&times;</button> -->
-        <form>
-          <h4>YOU HAVE WON!</h4>
-          <h5>Congrats on finding all 13 matching keys 👏🏼</h5>
-          <button type="button">Play Again!</button>
-        </form>
+        <h5>YOU HAVE WON 👏</h5>
+
+        <button class="play-again-bttn" onClick="window.location.reload()">
+            play again!
+        </button>
+
+        <div class="modal-profile">
+            <p>or learn more about my work: </p>
+            <a href="https://github.com/aguamenti/Perception">
+              <img src="./assets/images/githublogo.png"/>
+            </a>
+            <a href="https://www.linkedin.com/in/zemei-amanda-lee">
+              <img class="linkedin" src="./assets/images/linkedinlogo.png"/>
+            </a>
+        </div>
       </div>
     </div>
 

@@ -70,7 +70,7 @@ export const handleState = (state) => {
             htmlMatchedKeys.innerHTML = 'matches found: ' + alreadyMatched.sort().join(', ');
 
             // if won
-            if ( state.matchScore === 2 ) {
+            if ( state.matchScore === 13 ) {
                 console.log("inside win conditional");
                 console.log("key inside if win", state.key);
 
@@ -105,10 +105,10 @@ export const handleState = (state) => {
             htmlWinningScore.classList.add("winning-score");
 
             // render a won modal
-            const htmlWinModal = document.getElementById("hidden-win-modal");
-            const blackout = document.getElementById("hidden-blackout");
+            const htmlWinModal = document.getElementById("hidden-win");
+            const blackout = document.getElementById("hidden-win-blackout");
             htmlWinModal.setAttribute("id", "win-modal");
-            blackout.setAttribute("id", "instructions-blackout");
+            blackout.setAttribute("id", "win-blackout");
       }
     }
   } else {
