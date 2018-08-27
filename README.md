@@ -3,7 +3,7 @@
 <h1 align="center">Perception</h1>
 
 <h2 align="center">
-  <a href="https://zamandalee.github.io/Perception/">Click to Play!</a>
+  <a href="https://aguamenti.github.io/Perception/">Click to Play!</a>
 </h2>
 
 <p align="center">
@@ -26,7 +26,7 @@
 - Anime.js library
 
 # Background
-Perception: memory game with a twist. One that simultaneously stimulates the hippocampus and sensory cortex.
+Perception: a memory game with a twist. One that simultaneously stimulates the hippocampus and sensory cortex.
 
 <img src="./assets/images/instructions.png" width=450px/>
 
