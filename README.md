@@ -3,7 +3,7 @@
 <h1 align="center">Perception</h1>
 
 <h2 align="center">
-  <a href="https://aguamenti.github.io/Perception/">Click to Play!</a>
+  <a href="https://zamandalee.github.io/Perception/">Click to Play!</a>
 </h2>
 
 <p align="center">
