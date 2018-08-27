@@ -36,7 +36,7 @@ Upon pressing an alphabet key, an animation will appear on the screen. The playe
 
 # Key Features
 ## Custom Animations
-<img src="./assets/images/animationsdemo.gif" width=750px/>
+<img src="./assets/images/animationsdemo.gif" width=800px/>
 
 A novel way to integrate the Anime.js API, positional equations, and HTML5 Canvas:
 
@@ -83,7 +83,7 @@ this.state = { firstKey: null, currentKey: null, currentState: ZERO_KEYPRESSES..
 In this case, a Deterministic Finite Automaton is used.
 
 ### Key Matching and Winning
-<img src="./assets/images/windemo.gif" width=750px/>
+<img src="./assets/images/windemo.gif" width=800px/>
 
 Perception can be in one of 5 current states: ```ZERO_KEYPRESSES```, ```ONE_KEYPRESS```, ```MATCH```, ```NOT_MATCH```, and ```WON```:
 
